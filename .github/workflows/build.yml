@@ -1,0 +1,130 @@
+name: "Build App Release"
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'ubuntu-24.04-arm'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies (Ubuntu only)
+        if: startsWith(matrix.platform, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            xdg-utils
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build and Publish Release
+        uses: tauri-apps/tauri-action@v0
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'ClamAV GUI v__VERSION__'
+          releaseDraft: true
+          prerelease: false
+          generateReleaseNotes: true
+          args: ${{ matrix.args }}
+          releaseBody: |
+            ## What's Changed?
+
+            [Add a changelog]
+
+            **Full Changelog:** [`CHANGELOG.md`](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+
+            ---
+
+            ## Downloads
+            ### :penguin: Linux
+            - **rpm** - [ClamAV.GUI-__VERSION__-1.x86_64.rpm][linux-amd-rpm]
+            - **AppImage** - [ClamAV.GUI___VERSION___amd64.AppImage][linux-amd-appimage]
+            - **deb** - [ClamAV.GUI___VERSION___amd64.deb][linux-amd-deb]
+
+            ### :penguin: Linux (ARM64)
+            - **rpm** - [ClamAV.GUI-__VERSION__-1.aarch64.rpm][linux-arm-rpm]
+            - **AppImage** - [CClamAV.GUI___VERSION___aarch64.AppImage][linux-arm-appimage]
+            - **deb** - [ClamAV.GUI___VERSION___arm64.deb][linux-arm-deb]
+
+            ### :window: Windows
+            - **exe** - [ClamAV.GUI___VERSION___x64-setup.exe][windows-exe]
+            - **msi** - [ClamAV.GUI___VERSION___x64_en-US.msi][windows-msi]
+
+            ### :apple: macOS
+            - **dmg** - [ClamAV.GUI___VERSION___x64.dmg][mac-x64-dmg]
+            - **app.tar.gz** - [ClamAV.GUI_x64.app.tar.gz][mac-x64-tar]
+
+            ### :green_apple: macOS (ARM64)
+            - **dmg** - [ClamAV.GUI___VERSION___aarch64.dmg][mac-arm64-dmg]
+            - **app.tar.gz** - [ClamAV.GUI_aarch64.app.tar.gz][mac-arm64-tar]
+
+            [mac-arm64-dmg]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___aarch64.dmg
+            [mac-x64-dmg]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___x64.dmg
+            [mac-arm64-tar]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI_aarch64.app.tar.gz
+            [mac-x64-tar]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI_x64.app.tar.gz
+
+            [windows-exe]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___x64-setup.exe
+            [windows-msi]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___x64_en-US.msi
+
+            [linux-amd-rpm]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI-__VERSION__-1.x86_64.rpm
+            [linux-amd-appimage]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___amd64.AppImage
+            [linux-amd-deb]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___amd64.deb
+
+            [linux-arm-rpm]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI-__VERSION__-1.aarch64.rpm
+            [linux-arm-appimage]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___aarch64.AppImage
+            [linux-arm-deb]: https://github.com/${{ github.repository }}/releases/download/v__VERSION__/ClamAV.GUI___VERSION___arm64.deb
+
+      - name: Test Build (PR / workflow_dispatch)
+        uses: tauri-apps/tauri-action@v0
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        with:
+          args: ${{ matrix.args }} --no-bundle

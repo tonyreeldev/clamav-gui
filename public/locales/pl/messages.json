@@ -1,0 +1,96 @@
+{
+     "copy-command": {
+          "success": "Polecenie skopiowane",
+          "error": "Nie udało się skopiować polecenia"
+     },
+     "fetch-error": {
+          "history": "Nie udało się załadować ostatniej historii",
+          "scheduler": "Nie udało się załadować zaplanowanych skanów",
+          "exclusions": "Nie udało się załadować istniejących wykluczeń",
+          "realtime-paths": "Nie udało się załadować ścieżek dla skanowania w czasie rzeczywistym"
+     },
+     "scan-stop-error": "Nie udało się zatrzymać skanowania",
+     "scan-start-error": "Nie udało się uruchomić skanowania",
+     "log-reveal-error": "Nie udało się otworzyć pliku logów",
+     "acknowledge-history": {
+          "success": "Wpis oznaczony jako potwierdzony!",
+          "error": "Nie udało się oznaczyć wpisu jako potwierdzonego"
+     },
+     "trigger-scan": {
+          "success": "Zadanie skanowania uruchomione",
+          "error": "Nie udało się uruchomić zaplanowanego zadania"
+     },
+     "quarantine": {
+          "success": "Zagrożenie przeniesione do kwarantanny!",
+          "error": "Nie udało się przenieść zagrożenia do kwarantanny"
+     },
+     "history-clear-errror": "Nie udało się wyczyścić historii",
+     "export": {
+          "success": "Dane historii wyeksportowano jako {{fileName}}",
+          "error": "Nie udało się wyeksportować danych historii"
+     },
+     "schedule-scan-error": "Nie udało się zaplanować zadania skanowania",
+     "remove-job": {
+          "success": "Zaplanowane zadanie skanowania zostało usunięte!",
+          "error": "Nie udało się usunąć zaplanowanego zadania skanowania"
+     },
+     "clear-jobs": {
+          "success": "Wszystkie zaplanowane zadania skanowania zostały usunięte!",
+          "error": "Nie udało się usunąć wszystkich zaplanowanych zadań skanowania"
+     },
+     "threat-deleted": {
+          "success": "Zagrożenie zostało trwale usunięte!",
+          "error": "Nie udało się usunąć zagrożenia"
+     },
+     "threat-quarantined": {
+          "success": "Wszystkie zagrożenia przeniesione do kwarantanny",
+          "error": "Nie udało się przenieść wszystkich zagrożeń do kwarantanny"
+     },
+     "threat-bulk-delete": {
+          "success": "Wszystkie zagrożenia zostały usunięte",
+          "error": "Nie udało się usunąć wszystkich zagrożeń"
+     },
+     "restore-settings": {
+          "success": "Ustawienia przywrócone do domyślnych",
+          "error": "Nie udało się przywrócić ustawień domyślnych"
+     },
+     "delete-settings": {
+          "success": "Ustawienia zostały usunięte",
+          "error": "Nie udało się usunąć ustawień"
+     },
+     "def-update-error": "Nie udało się zaktualizować baz sygnatur",
+     "save-settings-error": "Nie udało się zapisać ustawień",
+     "restore-quarantine": {
+          "success": "Plik przywrócony z kwarantanny!",
+          "error": "Nie udało się przywrócić pliku z kwarantanny"
+     },
+     "delete-quarantine": {
+          "success": "Plik został trwale usunięty",
+          "error": "Nie udało się usunąć pliku z kwarantanny"
+     },
+     "bulk-restore-quarantine": {
+          "success": "Wszystkie zagrożenia zostały przywrócone",
+          "error": "Nie udało się przywrócić wszystkich zagrożeń"
+     },
+     "bulk-delete-quarantine": {
+          "success": "Wszystkie zagrożenia zostały usunięte",
+          "error": "Nie udało się usunąć wszystkich zagrożeń"
+     },
+     "form-validations": {
+          "interval": "Wybierz typ interwału",
+          "scanType": "Wybierz typ skanowania",
+          "days": "Wybierz dzień tygodnia",
+          "hours": {
+               "min": "Wartość musi być między 0 a 23 godzinami",
+               "max": "Wartość nie może być większa niż 23 godziny"
+          },
+          "minutes": {
+               "min": "Wartość musi być między 0 a 59 minutami",
+               "max": "Wartość nie może być większa niż 59 minut"
+          },
+          "directory-path": {
+               "required": "Ścieżka katalogu jest wymagana.",
+               "too-long": "Ścieżka katalogu jest za długa."
+          }
+     }
+}

@@ -1,0 +1,70 @@
+{
+     "labels": {
+          "recursive": "递归",
+          "crossFs": "扫描其他已挂载的文件系统",
+          "followDirSymlinks": "跟随目录符号链接",
+          "followFileSymlinks": "跟随文件符号链接",
+          "quiet": "抑制正常输出",
+          "verbose": "输出详细日志",
+          "infected": "仅列出已感染的文件",
+          "noSummary": "隐藏扫描摘要",
+          "bell": "检测到威胁时播放声音",
+          "debug": "调试输出",
+          "algorithmicDetection": "算法检测",
+          "heuristicAlerts": "启发式警报",
+          "heuristicPrecedence": "启发式扫描优先级",
+          "detectPUA": "检测可能不需要的应用程序 (PUA)",
+          "detectStructured": "检测社会安全号码和信用卡号码",
+          "structuredSSNFormat": "社会安全号码格式",
+          "structuredSSNCount": "社会安全号码检测阈值",
+          "structuredCCCount": "信用卡检测阈值",
+          "scanPE": "扫描 PE 文件",
+          "scanELF": "扫描 ELF 文件",
+          "scanOLE2": "扫描 Office / MSI 文件",
+          "scanPDF": "扫描 PDF 文件",
+          "scanHTML": "扫描 HTML 文件",
+          "scanArchive": "扫描压缩包",
+          "scanMail": "扫描邮件文件",
+          "detectBroken": "检测损坏的可执行文件",
+          "maxFileSize": "最大文件大小 (KB)",
+          "maxScanSize": "最大扫描大小 (KB)",
+          "alertEncrypted": "对加密的压缩包或文档发出警报",
+          "maxFiles": "最大解压文件数",
+          "maxRecursion": "压缩包递归限制",
+          "maxDirRecursion": "目录递归深度",
+          "noCerts": "禁用 Authenticode 验证",
+          "disableCache": "禁用缓存",
+          "officialDbOnly": "仅使用官方数据库",
+          "leaveTemps": "不删除临时文件",
+          "bytecode": "启用字节码",
+          "bytecodeUnsigned": "允许未签名的字节码",
+          "bytecodeTimeout": "字节码超时 (毫秒)",
+          "databasePath": "数据库路径",
+          "tempDir": "临时文件目录"
+     },
+     "descriptions": {
+          "debug": "显示来自 libclamav 的调试消息。",
+          "heuristicAlerts": "可能会增加误报。",
+          "bytecodeUnsigned": "危险。仅用于测试。"
+     },
+     "option-group": {
+          "detection": "检测",
+          "file-types": "文件类型",
+          "filesystem": "文件系统",
+          "limits-performance": "限制与性能",
+          "output": "输出",
+          "advanced": "高级扫描选项"
+     },
+     "choices": {
+          "sym-links": [
+               "从不",
+               "仅在显式传递时",
+               "始终"
+          ],
+          "ssn-formats": [
+               "xxx-yy-zzzz",
+               "xxxyyzzzz",
+               "两种格式"
+          ]
+     }
+}

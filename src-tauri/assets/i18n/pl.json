@@ -1,0 +1,22 @@
+{
+     "tray": {
+          "open": "Otwórz GUI",
+          "about": "O ClamAV GUI",
+          "settings": "Ustawienia",
+          "scan": {
+               "title": "Skanowanie",
+               "main": "Skan szybki",
+               "full": "Pełne skanowanie",
+               "custom": "Skan niestandardowy",
+               "file": "Skan pliku"
+          },
+          "quit": "Wyjście",
+          "update": "Aktualizacja",
+          "tooltip": "ClamAV GUI działa w zasobniku systemowym"
+     },
+     "notification": {
+          "threat-blocked": "Zagrożenie zablokowane",
+          "threat-detected": "Wykryto zagrożenie",
+          "threat-body": "Zagrożenie: {threat}\nPlik: {file}"
+     }
+}

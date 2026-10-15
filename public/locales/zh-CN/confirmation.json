@@ -1,0 +1,92 @@
+{
+     "actions": {
+          "cancel": "取消",
+          "clear": "清除",
+          "delete": "删除",
+          "restore": "恢复",
+          "delete-settings": "删除设置",
+          "restore-defaults": "恢复默认值",
+          "delete-job": "移除任务",
+          "clear-jobs": "清空任务",
+          "remove": "移除",
+          "stop": "停止",
+          "turn-off": "关闭"
+     },
+     "clear-all": {
+          "title": "清除历史记录？",
+          "desc": "这将移除所有扫描、更新和操作历史。日志和隔离区项目不会受到影响。"
+     },
+     "clear-acknowledged": {
+          "title": "清除已确认条目？",
+          "desc": "这将仅移除已确认的历史条目。未解决的事件将保留。"
+     },
+     "clear-errors": {
+          "title": "清除所有错误？",
+          "desc": "这将移除历史表中的所有错误。其余事件将保留。"
+     },
+     "clear-warnings": {
+          "title": "清除所有警告？",
+          "desc": "这将移除历史表中的所有警告。其余事件将保留。"
+     },
+     "clear-last-24h": {
+          "title": "清除最近24小时内的所有条目？",
+          "desc": "这将移除过去24小时内添加的条目。其余事件将保留。"
+     },
+     "clear-last-7d": {
+          "title": "清除最近7天内的所有条目",
+          "desc": "这将移除过去7天内添加的条目。其余事件将保留。"
+     },
+     "clear-last-30d": {
+          "title": "清除最近30天内的所有条目？",
+          "desc": "这将移除过去30天内添加的条目。其余事件将保留。"
+     },
+     "restore": {
+          "title": "这将从隔离区恢复文件。",
+          "desc": "继续？"
+     },
+     "delete": {
+          "title": "你确定要永久删除此文件吗？",
+          "desc": "此操作无法撤销。"
+     },
+     "bulk-restore": {
+          "title": "这将恢复所有被隔离的威胁。",
+          "desc": "继续？"
+     },
+     "bulk-delete": {
+          "title": "你确定要删除所有被隔离的威胁吗？",
+          "desc": "此操作无法撤销。"
+     },
+     "delete-settings": {
+          "title": "这将永久删除所有 ClamAV GUI 设置、排除项和首选项。",
+          "desc": "继续？"
+     },
+     "restore-defaults": {
+          "title": "这将永久将所有 ClamAV GUI 设置、排除项和首选项恢复为默认值。",
+          "desc": "继续？"
+     },
+     "delete-threats": {
+          "title": "你确定要永久删除此文件吗？",
+          "desc": "此操作无法撤销。"
+     },
+     "clear-threats": {
+          "title": "你确定要删除所有检测到的威胁吗？",
+          "desc": "此操作无法撤销。"
+     },
+     "delete-job": {
+          "title": "这将移除选定的计划扫描任务",
+          "desc": "继续？"
+     },
+     "clear-jobs": {
+          "title": "这将移除所有计划扫描任务",
+          "desc": "继续？"
+     },
+     "scan": {
+          "title": "你确定要停止 {{scanName}} 吗？",
+          "desc": "这将取消所有扫描进程并返回扫描选项菜单。"
+     },
+     "folder-path-form-desc": "继续？",
+     "real-time-scan": {
+          "title": "你确定要关闭实时扫描吗？",
+          "desc": "禁用实时防护可能会使你的设备暴露于威胁之中。"
+     }
+}

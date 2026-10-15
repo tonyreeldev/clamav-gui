@@ -1,0 +1,71 @@
+{
+     "title": "Statystyki",
+     "refresh": {
+          "original": "Odśwież statystyki antywirusa",
+          "loading": "Odświeżanie..."
+     },
+     "device-info": {
+          "title": "Informacje o urządzeniu",
+          "os": "System operacyjny:",
+          "host-name": "Nazwa hosta:"
+     },
+     "loading": "Ładowanie...",
+     "no-data": "Brak danych",
+     "date": {
+          "last-30-secs": "Ostatnie 30 sekund",
+          "last-6-months": "Ostatnie 6 miesięcy"
+     },
+     "disk": {
+          "title": "Dysk twardy",
+          "desc": "Operacje I/O dysku twardego",
+          "read-stat": "Odczyt: {{read}}/s",
+          "write-stat": "Zapis: {{write}}/s",
+          "labels": {
+               "read": "Prędkość odczytu",
+               "write": "Prędkość zapisu"
+          }
+     },
+     "ram": {
+          "title": "Pamięć",
+          "desc": "Aktualne użycie pamięci RAM",
+          "stat": "{{total}} ({{used}} użyte)",
+          "usage": "Użycie (%):"
+     },
+     "cpu": {
+          "title": "Aktywność CPU",
+          "desc": "Aktualna aktywność CPU w oparciu o częstotliwość bazową",
+          "speed-stat": "Prędkość: {{freq}} GHz",
+          "util-stat": "Wykorzystanie: {{util}}%",
+          "utilization": "Wykorzystanie (%):"
+     },
+     "stat-label": "Zagrożenia",
+     "threats": {
+          "title": "Przegląd stanu zagrożeń",
+          "quarantined": "W kwarantannie",
+          "skipped": "Pominięte",
+          "deleted": "Oczyszczone",
+          "unresolved": "Nie rozwiązane"
+     },
+     "virus-types": {
+          "title": "Zagrożenia według typu złośliwego oprogramowania",
+          "trojan": "Koń trojański",
+          "ransomware": "Ransomware",
+          "spyware": "Spyware",
+          "rootkit": "Rootkit",
+          "other": "Inne"
+     },
+     "scan": {
+          "title": "Zagrożenia według typu skanowania",
+          "main": "Skan szybki",
+          "full": "Pełne skanowanie",
+          "custom": "Skan niestandardowy",
+          "file": "Skan pliku",
+          "real-time": "Skan w czasie rzeczywistym"
+     },
+     "activity": {
+          "title": "Aktywność skanowania",
+          "unresolved": "Nie rozwiązane",
+          "resolved": "Rozwiązane"
+     },
+     "month": ["Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"]
+}

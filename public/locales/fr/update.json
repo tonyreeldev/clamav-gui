@@ -1,0 +1,66 @@
+{
+     "definitions": {
+          "title": "Définitions",
+          "status": {
+               "updating": "Mise à jour des définitions en cours...",
+               "checking": "Vérification de l'état de la base de données...",
+               "outdated": "Mise à jour requise !",
+               "updated": "À jour !"
+          },
+          "last-updated": "Dernière mise à jour : {{date}}",
+          "update": {
+               "pending": "Mise à jour en cours...",
+               "original": "Mettre à jour les signatures"
+          },
+          "exit-codes": [
+               "Les signatures ont été récupérées avec succès",
+               "Les signatures sont déjà à jour"
+          ],
+          "update-failed": "Échec de la mise à jour (code {{code}}). Consultez le journal de mise à jour pour plus de détails.",
+          "clamav-version": "ClamAV v{{engine}}, Version de la base de données : {{dbVersion}}",
+          "version": "Version de la base de définitions de virus"
+     },
+     "gui": {
+          "title": "Mise à jour de l'interface",
+          "checking": {
+               "main": "Recherche d'une nouvelle version...",
+               "secondary": "Veuillez patienter..."
+          },
+          "updating": {
+               "main": "Mise à jour de l'interface en cours...",
+               "secondary": "Veuillez patienter jusqu'à la fin du téléchargement..."
+          },
+          "needs-update": {
+               "main": "Une nouvelle version est disponible !",
+               "secondary": "Assurez-vous de mettre à jour l'interface pour bénéficier des améliorations."
+          },
+          "updated": {
+               "main": "L'interface est à jour !",
+               "secondary": "Aucune nouvelle mise à jour n'est disponible"
+          },
+          "failed-check": {
+               "main": "Échec de la vérification des mises à jour",
+               "secondary": "Veuillez réessayer plus tard pour vérifier la nouvelle version."
+          },
+          "completed": {
+               "main": "L'interface a été mise à jour vers la nouvelle version !",
+               "secondary": "Assurez-vous de redémarrer l'application pour finaliser la mise à jour."
+          },
+          "failed-update": {
+               "main": "Échec de la mise à jour de l'interface",
+               "secondary": "Veuillez réessayer plus tard."
+          },
+          "buttons": {
+               "relaunch": "Redémarrer",
+               "update": {
+                    "pending": "Mise à jour en cours...",
+                    "original": "Mettre à jour"
+               },
+               "check": {
+                    "pending": "Vérification en cours...",
+                    "original": "Vérifier les mises à jour"
+               },
+               "changelog": "Ouvrir le journal des modifications"
+          }
+     }
+}

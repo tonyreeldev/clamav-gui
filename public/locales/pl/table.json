@@ -1,0 +1,89 @@
+{
+     "pagination": {
+          "rows-count": "{{selected}} z {{filtered}} wierszy wybranych.",
+          "row-per-page": "Wierszy na stronę",
+          "page-count": "Strona {{index}} z {{count}}",
+          "buttons": {
+               "first": "Przejdź do pierwszej strony",
+               "previous": "Przejdź do poprzedniej strony",
+               "next": "Przejdź do następnej strony",
+               "last": "Przejdź do ostatniej strony"
+          }
+     },
+     "view": {
+          "title": "Widok",
+          "toggle": "Przełącz kolumny"
+     },
+     "filter": {
+          "threats": "Szukaj zagrożeń...",
+          "history": {
+               "title": "Filtruj status po",
+               "all": "Wszystkie",
+               "success": "Sukces",
+               "warning": "Ostrzeżenie",
+               "error": "Błąd",
+               "acknowledged": "Potwierdzone"
+          }
+     },
+     "not-found": {
+          "threats": "Nie znaleziono zagrożeń.",
+          "history": "Nie znaleziono wpisów.",
+          "scheduler": "Nie znaleziono zaplanowanych skanowań."
+     },
+     "heading": {
+          "threats": {
+               "threat": "Zagrożenie",
+               "path": "Ścieżka",
+               "detected-at": "Wykryto"
+          },
+          "quarantine": {
+               "quarantined-at": "W kwarantannie od",
+               "size": "Rozmiar"
+          },
+          "history": {
+               "timestamp": "Znacznik czasu",
+               "event": "Zdarzenie",
+               "details": "Szczegóły"
+          },
+          "scheduler": {
+               "job-name": "Nazwa zadania",
+               "interval": "Interwał",
+               "scan-type": "Typ",
+               "last-scan": "Ostatnie skanowanie",
+               "next-scan": "Następne skanowanie"
+          },
+          "status": "Status",
+          "actions": "Akcje"
+     },
+     "actions": {
+          "open-menu": "Otwórz menu",
+          "quarantine": "Kwarantanna",
+          "delete": "Usuń trwale",
+          "open": "Otwórz folder",
+          "scan-now": "Skanuj teraz",
+          "view-log": "Pokaż log",
+          "reveal-log": "Pokaż plik logu",
+          "restore": "Przywróć",
+          "remove-job": "Usuń zadanie",
+          "view-details": "Pokaż szczegóły"
+     },
+     "status": {
+          "threats": {
+               "quarantined": "W kwarantannie",
+               "deleted": "Usunięte",
+               "detected": "Wykryte"
+          },
+          "history": {
+               "success": "Sukces",
+               "warning": "Ostrzeżenie",
+               "error": "Błąd",
+               "acknowledged": "Potwierdzone"
+          }
+     },
+     "interval": {
+          "daily": "Codziennie",
+          "weekly": "Co tydzień",
+          "monthly": "Co miesiąc"
+     },
+     "mark-as-acknowledged": "Oznacz jako potwierdzone"
+}

@@ -1,0 +1,70 @@
+{
+     "labels": {
+          "recursive": "Recursivo",
+          "crossFs": "Escanear otros sistemas de archivos montados",
+          "followDirSymlinks": "Seguir enlaces simbólicos de directorios",
+          "followFileSymlinks": "Seguir enlaces simbólicos de archivos",
+          "quiet": "Suprimir la salida normal",
+          "verbose": "Mostrar registros detallados",
+          "infected": "Listar solo los archivos infectados",
+          "noSummary": "Ocultar el resumen del escaneo",
+          "bell": "Reproducir un sonido al detectar",
+          "debug": "Salida de depuración",
+          "algorithmicDetection": "Detección algorítmica",
+          "heuristicAlerts": "Alertas heurísticas",
+          "heuristicPrecedence": "Prioridad del escaneo heurístico",
+          "detectPUA": "Detectar aplicaciones potencialmente no deseadas (PUA)",
+          "detectStructured": "Detectar números de seguro social (SSN) y de tarjetas de crédito",
+          "structuredSSNFormat": "Formato de SSN",
+          "structuredSSNCount": "Umbral de detección de SSN",
+          "structuredCCCount": "Umbral de detección de tarjetas de crédito",
+          "scanPE": "Escanear archivos PE",
+          "scanELF": "Escanear archivos ELF",
+          "scanOLE2": "Escanear archivos de Office / MSI",
+          "scanPDF": "Escanear archivos PDF",
+          "scanHTML": "Escanear archivos HTML",
+          "scanArchive": "Escanear archivos comprimidos",
+          "scanMail": "Escanear archivos de correo",
+          "detectBroken": "Detectar ejecutables dañados",
+          "maxFileSize": "Tamaño máximo de archivo (KB)",
+          "maxScanSize": "Tamaño máximo de escaneo (KB)",
+          "alertEncrypted": "Alertar sobre archivos comprimidos o documentos cifrados",
+          "maxFiles": "Máximo de archivos extraídos",
+          "maxRecursion": "Límite de recursión en archivos comprimidos",
+          "maxDirRecursion": "Profundidad de recursión de directorios",
+          "noCerts": "Desactivar la verificación Authenticode",
+          "disableCache": "Desactivar la caché",
+          "officialDbOnly": "Usar solo bases de datos oficiales",
+          "leaveTemps": "No eliminar los archivos temporales",
+          "bytecode": "Habilitar bytecode",
+          "bytecodeUnsigned": "Permitir bytecode sin firmar",
+          "bytecodeTimeout": "Tiempo de espera del bytecode (ms)",
+          "databasePath": "Ruta de la base de datos",
+          "tempDir": "Directorio de archivos temporales"
+     },
+     "descriptions": {
+          "debug": "Muestra los mensajes de depuración de libclamav.",
+          "heuristicAlerts": "Puede aumentar los falsos positivos.",
+          "bytecodeUnsigned": "Peligroso. Úsalo solo para pruebas."
+     },
+     "option-group": {
+          "detection": "Detección",
+          "file-types": "Tipos de archivo",
+          "filesystem": "Sistema de archivos",
+          "limits-performance": "Límites y rendimiento",
+          "output": "Salida",
+          "advanced": "Opciones avanzadas de escaneo"
+     },
+     "choices": {
+          "sym-links": [
+               "Nunca",
+               "Solo si se indican explícitamente",
+               "Siempre"
+          ],
+          "ssn-formats": [
+               "xxx-yy-zzzz",
+               "xxxyyzzzz",
+               "Ambos formatos"
+          ]
+     }
+}

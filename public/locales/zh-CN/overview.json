@@ -1,0 +1,55 @@
+{
+     "main-scan": {
+          "name": "主扫描",
+          "desc": "立即检查常见位置"
+     },
+     "full-scan": {
+          "name": "全盘扫描",
+          "desc": "扫描所有内容（可能需要一段时间）"
+     },
+     "custom-scan": {
+          "name": "自定义扫描",
+          "desc": "选择要扫描的文件夹"
+     },
+     "file-scan": {
+          "name": "文件扫描",
+          "desc": "选择要扫描的文件"
+     },
+     "quarantine": {
+          "name": "隔离区",
+          "desc": "查看已隔离的恶意文件"
+     },
+     "update": {
+          "name": "更新",
+          "desc": "从 ClamAV 数据库更新病毒库"
+     },
+     "history": {
+          "name": "历史记录",
+          "desc": "查看 ClamAV GUI 操作历史"
+     },
+     "real-time": {
+          "name": "实时扫描",
+          "desc": "实时扫描新建文件"
+     },
+     "indicator": {
+          "safe": "设备安全！",
+          "alert": "设备存在漏洞！",
+          "warning": "部分防护设置已禁用。",
+          "outdated": "病毒库已超过 7 天未更新。请立即更新！",
+          "last-scan": "上次扫描：",
+          "never-scanned": "从未扫描"
+     },
+     "definition": {
+          "title": "病毒库：{{status}}",
+          "updated": "已是最新",
+          "outdated": "已过时",
+          "loading": "正在加载..."
+     },
+     "turn-on-realtime": "开启实时扫描",
+     "dialog-title": {
+          "file": "选择要扫描的文件",
+          "folder": "选择多个要扫描的文件夹"
+     },
+     "scan-now": "立即扫描",
+     "quick-actions": "快捷操作"
+}

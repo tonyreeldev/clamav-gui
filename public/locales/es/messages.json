@@ -1,0 +1,100 @@
+{
+     "copy-command": {
+          "success": "Comando copiado",
+          "error": "No se pudo copiar el comando"
+     },
+     "fetch-error": {
+          "history": "No se pudieron cargar los datos recientes del historial",
+          "scheduler": "No se pudieron cargar los escaneos programados",
+          "exclusions": "No se pudieron cargar las exclusiones existentes",
+          "realtime-paths": "No se pudieron cargar las rutas del escaneo en tiempo real",
+          "date": "No se pudo obtener la fecha"
+     },
+     "scan-status-error": "No se pudo obtener el estado del escaneo",
+     "scan-stop-error": "No se pudo detener el escaneo",
+     "scan-start-error": "No se pudo iniciar el escaneo",
+     "log-reveal-error": "No se pudo mostrar el archivo de registro",
+     "acknowledge-history": {
+          "success": "¡Entrada marcada como revisada!",
+          "error": "No se pudo marcar la entrada como revisada"
+     },
+     "trigger-scan": {
+          "success": "Tarea de escaneo ejecutada",
+          "error": "No se pudo ejecutar la tarea programada"
+     },
+     "quarantine": {
+          "success": "¡Amenaza puesta en cuarentena!",
+          "error": "No se pudo poner la amenaza en cuarentena"
+     },
+     "history-clear-errror": "No se pudo borrar el historial",
+     "export": {
+          "success": "Datos del historial exportados como {{fileName}}",
+          "error": "No se pudieron exportar los datos del historial"
+     },
+     "schedule-scan-error": "No se pudo programar la tarea de escaneo",
+     "remove-job": {
+          "success": "¡Tarea de escaneo programado quitada!",
+          "error": "No se pudo quitar la tarea de escaneo programado"
+     },
+     "clear-jobs": {
+          "success": "¡Se borraron todas las tareas de escaneo programado!",
+          "error": "No se pudieron borrar todas las tareas de escaneo programado"
+     },
+     "threat-deleted": {
+          "success": "¡Amenaza eliminada de forma permanente!",
+          "error": "No se pudo eliminar la amenaza"
+     },
+     "threat-quarantined": {
+          "success": "Todas las amenazas se pusieron en cuarentena",
+          "error": "No se pudieron poner en cuarentena todas las amenazas"
+     },
+     "threat-bulk-delete": {
+          "success": "Todas las amenazas fueron eliminadas",
+          "error": "No se pudieron eliminar todas las amenazas"
+     },
+     "restore-settings": {
+          "success": "Configuración restablecida a los valores predeterminados",
+          "error": "No se pudieron restablecer los valores predeterminados"
+     },
+     "delete-settings": {
+          "success": "Configuración eliminada correctamente",
+          "error": "No se pudo eliminar la configuración"
+     },
+     "def-update-error": "No se pudieron actualizar las definiciones",
+     "save-settings-error": "No se pudo guardar la configuración",
+     "restore-quarantine": {
+          "success": "¡Archivo restaurado desde la cuarentena!",
+          "error": "No se pudo restaurar el archivo desde la cuarentena"
+     },
+     "delete-quarantine": {
+          "success": "El archivo se eliminó de forma permanente",
+          "error": "No se pudo eliminar el archivo de la cuarentena"
+     },
+     "bulk-restore-quarantine": {
+          "success": "Todas las amenazas fueron restauradas",
+          "error": "No se pudieron restaurar todas las amenazas"
+     },
+     "bulk-delete-quarantine": {
+          "success": "Todas las amenazas fueron eliminadas",
+          "error": "No se pudieron eliminar todas las amenazas"
+     },
+     "form-validations": {
+          "interval": "Establece el tipo de intervalo",
+          "scanType": "Elige el tipo de escaneo",
+          "days": "Elige un día de la semana",
+          "hours": {
+               "min": "Debe estar entre 0 y 23 horas",
+               "max": "Es mayor que 23 horas"
+          },
+          "minutes": {
+               "min": "Debe estar entre 0 y 59 minutos",
+               "max": "Es mayor que 59 minutos"
+          },
+          "directory-path": {
+               "required": "La ruta del directorio es obligatoria.",
+               "too-long": "La ruta del directorio es demasiado larga."
+          },
+          "date-no-future": "La fecha no puede estar en el futuro",
+          "invalid-range": "Selecciona un rango de fechas completo"
+     }
+}

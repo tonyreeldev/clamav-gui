@@ -1,0 +1,39 @@
+{
+     "sidebar": {
+          "overview": "概览",
+          "scan": "扫描",
+          "quarantine": "隔离区",
+          "history": "历史记录",
+          "stats": "统计",
+          "scheduler": "计划任务",
+          "settings": "设置",
+          "about": "关于 ClamAV GUI"
+     },
+     "num-suffix": {
+          "kilo": "K",
+          "million": "M",
+          "billion": "B",
+          "trillion": "T"
+     },
+     "size-suffix": {
+          "byte": "字节",
+          "kb": "KB",
+          "mb": "MB",
+          "gb": "GB",
+          "tb": "TB"
+     },
+     "log": {
+          "title": "日志",
+          "page-name": "日志查看器",
+          "log-id": "日志 ID：",
+          "back": "返回",
+          "please-wait": "请稍候..."
+     },
+     "splash-screen-text": "正在加载...",
+     "copy-command": "复制命令",
+     "date-picker-label": "选择日期",
+     "status": {
+          "protected": "已保护",
+          "unprotected": "未保护"
+     }
+}

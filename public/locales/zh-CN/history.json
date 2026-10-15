@@ -1,0 +1,119 @@
+{
+     "title": "历史记录",
+     "refresh": {
+          "original": "刷新",
+          "loading": "正在刷新..."
+     },
+     "clear": {
+          "title": "清除历史记录",
+          "all": "全部清除",
+          "acknowledged": "清除已确认",
+          "errors": "清除错误",
+          "warnings": "清除警告",
+          "last-24-hours": "清除最近24小时",
+          "last-7-days": "清除最近7天",
+          "last-30-days": "清除最近30天",
+          "by-date": "清除到指定日期",
+          "by-range": "按日期范围清除",
+          "loading": "正在清除..."
+     },
+     "export": {
+          "title": "导出历史记录为",
+          "dialog-title": "导出历史数据为",
+          "csv": "CSV 文件",
+          "json": "JSON 文件"
+     },
+     "clear-messages": {
+          "all": "历史记录已清除！",
+          "acknowledged": "已确认条目已清除！",
+          "error": "所有错误已清除！",
+          "warning": "所有警告已清除！",
+          "last24-hours": "最近24小时内的条目已清除！",
+          "last7-days": "最近7天内的条目已清除！",
+          "last30-days": "最近30天内的条目已清除！",
+          "by-date": "指定日期的条目已清除！",
+          "by-range": "指定范围内的条目已清除！"
+     },
+     "events": {
+          "real-time-error": "实时扫描失败",
+          "real-time-start": "实时扫描已启动",
+          "real-time-stop": "实时扫描已停止",
+          "quarantine-threat": "威胁已隔离",
+          "restore-threat": "威胁已恢复",
+          "delete-threat": "威胁已删除",
+          "scan-start": "扫描已启动",
+          "scan-finish": "扫描已完成",
+          "def-update-start": "病毒库更新已开始",
+          "def-update-finish": "病毒库更新已完成",
+          "def-update-error": "病毒库更新失败",
+          "scheduler-create": "已创建新的计划扫描任务",
+          "scheduler-delete": "计划扫描任务已删除",
+          "scheduler-trigger": "计划扫描任务已触发",
+          "file-delete": "文件已删除",
+          "file-delete-error": "文件删除失败",
+          "gui-updater-check-error": "GUI 更新检查失败",
+          "gui-updater-started": "GUI 更新已开始",
+          "gui-updater-finished": "GUI 更新已完成",
+          "gui-updater-error": "GUI 更新失败",
+          "gui-updater-updated": "GUI 已是最新版本",
+          "gui-updater-needed": "GUI 有可用更新"
+     },
+     "behavior": {
+          "balanced": "平衡",
+          "safe": "安全",
+          "strict": "严格",
+          "expert": "专家"
+     },
+     "details": {
+          "real-time-error": "启动实时扫描失败：{{err}}",
+          "real-time-start_one": "实时扫描已在{{behavior}}模式下启动，正在监控一个路径",
+          "real-time-start_two": "实时扫描已在{{behavior}}模式下启动，正在监控两个路径",
+          "real-time-start_few": "实时扫描已在{{behavior}}模式下启动，正在监控{{count}}个路径",
+          "real-time-start_many": "实时扫描已在{{behavior}}模式下启动，正在监控{{count}}个路径",
+          "real-time-start_other": "实时扫描已在{{behavior}}模式下启动，正在监控{{count}}个路径",
+          "real-time-stop": "实时扫描已停止",
+          "quarantine-threat": "{{threat}} 已被移至隔离区",
+          "restore-threat": "{{threat}} 已从隔离区恢复",
+          "delete-threat": "{{threat}} 已从隔离区删除",
+          "scan-start": "{{scanType}} 扫描已启动",
+          "scan-finish": {
+               "state_zero": "扫描成功完成，未发现威胁",
+               "state_one": "扫描成功完成，发现一个威胁",
+               "state_two": "扫描成功完成，发现两个威胁",
+               "state_few": "扫描成功完成，发现{{count}}个威胁",
+               "state_many": "扫描成功完成，发现{{count}}个威胁",
+               "state_other": "扫描成功完成，发现{{count}}个威胁",
+               "partial": "扫描完成但出现错误；部分文件可能未被扫描",
+               "clamav-error": "由于 ClamAV 错误，扫描失败",
+               "error": "扫描失败（退出代码 {{code}}）"
+          },
+          "def-update-start": "ClamAV 数据库更新已开始",
+          "def-update-finish": {
+               "success": "病毒库已是最新版本",
+               "warning": "更新完成，但出现警告",
+               "error": "更新失败，退出代码 {{code}}"
+          },
+          "scheduler-create": "成功创建新的计划任务：{{task}}",
+          "scheduler-delete": "扫描任务已成功删除：{{task}}",
+          "scheduler-trigger-error": "运行计划任务失败：{{task}}",
+          "scheduler-trigger": "已手动触发计划任务：{{task}}",
+          "file-delete": "文件已删除：{{path}}",
+          "file-delete-error": "删除文件失败：{{path}}（{{err}}）",
+          "gui-updater-check-error": "检查更新失败：{{err}}",
+          "gui-updater-started": "ClamAV GUI 正在更新到新版本",
+          "gui-updater-finished": "ClamAV GUI 已成功更新到新版本",
+          "gui-updater-error": "更新 GUI 失败：{{err}}",
+          "gui-updater-updated": "你正在使用 ClamAV GUI 的最新版本：v{{version}}",
+          "gui-updater-needed": "ClamAV GUI 有新版本可用"
+     },
+     "clear-date": {
+          "title": "清除到指定日期",
+          "desc": "选择日期以清除该日期之前的事件。其余事件将保留。",
+          "date-label": "要清除的日期"
+     },
+     "clear-range": {
+          "title": "按日期范围清除",
+          "desc": "选择范围以清除该范围内的事件。其余事件将保留。",
+          "range-label": "要清除的日期范围"
+     }
+}

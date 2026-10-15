@@ -1,0 +1,80 @@
+{
+     "actions": {
+          "cancel": "Annuler",
+          "clear": "Effacer",
+          "delete": "Supprimer",
+          "restore": "Restaurer",
+          "delete-settings": "Supprimer les paramètres",
+          "restore-defaults": "Restaurer les valeurs par défaut",
+          "delete-job": "Supprimer la tâche",
+          "clear-jobs": "Effacer les tâches",
+          "remove": "Supprimer",
+          "stop": "Arrêter",
+          "turn-off": "Désactiver"
+     },
+     "clear-all": {
+          "title": "Effacer l'historique ?",
+          "desc": "Cette opération supprimera toutes les analyses, mises à jour et actions présentes dans l'historique. Les résultats des analyses et éléments présents dans la quarantaine ne seront pas affectés."
+     },
+     "clear-acknowledged": {
+          "title": "Effacer de l'historique les entrées déjà traitées ?",
+          "desc": "Cette opération supprimera uniquement les entrées de l'historique qui ont été traitées. Les événements non résolus ne seront pas affectés."
+     },
+     "clear-errors": {
+          "title": "Effacer les erreurs de l'historique ?",
+          "desc": "Cela supprimera toutes les erreurs dans le tableau d'historique. Le reste de ces événements restera."
+     },
+     "clear-warnings": {
+          "title": "Effacer tous les avertissements ?",
+          "desc": "Cela supprimera tous les avertissements dans le tableau d'historique. Le reste de ces événements restera."
+     },
+     "restore": {
+          "title": "Cette opération restaurera les fichiers présents en quarantaine.",
+          "desc": "Continuer ?"
+     },
+     "delete": {
+          "title": "Êtes-vous sûr de vouloir supprimer ce fichier définitivement ?",
+          "desc": "Ce processus est irréversible."
+     },
+     "bulk-restore": {
+          "title": "Cela restaurera toutes les menaces mises en quarantaine.",
+          "desc": "Continuer ?"
+     },
+     "bulk-delete": {
+          "title": "Êtes-vous sûr de vouloir supprimer toutes les menaces mises en quarantaine ?",
+          "desc": "Ce processus est irréversible."
+     },
+     "delete-settings": {
+          "title": "Cela supprimera définitivement tous les paramètres, exclusions et préférences de ClamAV GUI.",
+          "desc": "Continuer ?"
+     },
+     "restore-defaults": {
+          "title": "Cela rétablira définitivement tous les paramètres, exclusions et préférences de ClamAV GUI aux valeurs par défaut.",
+          "desc": "Continuer ?"
+     },
+     "delete-threats": {
+          "title": "Êtes-vous sûr de vouloir supprimer ce fichier définitivement ?",
+          "desc": "Ce processus est irréversible."
+     },
+     "clear-threats": {
+          "title": "Êtes-vous sûr de vouloir supprimer toutes les menaces détectées ?",
+          "desc": "Ce processus est irréversible."
+     },
+     "delete-job": {
+          "title": "Cela supprimera les analyses planifiées sélectionnées",
+          "desc": "Continuer ?"
+     },
+     "clear-jobs": {
+          "title": "Cela supprimera toutes les analyses planifiées",
+          "desc": "Continuer ?"
+     },
+     "scan": {
+          "title": "Êtes-vous sûr de vouloir arrêter l'analyse {{scanName}} ?",
+          "desc": "Cela annulera tout le processus d'analyse et retournera au menu des options d'analyse."
+     },
+     "folder-path-form-desc": "Continuer ?",
+     "real-time-scan": {
+          "title": "Êtes-vous sûr de vouloir désactiver l'analyse en temps réel ?",
+          "desc": "Désactiver la protection en temps réel peut exposer votre appareil aux menaces."
+     }
+}

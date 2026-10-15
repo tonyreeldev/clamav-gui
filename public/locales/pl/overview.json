@@ -1,0 +1,55 @@
+{
+     "main-scan": {
+          "name": "Skan szybki",
+          "desc": "Sprawdź najczęściej używane lokalizacje"
+     },
+     "full-scan": {
+          "name": "Pełne skanowanie",
+          "desc": "Przeskanuj wszystko (może to chwilę potrwać)"
+     },
+     "custom-scan": {
+          "name": "Skan niestandardowy",
+          "desc": "Wybierz folder do skanowania"
+     },
+     "file-scan": {
+          "name": "Skan pliku",
+          "desc": "Wybierz plik do skanowania"
+     },
+     "quarantine": {
+          "name": "Kwarantanna",
+          "desc": "Zobacz odizolowane złośliwe pliki"
+     },
+     "update": {
+          "name": "Aktualizacja",
+          "desc": "Zaktualizuj definicje wirusów z bazy ClamAV"
+     },
+     "history": {
+          "name": "Historia",
+          "desc": "Zobacz historię działań GUI ClamAV"
+     },
+     "real-time": {
+          "name": "Skanowanie w czasie rzeczywistym",
+          "desc": "Skanuje nowo tworzone pliki w czasie rzeczywistym"
+     },
+     "indicator": {
+          "safe": "Urządzenie jest bezpieczne!",
+          "alert": "Urządzenie jest zagrożone!",
+          "warning": "Niektóre ustawienia ochrony są wyłączone.",
+          "outdated": "Definicje są starsze niż 7 dni. Zaktualizuj natychmiast!",
+          "last-scan": "Ostatnie skanowanie:",
+          "never-scanned": "Nigdy nie skanowano"
+     },
+     "definition": {
+          "title": "Definicje: {{status}}",
+          "updated": "Aktualne",
+          "outdated": "Nieaktualne",
+          "loading": "Ładowanie..."
+     },
+     "turn-on-realtime": "Włącz skanowanie w czasie rzeczywistym",
+     "dialog-title": {
+          "file": "Wybierz plik do skanowania",
+          "folder": "Wybierz wiele folderów do skanowania"
+     },
+     "scan-now": "Skanuj teraz",
+     "quick-actions": "Szybkie akcje"
+}

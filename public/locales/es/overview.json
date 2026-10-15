@@ -1,0 +1,55 @@
+{
+     "main-scan": {
+          "name": "Escaneo principal",
+          "desc": "Revisa ahora las ubicaciones comunes"
+     },
+     "full-scan": {
+          "name": "Escaneo completo",
+          "desc": "Escanea todo (puede tardar un poco)"
+     },
+     "custom-scan": {
+          "name": "Escaneo personalizado",
+          "desc": "Elige una carpeta para escanear"
+     },
+     "file-scan": {
+          "name": "Escaneo de archivo",
+          "desc": "Elige un archivo para escanear"
+     },
+     "quarantine": {
+          "name": "Cuarentena",
+          "desc": "Ver los archivos maliciosos aislados"
+     },
+     "update": {
+          "name": "Actualizar",
+          "desc": "Actualiza las definiciones de virus desde la base de datos de ClamAV"
+     },
+     "history": {
+          "name": "Historial",
+          "desc": "Ver el historial de acciones de ClamAV GUI"
+     },
+     "real-time": {
+          "name": "Escaneo en tiempo real",
+          "desc": "Escanea en tiempo real los archivos recién creados"
+     },
+     "indicator": {
+          "safe": "¡El dispositivo está protegido!",
+          "alert": "¡El dispositivo es vulnerable!",
+          "warning": "Algunas opciones de protección están desactivadas.",
+          "outdated": "Las definiciones tienen más de 7 días. ¡Actualízalas de inmediato!",
+          "last-scan": "Último escaneo:",
+          "never-scanned": "Nunca escaneado"
+     },
+     "definition": {
+          "title": "Definiciones: {{status}}",
+          "updated": "Actualizadas",
+          "outdated": "Desactualizadas",
+          "loading": "Cargando..."
+     },
+     "turn-on-realtime": "Activar el escaneo en tiempo real",
+     "dialog-title": {
+          "file": "Elige un archivo para escanear",
+          "folder": "Elige varias carpetas para escanear"
+     },
+     "scan-now": "Escanear ahora",
+     "quick-actions": "Acciones rápidas"
+}

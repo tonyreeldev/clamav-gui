@@ -1,0 +1,70 @@
+{
+     "labels": {
+          "recursive": "Récursive",
+          "crossFs": "Analyser les autres systèmes de fichiers montés",
+          "followDirSymlinks": "Suivre les liens symboliques de dossier",
+          "followFileSymlinks": "Suivre les liens symboliques de fichier",
+          "quiet": "Supprimer les messages de la sortie standard",
+          "verbose": "Afficher les journaux détaillés",
+          "infected": "Lister uniquement les fichiers infectés",
+          "noSummary": "Masquer le résumé de l'analyse",
+          "bell": "Jouer un son lors de la détection",
+          "debug": "Sortie de débogage",
+          "algorithmicDetection": "Détection algorithmique",
+          "heuristicAlerts": "Alertes heuristiques",
+          "heuristicPrecedence": "Priorité de l'analyse heuristique",
+          "detectPUA": "Détecter les applications potentiellement indésirables (PUA)",
+          "detectStructured": "Détecter les numéros de SSN et de carte de crédit",
+          "structuredSSNFormat": "Format SSN",
+          "structuredSSNCount": "Seuil de détection SSN",
+          "structuredCCCount": "Seuil de détection de carte de crédit",
+          "scanPE": "Analyser les fichiers PE",
+          "scanELF": "Analyser les fichiers ELF",
+          "scanOLE2": "Analyser les fichiers Office / MSI",
+          "scanPDF": "Analyser les fichiers PDF",
+          "scanHTML": "Analyser les fichiers HTML",
+          "scanArchive": "Analyser les archives",
+          "scanMail": "Analyser les fichiers de messagerie",
+          "detectBroken": "Détecter les exécutables corrompus",
+          "maxFileSize": "Taille de fichier maximum (Ko)",
+          "maxScanSize": "Taille d'analyse maximum (Ko)",
+          "alertEncrypted": "Alerte sur les archives ou documents chiffrés",
+          "maxFiles": "Nombre maximum de fichiers extraits",
+          "maxRecursion": "Limite de récursivité des archives",
+          "maxDirRecursion": "Profondeur de récursivité des répertoires",
+          "noCerts": "Désactiver la vérification Authenticode",
+          "disableCache": "Désactiver le cache",
+          "officialDbOnly": "Utiliser uniquement les bases de données officielles",
+          "leaveTemps": "Ne pas supprimer les fichiers temporaires",
+          "bytecode": "Activer le bytecode",
+          "bytecodeUnsigned": "Autoriser le bytecode non signé",
+          "bytecodeTimeout": "Délai d'expiration du bytecode (ms)",
+          "databasePath": "Chemin de la base de données",
+          "tempDir": "Dossier pour les fichiers temporaires"
+     },
+     "descriptions": {
+          "debug": "Afficher les messages de débogage de libclamav.",
+          "heuristicAlerts": "Peut augmenter le nombre de faux positifs.",
+          "bytecodeUnsigned": "Dangereux. À utiliser uniquement à des fins de test."
+     },
+     "option-group": {
+          "detection": "Détection",
+          "file-types": "Types de fichiers",
+          "filesystem": "Système de fichiers",
+          "limits-performance": "Limites et performances",
+          "output": "Sortie",
+          "advanced": "Options d'analyse avancées"
+     },
+     "choices": {
+          "sym-links": [
+               "Jamais",
+               "Uniquement si transmis explicitement",
+               "Toujours"
+          ],
+          "ssn-formats": [
+               "xxx-yy-zzzz",
+               "xxxyyzzzz",
+               "Les deux formats"
+          ]
+     }
+}

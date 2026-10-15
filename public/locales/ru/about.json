@@ -1,0 +1,6 @@
+{
+     "title": "О приложении ClamAV GUI",
+     "version": "Версия {{version}}",
+     "clamav-version": "ClamAV версия {{engine}}, Версия базы данных: {{dbVersion}}",
+     "def-version": "Версия базы данных вирусных определений"
+}

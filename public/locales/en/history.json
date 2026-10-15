@@ -1,0 +1,119 @@
+{
+     "title": "History",
+     "refresh": {
+          "original": "Refresh",
+          "loading": "Refreshing..."
+     },
+     "clear": {
+          "title": "Clear History",
+          "all": "Clear All",
+          "acknowledged": "Clear Acknowledged",
+          "errors": "Clear Errors",
+          "warnings": "Clear Warnings",
+          "last-24-hours": "Clear Last 24 hours",
+          "last-7-days": "Clear Last 7 days",
+          "last-30-days": "Clear Last 30 days",
+          "by-date": "Clear up to the date",
+          "by-range": "Clear by date range",
+          "loading": "Clearing..."
+     },
+     "export": {
+          "title": "Export History As",
+          "dialog-title": "Export History Data As",
+          "csv": "CSV File",
+          "json": "JSON File"
+     },
+     "clear-messages": {
+          "all": "History Cleared!",
+          "acknowledged": "Acknowledged Entries Cleared!",
+          "error": "All Errors Cleared!",
+          "warning": "All Warnings Cleared!",
+          "last24-hours": "Entries in last 24 hours Cleared!",
+          "last7-days": "Entries in last 7 days Cleared!",
+          "last30-days": "Entries in last 30 days Cleared!",
+          "by-date": "Entries with a specified date Cleared!",
+          "by-range": "Entries within a specified range cleared!"
+     },
+     "events": {
+          "real-time-error": "Real-time Scan Failed",
+          "real-time-start": "Real-time Scan Started",
+          "real-time-stop": "Real-time Scan Stopped",
+          "quarantine-threat": "Threat Quarantined",
+          "restore-threat": "Threat Restored",
+          "delete-threat": "Threat Deleted",
+          "scan-start": "Scan Started",
+          "scan-finish": "Scan Finished",
+          "def-update-start": "Definitions Update Started",
+          "def-update-finish": "Definitions Update Finished",
+          "def-update-error": "Definitions Update Failed",
+          "scheduler-create": "New Scheduled Scan Job Created",
+          "scheduler-delete": "Scheduled Scan Job Deleted",
+          "scheduler-trigger": "Scheduled Scan Job Triggered",
+          "file-delete": "File Deleted",
+          "file-delete-error": "File Deletion Failed",
+          "gui-updater-check-error": "GUI update check failed",
+          "gui-updater-started": "GUI update has been started",
+          "gui-updater-finished": "GUI update has been finished",
+          "gui-updater-error": "GUI update failed",
+          "gui-updater-updated": "GUI is up to date",
+          "gui-updater-needed": "GUI Update Available"
+     },
+     "behavior": {
+          "balanced": "Balanced",
+          "safe": "Safe",
+          "strict": "Strict",
+          "expert": "Expert"
+     },
+     "details": {
+          "real-time-error": "Failed to start real-time scan: {{err}}",
+          "real-time-start_one": "Real-time scan started in {{behavior}} mode, monitoring one path",
+          "real-time-start_two": "Real-time scan started in {{behavior}} mode, monitoring two paths",
+          "real-time-start_few": "Real-time scan started in {{behavior}} mode, monitoring {{count}} paths",
+          "real-time-start_many": "Real-time scan started in {{behavior}} mode, monitoring {{count}} paths",
+          "real-time-start_other": "Real-time scan started in {{behavior}} mode, monitoring {{count}} paths",
+          "real-time-stop": "Real-time scan has been stopped",
+          "quarantine-threat": "{{threat}} was moved to quarantine",
+          "restore-threat": "{{threat}} was restored from quarantine",
+          "delete-threat": "{{threat}} was deleted from quarantine",
+          "scan-start": "The {{scanType}} scan has been started",
+          "scan-finish": {
+               "state_zero": "Scan completed successfully, no threats found",
+               "state_one": "Scan completed successfully, one threat found",
+               "state_two": "Scan completed successfully, two threats found",
+               "state_few": "Scan completed successfully, {{count}} threats found",
+               "state_many": "Scan completed successfully, {{count}} threats found",
+               "state_other": "Scan completed successfully, {{count}} threats found",
+               "partial": "Scan completed with errors; some files may not have been scanned",
+               "clamav-error": "Scan failed due to a ClamAV error",
+               "error": "Scan failed (exit code {{code}})"
+          },
+          "def-update-start": "ClamAV database update has started",
+          "def-update-finish": {
+               "success": "Definitions are already up to date",
+               "warning": "Update completed with warnings",
+               "error": "Update failed with exit code {{code}}"
+          },
+          "scheduler-create": "New Scheduled Job Created Successfully: {{task}}",
+          "scheduler-delete": "Scan Job Deleted Successfully: {{task}}",
+          "scheduler-trigger-error": "Failed to run scheduled task: {{task}}",
+          "scheduler-trigger": "Scheduled job triggered manually: {{task}}",
+          "file-delete": "The file was deleted: {{path}}",
+          "file-delete-error": "Failed to delete file: {{path}} ({{err}})",
+          "gui-updater-check-error": "Failed to check for updates: {{err}}",
+          "gui-updater-started": "The ClamAV GUI is now updating to the new version",
+          "gui-updater-finished": "The ClamAV GUI successfully updated to the new version",
+          "gui-updater-error": "Failed to update the GUI: {{err}}",
+          "gui-updater-updated": "You are using the latest version of the ClamAV GUI: v{{version}}",
+          "gui-updater-needed": "The new version of the ClamAV GUI is available"
+     },
+     "clear-date": {
+          "title": "Clear up to the date",
+          "desc": "Choose a date to clear events up to the specified date. Rest of these events will remain.",
+          "date-label": "Date to clear"
+     },
+     "clear-range": {
+          "title": "Clear by date range",
+          "desc": "Choose a range to clear events within the specified range. Rest of these events will remain.",
+          "range-label": "Date range to clear"
+     }
+}

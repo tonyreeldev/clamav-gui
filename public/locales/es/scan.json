@@ -1,0 +1,92 @@
+{
+     "title": "Escaneo",
+     "scan-complete": "¡Escaneo completado!",
+     "dialog-title": {
+          "file": "Elige un archivo para escanear",
+          "folder": "Elige varias carpetas para escanear"
+     },
+     "choose-scan-type": "Elige un tipo de escaneo",
+     "scan-type": {
+          "title": "Tipo de escaneo: {{scanType}}",
+          "main": {
+               "name": "Escaneo principal",
+               "desc": "Revisa las ubicaciones comunes en busca de archivos maliciosos"
+          },
+          "full": {
+               "name": "Escaneo completo",
+               "desc": "Escanea todo el contenido de este dispositivo (puede tardar un poco)"
+          },
+          "custom": {
+               "name": "Escaneo personalizado",
+               "desc": "Elige una carpeta para escanear"
+          },
+          "file": {
+               "name": "Escaneo de archivo",
+               "desc": "Elige un archivo para escanear"
+          },
+          "fallback": "Escaneo desconocido"
+     },
+     "process": {
+          "preparing": "Preparando el escaneo...",
+          "percentage": "{{percentage}}% - {{scanned}}/{{total}} archivos escaneados",
+          "files": "{{scanned}} archivos escaneados",
+          "scanning": "Escaneando..."
+     },
+     "progress": "{{percentage}}% escaneado",
+     "items": {
+          "currently-scanned": "Escaneando actualmente",
+          "location": "Ubicación del escaneo",
+          "findings": "Hallazgos",
+          "start-time": "Hora de inicio",
+          "threat": "{{threats}} amenazas"
+     },
+     "stop-scan": "Detener el escaneo",
+     "full-scan-warn": "Los escaneos completos pueden tardar un poco según el tamaño del disco.",
+     "start-scan": "Iniciar escaneo",
+     "choose": {
+          "file": "Elegir un archivo",
+          "folder": "Elegir una carpeta"
+     },
+     "finished": {
+          "error": "El escaneo falló",
+          "partial": "Escaneo completado con archivos restringidos o inaccesibles",
+          "no-threats": "¡No se detectaron amenazas!",
+          "with-threats_one": "Una amenaza requiere atención",
+          "with-threats_two": "Dos amenazas requieren atención",
+          "with-threats_few": "{{count}} amenazas requieren atención",
+          "with-threats_many": "{{count}} amenazas requieren atención",
+          "with-threats_other": "{{count}} amenazas requieren atención"
+     },
+     "close": "Cerrar",
+     "back-to-overview": "Volver al resumen",
+     "exit-code": [
+          "Escaneo completado correctamente",
+          "Se detectaron amenazas",
+          "Algunos archivos no se pudieron escanear debido a restricciones de acceso"
+     ],
+     "exit-code-fallback": "El escaneo falló debido a un error interno",
+     "exit-code-formatting": "{{msg}} (código de salida: {{exitCode}})",
+     "please-wait": "Espera un momento...",
+     "resolve": {
+          "title": "Resolver",
+          "quarantine": "Poner todo en cuarentena",
+          "delete": "Eliminar todo",
+          "success": "¡Resuelto correctamente!"
+     },
+     "notification": {
+          "scan-finish": {
+               "title": "¡Escaneo finalizado!",
+               "desc_zero" : "No se encontraron amenazas",
+               "desc_one" : "Se encontró una amenaza",
+               "desc_two" : "Se encontraron dos amenazas",
+               "desc_few" : "Se encontraron {{count}} amenazas",
+               "desc_many" : "Se encontraron {{count}} amenazas",
+               "desc_other" : "Se encontraron {{count}} amenazas",
+               "with-err": "Escaneo finalizado con errores"
+          },
+          "scan-start": {
+               "title": "¡Escaneo iniciado!",
+               "desc" : "Se inició el {{scanName}}"
+          }
+     }
+}

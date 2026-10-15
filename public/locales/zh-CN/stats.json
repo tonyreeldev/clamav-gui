@@ -1,0 +1,71 @@
+{
+     "title": "统计",
+     "refresh": {
+          "original": "刷新杀毒统计",
+          "loading": "正在刷新..."
+     },
+     "device-info": {
+          "title": "设备信息",
+          "os": "操作系统：",
+          "host-name": "主机名："
+     },
+     "loading": "正在加载...",
+     "no-data": "暂无数据",
+     "date": {
+          "last-30-secs": "最近 30 秒",
+          "last-6-months": "最近 6 个月"
+     },
+     "disk": {
+          "title": "硬盘",
+          "desc": "硬盘 I/O",
+          "read-stat": "读取：{{read}}/秒",
+          "write-stat": "写入：{{write}}/秒",
+          "labels": {
+               "read": "读取速度",
+               "write": "写入速度"
+          }
+     },
+     "ram": {
+          "title": "内存",
+          "desc": "当前内存使用情况",
+          "stat": "{{total}}（已用 {{used}}）",
+          "usage": "使用率 (%)："
+     },
+     "cpu": {
+          "title": "CPU 活动",
+          "desc": "基于基准频率的当前 CPU 活动",
+          "speed-stat": "速度：{{freq}} GHz",
+          "util-stat": "利用率：{{util}}%",
+          "utilization": "利用率 (%)："
+     },
+     "stat-label": "威胁",
+     "threats": {
+          "title": "威胁状态概览",
+          "quarantined": "已隔离",
+          "skipped": "已跳过",
+          "deleted": "已清理",
+          "unresolved": "未解决"
+     },
+     "virus-types": {
+          "title": "按恶意软件类型分类的威胁",
+          "trojan": "木马",
+          "ransomware": "勒索软件",
+          "spyware": "间谍软件",
+          "rootkit": "Rootkit",
+          "other": "其他"
+     },
+     "scan": {
+          "title": "按扫描类型分类的威胁",
+          "main": "主扫描",
+          "full": "全盘扫描",
+          "custom": "自定义扫描",
+          "file": "文件扫描",
+          "real-time": "实时扫描"
+     },
+     "activity": {
+          "title": "扫描活动",
+          "unresolved": "未解决",
+          "resolved": "已解决"
+     },
+     "month": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+}

@@ -1,0 +1,22 @@
+{
+     "tray": {
+          "open": "Abrir la GUI",
+          "about": "Acerca de ClamAV GUI",
+          "settings": "Configuración de la GUI",
+          "scan": {
+               "title": "Escaneo",
+               "main": "Iniciar escaneo principal",
+               "full": "Iniciar escaneo completo",
+               "custom": "Iniciar escaneo personalizado",
+               "file": "Iniciar escaneo de archivo"
+          },
+          "quit": "Salir",
+          "update": "Actualizar",
+          "tooltip": "ClamAV GUI se está ejecutando en la bandeja del sistema"
+     },
+     "notification": {
+          "threat-blocked": "Amenaza bloqueada",
+          "threat-detected": "Amenaza detectada",
+          "threat-body": "Amenaza: {threat}\nArchivo: {file}"
+     }
+}

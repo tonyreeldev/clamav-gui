@@ -1,0 +1,195 @@
+{
+     "title": "设置",
+     "json-settings": "JSON 设置",
+     "window-titles": {
+          "general": "常规设置",
+          "advanced": "高级设置",
+          "scan": "扫描设置",
+          "update": "更新"
+     },
+     "export": {
+          "button-title": "导出设置",
+          "title": "导出 ClamAV GUI 设置",
+          "success": "设置导出成功",
+          "error": "导出设置失败"
+     },
+     "import": {
+          "button-title": "导入设置",
+          "title": "导入 ClamAV GUI 设置",
+          "empty-content": "设置内容看起来大部分为空",
+          "success": "设置导入成功",
+          "error": "导入设置失败"
+     },
+     "scan-profile": {
+          "title": "当前扫描配置",
+          "main": "主扫描",
+          "custom": "自定义扫描",
+          "file": "文件扫描"
+     },
+     "tabs": {
+          "general": "常规",
+          "advanced": "高级",
+          "scan": "扫描",
+          "update": "更新"
+     },
+     "general": {
+          "appearance": {
+               "title": "外观",
+               "theme": {
+                    "title": "主题",
+                    "system": "跟随系统",
+                    "light": "浅色",
+                    "dark": "深色"
+               },
+               "color": {
+                    "title": "颜色",
+                    "teal": "青色",
+                    "blue": "蓝色",
+                    "green": "绿色",
+                    "rose": "玫瑰色"
+               }
+          },
+          "date-format": {
+               "title": "日期格式",
+               "us": {
+                    "title": "美式",
+                    "format": "mm/dd/yyyy hh:mm:ss"
+               },
+               "eu": {
+                    "title": "欧式",
+                    "format": "dd/mm/yyyy hh:mm:ss"
+               },
+               "iso": {
+                    "title": "国际",
+                    "format": "yyyy-mm-dd hh:mm:ss"
+               }
+          },
+          "ui": {
+               "title": "用户界面",
+               "scheduler-ui": {
+                    "title": "启用计划任务界面",
+                    "desc": "让你可以访问计划任务页面"
+               },
+               "language": {
+                    "title": "语言",
+                    "desc": "ClamAV GUI 的语言"
+               },
+               "badge": {
+                    "title": "徽章可见性",
+                    "desc": "在界面徽章中显示图标或文本",
+                    "placeholder": "选择徽章可见性类型",
+                    "options": {
+                         "icon": "仅图标",
+                         "icon-text": "图标和文本",
+                         "text": "仅文本"
+                    }
+               },
+               "sidebar": {
+                    "title": "侧边栏折叠状态",
+                    "desc": "使用此选项控制侧边栏的折叠方式",
+                    "placeholder": "选择折叠状态",
+                    "options": {
+                         "off-canvas": "离屏窗口",
+                         "icon": "折叠至图标"
+                    }
+               },
+               "reduce-motion": {
+                    "title": "减少动态效果",
+                    "desc": "通过减少应用中的过渡和动画来提高响应速度。"
+               }
+          },
+          "notifs": {
+               "title": "通知",
+               "scan-start": {
+                    "title": "扫描开始时",
+                    "desc": "扫描启动后通知"
+               },
+               "scan-finish": {
+                    "title": "扫描完成时",
+                    "desc": "扫描完成后通知"
+               }
+          }
+     },
+     "scan": {
+          "title": "扫描设置",
+          "desc": "所有这些设置仅应用于主扫描、自定义扫描和文件扫描",
+          "confirm-stop": {
+               "title": "确认停止",
+               "desc": "停止扫描时显示确认消息。"
+          },
+          "exclusions": {
+               "title": "目录排除项",
+               "add-button": "添加排除项",
+               "no-exclusions": "尚无文件夹排除项",
+               "form-title": "添加目录到排除项",
+               "modal-title": "这将从排除项中移除该目录路径"
+          }
+     },
+     "folder-path-form": {
+          "path": "目录路径",
+          "browse": "浏览",
+          "add": "添加",
+          "close": "关闭",
+          "dialog-title": "选择要添加的文件夹路径"
+     },
+     "advanced": {
+          "title": "高级 GUI 选项",
+          "desc": "可能会破坏某些功能并降低检测准确性",
+          "scan-desc": "适用于任何扫描配置的高级选项。可能会降低检测准确性",
+          "dev-mode": {
+               "title": "开发者模式",
+               "desc": "在每个数据上显示 ID。非常适合开发者！"
+          },
+          "real-time-scan": {
+               "title": "实时扫描",
+               "desc": "在文件创建或修改时自动扫描。"
+          },
+          "behavior": {
+               "title": "行为",
+               "desc": "ClamAV GUI 在其他情况下如何操作？",
+               "placeholder": "ClamAV 行为",
+               "choices": {
+                    "balanced": "平衡",
+                    "safe": "安全",
+                    "strict": "严格",
+                    "expert": "专家"
+               }
+          },
+          "logs": {
+               "title": "日志",
+               "auto-scroll": {
+                    "title": "自动滚动文本",
+                    "desc": "添加新日志后自动滚动日志"
+               },
+               "max-lines": {
+                    "title": "最大日志行数",
+                    "desc": "显示日志直到指定的最大行数",
+                    "placeholder": "选择最大行数",
+                    "lines": "{{lines}} 行"
+               }
+          },
+          "danger-zone": {
+               "title": "危险区域",
+               "desc": "删除与 ClamAV GUI 相关的设置前请务必小心",
+               "delete": {
+                    "title": "删除设置（永久）",
+                    "desc": "这将清除所有设置数据",
+                    "button": "删除设置"
+               },
+               "restore": {
+                    "title": "恢复默认值",
+                    "desc": "这会将所有设置重置为默认值",
+                    "button": "恢复默认值"
+               },
+               "pending": "请稍候..."
+          },
+          "realtime-paths": {
+               "title": "实时扫描监控路径",
+               "desc": "当前由实时扫描监控的文件夹列表",
+               "add-button": "添加路径",
+               "no-paths": "当前没有要跟踪的路径",
+               "form-title": "添加要跟踪的路径",
+               "modal-title": "这将从监控路径中移除此文件夹，可能会使该文件夹暴露于威胁之中。"
+          }
+     }
+}

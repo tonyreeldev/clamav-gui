@@ -1,0 +1,46 @@
+{
+     "title": "Ups, <primary>ClamAV</primary> nie jest zainstalowany",
+     "step": "Krok {{current}} z {{total}}",
+     "installation": {
+          "title": "Instalacja",
+          "info": "Upewnij się, że zainstalowałeś ClamAV, korzystając z instrukcji instalacji tutaj:",
+          "linux-commands": "Zalecane polecenia dla Linuxa"
+     },
+     "add-to-path": {
+          "title": "Dodawanie do zmiennej środowiskowej PATH",
+          "windows": {
+               "cmd": "Otwórz Wiersz polecenia, a następnie wpisz:",
+               "if-returns-path": "Jeśli zostanie zwrócona ścieżka (np.: <code>C:\\Program Files\\ClamAV</code>):",
+               "steps": [
+                    "Otwórz menu Start i wpisz <code>env</code>",
+                    "Kliknij \"Edytuj zmienne środowiskowe systemu\".",
+                    "Kliknij \"Zmienne środowiskowe\" w oknie Właściwości systemu.",
+                    "Znajdź zmienną <code>Path</code>, kliknij <bold>Edytuj</bold>, a następnie dodaj ścieżkę zwróconą przez polecenie <code>where clamscan</code>.",
+                    "Kliknij <bold>OK</bold>, następnie <bold>OK</bold>, <bold>Zastosuj</bold> i ponownie <bold>OK</bold>"
+               ],
+               "verification": "Sprawdź, otwierając Wiersz polecenia i wpisując:"
+          },
+          "linux": {
+               "cmd": "Otwórz preferowany terminal, a następnie wpisz:",
+               "nano": "Po uzyskaniu ścieżki (np.: <code>/path/to/clamav/bin</code>), otwórz plik <bold>~/.bashrc</bold> w nano:",
+               "snippet": "Dodaj poniższy fragment na końcu pliku <bold>~/.bashrc</bold>:",
+               "kbd-shortcut": "Naciśnij <save/>, następnie <exit/>, a potem przeładuj terminal, używając:",
+               "verification": "Sprawdź, wpisując:"
+          },
+          "check-step": "Po zainstalowaniu ClamAV i dodaniu jego ścieżki do zmiennej środowiskowej <code>PATH</code>, kliknij poniższy przycisk <bold>Sprawdź dostępność</bold>, aby aktywować GUI ClamAV za darmo"
+     },
+     "buttons": {
+          "prev": "Wstecz",
+          "next": "Dalej",
+          "check": {
+               "pending": "Sprawdzanie...",
+               "original": "Sprawdź dostępność"
+          }
+     },
+     "auto-install": {
+          "installing": "Instalowanie ClamAV...",
+          "uac": "Zaakceptuj monit uprawnień systemu Windows (UAC), jeśli się pojawi. Może to potrwać kilka minut.",
+          "failed": "Automatyczna instalacja nie powiodła się. Spróbuj ponownie lub zainstaluj ClamAV ręcznie, korzystając z poniższych kroków.",
+          "retry": "Ponów automatyczną instalację"
+     }
+}

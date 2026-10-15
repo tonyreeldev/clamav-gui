@@ -1,0 +1,71 @@
+{
+     "title": "Estadísticas",
+     "refresh": {
+          "original": "Actualizar estadísticas del antivirus",
+          "loading": "Actualizando..."
+     },
+     "device-info": {
+          "title": "Información del dispositivo",
+          "os": "Sistema operativo:",
+          "host-name": "Nombre del equipo:"
+     },
+     "loading": "Cargando...",
+     "no-data": "Aún no hay datos",
+     "date": {
+          "last-30-secs": "Últimos 30 segundos",
+          "last-6-months": "Últimos 6 meses"
+     },
+     "disk": {
+          "title": "Disco duro",
+          "desc": "E/S del disco duro",
+          "read-stat": "Lectura: {{read}}/s",
+          "write-stat": "Escritura: {{write}}/s",
+          "labels": {
+               "read": "Velocidad de lectura",
+               "write": "Velocidad de escritura"
+          }
+     },
+     "ram": {
+          "title": "Memoria",
+          "desc": "Uso actual de la RAM",
+          "stat": "{{total}} ({{used}} en uso)",
+          "usage": "Uso (%):"
+     },
+     "cpu": {
+          "title": "Actividad de la CPU",
+          "desc": "Actividad actual de la CPU según la frecuencia base",
+          "speed-stat": "Velocidad: {{freq}} GHz",
+          "util-stat": "Utilización: {{util}}%",
+          "utilization": "Utilización (%):"
+     },
+     "stat-label": "Amenazas",
+     "threats": {
+          "title": "Resumen del estado de las amenazas",
+          "quarantined": "En cuarentena",
+          "skipped": "Omitidas",
+          "deleted": "Limpiadas",
+          "unresolved": "Sin resolver"
+     },
+     "virus-types": {
+          "title": "Amenazas por tipo de malware",
+          "trojan": "Troyano",
+          "ransomware": "Ransomware",
+          "spyware": "Spyware",
+          "rootkit": "Rootkit",
+          "other": "Otro"
+     },
+     "scan": {
+          "title": "Amenazas por tipo de escaneo",
+          "main": "Escaneo principal",
+          "full": "Escaneo completo",
+          "custom": "Escaneo personalizado",
+          "file": "Escaneo de archivo",
+          "real-time": "Escaneo en tiempo real"
+     },
+     "activity": {
+          "title": "Actividad de escaneo",
+          "unresolved": "Sin resolver",
+          "resolved": "Resueltas"
+     },
+     "month": ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+}

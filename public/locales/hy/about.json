@@ -1,0 +1,6 @@
+{
+     "title": "ClamAV GUI-ի Մասին",
+     "version": "Տարբերակ {{version}}",
+     "clamav-version": "ClamAV տարբերակ՝ {{engine}}, Տվյալների բազայի տարբերակ՝ {{dbVersion}}",
+     "def-version": "Վիրուսի սահմանումների տվյալների բազայի տարբերակ"
+}

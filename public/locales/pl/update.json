@@ -1,0 +1,66 @@
+{
+     "definitions": {
+          "title": "Definicje",
+          "status": {
+               "updating": "Aktualizacja definicji...",
+               "checking": "Sprawdzanie statusu bazy danych...",
+               "outdated": "Wymagana aktualizacja!",
+               "updated": "Aktualne!"
+          },
+          "last-updated": "Ostatnia aktualizacja: {{date}}",
+          "update": {
+               "pending": "Aktualizacja...",
+               "original": "Aktualizuj bazę danych"
+          },
+          "exit-codes": [
+               "Definicje zostały zaktualizowane pomyślnie",
+               "Definicje są już aktualne"
+          ],
+          "update-failed": "Aktualizacja nie powiodła się (kod {{code}}). Szczegóły znajdziesz w dzienniku aktualizacji.",
+          "clamav-version": "ClamAV v{{engine}}, Wersja bazy danych: {{dbVersion}}",
+          "version": "Wersja bazy definicji wirusów"
+     },
+     "gui": {
+          "title": "Aktualizator GUI",
+          "checking": {
+               "main": "Sprawdzanie nowej wersji...",
+               "secondary": "Proszę czekać..."
+          },
+          "updating": {
+               "main": "Aktualizacja GUI...",
+               "secondary": "Proszę czekać aż pobieranie zostanie zakończone..."
+          },
+          "needs-update": {
+               "main": "Nowa wersja jest dostępna!",
+               "secondary": "Upewnij się, że zaktualizujesz GUI dla ulepszeń."
+          },
+          "updated": {
+               "main": "GUI jest aktualne!",
+               "secondary": "Brak nowych aktualizacji"
+          },
+          "failed-check": {
+               "main": "Nie udało się sprawdzić aktualizacji",
+               "secondary": "Spróbuj ponownie później, aby sprawdzić nową wersję."
+          },
+          "completed": {
+               "main": "GUI zostało zaktualizowane do nowej wersji!",
+               "secondary": "Upewnij się, że ponownie uruchomisz aplikację, aby zakończyć aktualizację."
+          },
+          "failed-update": {
+               "main": "Nie udało się zaktualizować GUI",
+               "secondary": "Spróbuj ponownie później."
+          },
+          "buttons": {
+               "relaunch": "Uruchom ponownie",
+               "update": {
+                    "pending": "Aktualizacja...",
+                    "original": "Aktualizuj"
+               },
+               "check": {
+                    "pending": "Sprawdzanie...",
+                    "original": "Sprawdź aktualizacje"
+               },
+               "changelog": "Otwórz dziennik zmian"
+          }
+     }
+}

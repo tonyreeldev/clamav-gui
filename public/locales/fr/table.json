@@ -1,0 +1,89 @@
+{
+     "pagination": {
+          "rows-count": "{{selected}} sur {{filtered}} ligne(s) sélectionnée(s).",
+          "row-per-page": "Lignes par page",
+          "page-count": "Page {{index}} sur {{count}}",
+          "buttons": {
+               "first": "Aller à la première page",
+               "previous": "Aller à la page précédente",
+               "next": "Aller à la page suivante",
+               "last": "Aller à la dernière page"
+          }
+     },
+     "view": {
+          "title": "Affichage",
+          "toggle": "Basculer les colonnes"
+     },
+     "filter": {
+          "threats": "Rechercher des menaces...",
+          "history": {
+               "title": "Filtrer par statut",
+               "all": "Tout",
+               "success": "Succès",
+               "warning": "Avertissement",
+               "error": "Erreur",
+               "acknowledged": "Accusé de réception"
+          }
+     },
+     "not-found": {
+          "threats": "Aucune menace trouvée.",
+          "history": "Aucune entrée trouvée.",
+          "scheduler": "Aucune analyse planifiée trouvée."
+     },
+     "heading": {
+          "threats": {
+               "threat": "Menace",
+               "path": "Chemin",
+               "detected-at": "Date de détection"
+          },
+          "quarantine": {
+               "quarantined-at": "Date de mise en quarantaine",
+               "size": "Taille"
+          },
+          "history": {
+               "timestamp": "Horodatage",
+               "event": "Événement",
+               "details": "Détails"
+          },
+          "scheduler": {
+               "job-name": "Nom de la tâche",
+               "interval": "Intervalle",
+               "scan-type": "Type",
+               "last-scan": "Dernière analyse",
+               "next-scan": "Prochaine analyse"
+          },
+          "status": "Statut",
+          "actions": "Actions"
+     },
+     "actions": {
+          "open-menu": "Ouvrir le menu",
+          "quarantine": "Déplcer dans le dossier de quarantaine",
+          "delete": "Supprimer définitivement",
+          "open": "Ouvrir le dossier",
+          "scan-now": "Analyser maintenant",
+          "view-log": "Voir le journal",
+          "reveal-log": "Afficher le fichier journal",
+          "restore": "Restaurer",
+          "remove-job": "Supprimer la tâche",
+          "view-details": "Voir les détails"
+     },
+     "status": {
+          "threats": {
+               "quarantined": "Mis en quarantaine",
+               "deleted": "Supprimé",
+               "detected": "Détecté"
+          },
+          "history": {
+               "success": "Succès",
+               "warning": "Avertissement",
+               "error": "Erreur",
+               "acknowledged": "Accusé de réception"
+          }
+     },
+     "interval": {
+          "daily" : "Quotidien",
+          "weekly" : "Hebdomadaire",
+          "monthly" : "Mensuel"
+     },
+     "mark-as-acknowledged": "Marquer comme accusé de réception"
+}

@@ -1,0 +1,60 @@
+import { ScanType } from "./enums";
+import { IHistoryData, IQuarantineData, ISchedulerData, IThreatsData } from "./data"
+import { HistoryConfirmationState, QuarantineConfirmationState, ScanFinishConfState, ScanUIStatus, SchedulerConfState } from ".";
+
+export interface IDeviceInfo {
+     sys_name: string;
+     sys_os: string;
+     sys_host: string;
+}
+export interface IAppDetails{
+     name: string,
+     version: string
+     tauri: string,
+     identifier: string
+}
+export interface IScanPageState{
+     status: ScanUIStatus
+     logs: string[],
+     threats: IThreatsData[],
+     scannedFiles: number,
+     totalFiles: number,
+     errMsg?: string,
+     exitCode: number,
+     scanType: ScanType,
+     currLocation: string,
+     duration: number,
+     paths: string[],
+     isReconnected: boolean,
+}
+export interface IDefsUpdaterState{
+     isRequired: boolean,
+     isUpdatingDefs: boolean,
+     lastUpdated: Date | null,
+     exitMsg: number | null,
+}
+export interface IFinishScanState{
+     currThreat: IThreatsData | null,
+     popupState: ScanFinishConfState | ""
+}
+export interface IHistoryPageState{
+     popupState: "" | HistoryConfirmationState
+     showDetails: boolean,
+     details: string | null
+     data: IHistoryData<"state">[]
+}
+export interface IClearInputState{
+     date: boolean,
+     range: boolean
+}
+export interface IQuarantineState{
+     popupState: "" | QuarantineConfirmationState
+     id: string,
+     data: IQuarantineData[],
+     isInitializing: boolean
+}
+export interface ISchedulerState{
+     popupState: SchedulerConfState | ""
+     job_id: string,
+     data: ISchedulerData<"state">[]
+}

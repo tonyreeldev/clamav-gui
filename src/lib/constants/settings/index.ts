@@ -1,0 +1,100 @@
+import { Files, Folder, Monitor, Moon, Sun, Gauge, ChevronsLeftRightEllipsis, ShieldCheck, SearchCode, LucideProps } from "lucide-react";
+import { IBackendSettings, IDateFormatSettings, ISettings, IThemeSettings, ScanOptionKeys } from "@/lib/types/settings";
+import { DateFormatType, ScanProfile, ScanOptionGroup, BehaviorMode, BadgeVisibility, SidebarCollapsible } from "@/lib/types/enums";
+
+export const THEMES = ["dark", "light", "system"] as const
+export const SCAN_OPTION_ICON: Record<ScanOptionGroup,React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>> = {
+     detection: ShieldCheck,
+     "file-types": Files,
+     filesystem: Folder,
+     "limits-performance": Gauge,
+     output: ChevronsLeftRightEllipsis,
+     advanced: SearchCode,
+}
+export const DEFAULT_SETTINGS: ISettings = {
+     theme: "system",
+     color: "teal",
+     dateFormat: "dd/MM/yyyy HH:mm:ss",
+     developerMode: false,
+     confirmStopScan: true,
+     autoScrollText: true,
+     maxLogLines: 500,
+     currScanProfile: ScanProfile.Main,
+     realTime: true,
+     enableSchedulerUI: true,
+     notifOnScanStart: false,
+     notifOnScanFinish: true,
+     notifPermitted: false,
+     behavior: BehaviorMode.Balanced,
+     badgeVisibility: BadgeVisibility.IconText,
+     sidebarCollapsible: SidebarCollapsible.Icon,
+     reduceMotion: false
+}
+export const DEFAULT_BACKEND_SETTINGS: IBackendSettings = {
+     scanProfiles: {
+          main: {},
+          custom: {},
+          file: {}
+     },
+     exclusions: [],
+     monitoringPaths: [],
+     includeMacSystemExclusions: false,
+     closeButtonBehavior: "minimize-to-tray",
+     autostart: true,
+     autoUpdateDefinitions: true,
+}
+export const FILE_SCAN_WHITELIST: ScanOptionKeys[] = [
+     "algorithmicDetection",
+     "heuristicAlerts",
+     "detectPUA",
+     "scanArchive",
+     "scanPDF",
+     "scanHTML",
+];
+export const MAX_LONG_LINES_CHOICES = [100, 500, 1000, 1500] as const
+export const THEME_SETTINGS: IThemeSettings = {
+     theme: [
+          { Icon: Monitor, theme: "system" },
+          { Icon: Sun, theme: "light" },
+          { Icon: Moon, theme: "dark" }
+     ],
+     color: [
+          {
+               name: "teal",
+               className: "text-teal-600 dark:text-teal-400",
+               hoverClass: "hover:border-teal-600"
+          },
+          {
+               name: "blue",
+               className: "text-blue-600 dark:text-blue-400",
+               hoverClass: "hover:border-blue-600"
+          }, 
+          {
+               name: "green",
+               className: "text-green-600 dark:text-green-400",
+               hoverClass: "hover:border-green-600"
+          }, 
+          {
+               name: "rose",
+               className: "text-rose-600 dark:text-rose-400",
+               hoverClass: "hover:border-rose-600"
+          }
+     ]
+}
+export const DATE_TIME_FORMATS: IDateFormatSettings[] = [
+     {
+          type: DateFormatType.American,
+          format: "MM/dd/yyyy HH:mm:ss"
+     },
+     {
+          type: DateFormatType.European,
+          format: "dd/MM/yyyy HH:mm:ss"
+     },
+     {
+          type: DateFormatType.International,
+          format: "yyyy-MM-dd HH:mm:ss"
+     }
+]
+export const MACOS_DEFAULT_EXCLUSIONS = [
+  "/System/Library/PrivateFrameworks/TextToSpeech.framework",
+] as const;

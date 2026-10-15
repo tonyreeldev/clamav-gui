@@ -1,0 +1,46 @@
+{
+     "title": "Oups, <primary>ClamAV</primary> n'est pas installé",
+     "step": "Étape {{current}} sur {{total}}",
+     "installation": {
+          "title": "Installation",
+          "info": "Assurez-vous d'installer ClamAV en suivant le guide d'installation ici :",
+          "linux-commands": "Commandes Linux recommandées"
+     },
+     "add-to-path": {
+          "title": "Ajout à la variable d'environnement PATH",
+          "windows": {
+               "cmd": "Ouvrez l'invite de commandes, puis tapez :",
+               "if-returns-path": "Une fois qu'il retourne le chemin (exemple : <code>C:\\Program Files\\ClamAV</code>) :",
+               "steps": [
+                    "Ouvrez le menu Démarrer, tapez <code>env</code>",
+                    "Cliquez sur « Modifier les variables d'environnement du système ».",
+                    "Cliquez sur « Variables d'environnement » dans la fenêtre Propriétés du système.",
+                    "Trouvez la variable <code>Path</code>, cliquez sur <bold>Modifier</bold>, puis ajoutez le chemin de sortie de la commande <code>where clamscan</code>.",
+                    "Cliquez sur <bold>OK</bold>, puis <bold>OK</bold>, <bold>Appliquer</bold>, et <bold>OK</bold>"
+               ],
+               "verification": "Vérifiez en ouvrant l'invite de commandes et en tapant :"
+          },
+          "linux": {
+               "cmd": "Ouvrez le terminal préféré, puis tapez :",
+               "nano": "Une fois qu'il retourne le chemin (exemple : <code>/path/to/clamav/bin</code>), ouvrez le fichier <bold>~/.bashrc</bold> avec nano :",
+               "snippet": "Ajoutez l'extrait suivant à la fin du fichier <bold>~/.bashrc</bold> :",
+               "kbd-shortcut": "Appuyez sur <save/>, puis <exit/>, rechargez le terminal en utilisant :",
+               "verification": "Vérifiez en tapant :"
+          },
+          "check-step": "Une fois que vous avez installé ClamAV et ajouté le chemin de ClamAV à la variable d'environnement <code>PATH</code>, cliquez sur le bouton <bold>Vérifier la disponibilité</bold> ci-dessous pour activer ClamAV GUI gratuitement"
+     },
+     "buttons": {
+          "prev": "Précédent",
+          "next": "Suivant",
+          "check": {
+               "pending": "Vérification en cours...",
+               "original": "Vérifier la disponibilité"
+          }
+     },
+     "auto-install": {
+          "installing": "Installation de ClamAV...",
+          "uac": "Acceptez la demande d'autorisation de Windows (UAC) si elle apparaît. Cela peut prendre quelques minutes.",
+          "failed": "L'installation automatique a échoué. Réessayez ou installez ClamAV manuellement en suivant les étapes ci-dessous.",
+          "retry": "Réessayer l'installation automatique"
+     }
+}

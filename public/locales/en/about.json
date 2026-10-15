@@ -1,0 +1,18 @@
+{
+     "title": "About ClamAV GUI",
+     "version": "Version {{version}}",
+     "community": {
+          "title": "Made for the community",
+          "desc": "ClamAV GUI is a free project created so anyone can protect their computer with the ClamAV antivirus engine, simply and without complications. It installs what it needs, keeps virus signatures up to date and protects you in real time."
+     },
+     "built-with": "How it's built",
+     "clamav-version": "ClamAV v{{engine}} · Signatures {{dbVersion}}",
+     "def-version": "Virus definition database version",
+     "credits": {
+          "title": "Credits",
+          "based-on": "Based on ClamAV GUI by",
+          "improved-by": "Improvements and new features by",
+          "improvements": "Automatic ClamAV installation, automatic signature updates, protection from Windows startup, Spanish language and a brand-new interface.",
+          "license": "Free software · GPL-3.0"
+     }
+}

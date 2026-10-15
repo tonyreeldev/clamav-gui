@@ -1,0 +1,100 @@
+import { type ColumnDef, type ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, type SortingState, useReactTable, type VisibilityState } from "@tanstack/react-table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { SearchIcon } from "lucide-react"
+import { DataTablePagination } from "../pagination"
+import { DataTableViewOptions } from "../col-toggle"
+import { DataTableProps } from "@/lib/types/props"
+import { useTranslation } from "react-i18next"
+
+export function ThreatsTable<TData>({ columns, data, searchColumn = "displayName" }: Omit<DataTableProps<TData>,"columns"> & {
+  columns: ColumnDef<TData>[]
+}) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility
+    }
+  })
+  const {t} = useTranslation("table")
+  return (
+    <>
+    <div className="flex items-center justify-between gap-4 w-full">
+      <InputGroup className="max-w-lg">
+        <InputGroupInput
+          placeholder={t("filter.threats")}
+          value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(searchColumn)?.setFilterValue(event.target.value)
+          }
+        />
+        <InputGroupAddon>
+          <SearchIcon/>
+        </InputGroupAddon>
+      </InputGroup>
+      <DataTableViewOptions table={table}/>
+    </div>
+    <div className="overflow-hidden rounded-md border w-full">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                {t("not-found.threats")}
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+    <DataTablePagination
+      table={table}
+    />
+    </>
+  )
+}

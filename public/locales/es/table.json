@@ -1,0 +1,92 @@
+{
+     "pagination": {
+          "rows-count": "{{selected}} de {{filtered}} fila(s) seleccionada(s).",
+          "row-per-page": "Filas por página",
+          "page-count": "Página {{index}} de {{count}}",
+          "buttons": {
+               "first": "Ir a la primera página",
+               "previous": "Ir a la página anterior",
+               "next": "Ir a la página siguiente",
+               "last": "Ir a la última página"
+          }
+     },
+     "view": {
+          "title": "Vista",
+          "toggle": "Mostrar u ocultar columnas"
+     },
+     "filter": {
+          "threats": "Buscar amenazas...",
+          "history": {
+               "title": "Filtrar por estado",
+               "all": "Todos",
+               "success": "Éxito",
+               "warning": "Advertencia",
+               "error": "Error",
+               "acknowledged": "Revisado"
+          }
+     },
+     "not-found": {
+          "threats": "No se encontraron amenazas.",
+          "history": "No se encontraron entradas.",
+          "scheduler": "No se encontraron escaneos programados."
+     },
+     "heading": {
+          "threats": {
+               "id": "ID de la amenaza",
+               "threat": "Amenaza",
+               "path": "Ruta",
+               "detected-at": "Detectada el"
+          },
+          "quarantine": {
+               "id": "ID de la amenaza infectada",
+               "quarantined-at": "En cuarentena desde",
+               "size": "Tamaño"
+          },
+          "history": {
+               "id": "ID de la entrada",
+               "timestamp": "Fecha y hora",
+               "event": "Evento",
+               "details": "Detalles"
+          },
+          "scheduler": {
+               "job-name": "Nombre de la tarea",
+               "interval": "Intervalo",
+               "scan-type": "Tipo",
+               "last-scan": "Último escaneo",
+               "next-scan": "Próximo escaneo"
+          },
+          "status": "Estado",
+          "actions": "Acciones"
+     },
+     "actions": {
+          "open-menu": "Abrir menú",
+          "quarantine": "Poner en cuarentena",
+          "delete": "Eliminar permanentemente",
+          "open": "Abrir carpeta contenedora",
+          "scan-now": "Escanear ahora",
+          "view-log": "Ver registro",
+          "reveal-log": "Mostrar archivo de registro",
+          "restore": "Restaurar",
+          "remove-job": "Quitar tarea",
+          "view-details": "Ver detalles"
+     },
+     "status": {
+          "threats": {
+               "quarantined": "En cuarentena",
+               "deleted": "Eliminada",
+               "detected": "Detectada"
+          },
+          "history": {
+               "success": "Éxito",
+               "warning": "Advertencia",
+               "error": "Error",
+               "acknowledged": "Revisado"
+          }
+     },
+     "interval": {
+          "daily" : "Diario",
+          "weekly" : "Semanal",
+          "monthly" : "Mensual"
+     },
+     "mark-as-acknowledged": "Marcar como revisado"
+}

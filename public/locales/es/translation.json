@@ -1,0 +1,39 @@
+{
+     "sidebar": {
+          "overview": "Resumen",
+          "scan": "Escaneo",
+          "quarantine": "Cuarentena",
+          "history": "Historial",
+          "stats": "Estadísticas",
+          "scheduler": "Programador",
+          "settings": "Configuración",
+          "about": "Acerca de ClamAV GUI"
+     },
+     "num-suffix": {
+          "kilo": "K",
+          "million": "M",
+          "billion": "MM",
+          "trillion": "B"
+     },
+     "size-suffix": {
+          "byte": "Bytes",
+          "kb": "KB",
+          "mb": "MB",
+          "gb": "GB",
+          "tb": "TB"
+     },
+     "log": {
+          "title": "Registro",
+          "page-name": "Visor de registros",
+          "log-id": "ID del registro:",
+          "back": "Volver",
+          "please-wait": "Espera un momento..."
+     },
+     "splash-screen-text": "Cargando...",
+     "copy-command": "Copiar el comando",
+     "date-picker-label": "Elige una fecha",
+     "status": {
+          "protected": "Protegido",
+          "unprotected": "Desprotegido"
+     }
+}

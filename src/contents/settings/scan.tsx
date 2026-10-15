@@ -1,0 +1,168 @@
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { useSettings } from "@/context/settings";
+import { FILE_SCAN_WHITELIST, SCAN_OPTION_ICON, DEFAULT_BACKEND_SETTINGS, DEFAULT_SETTINGS } from "@/lib/constants/settings";
+import { SCAN_SETTINGS_GROUPED } from "@/lib/constants/settings/scan-options";
+import { ScanOptionGroup } from "@/lib/types/enums";
+import { Search } from "lucide-react";
+import SettingsItem from "@/components/settings-item";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useScanProfile } from "@/hooks/use-scan-profile";
+import { SettingsProps } from "@/lib/types/props";
+import FolderPathForm from "@/components/settings-item/path-form";
+import { useBackendSettings } from "@/hooks/use-settings";
+import { IBackendSettings } from "@/lib/types/settings";
+import FolderPathFormLoader from "@/loaders/components/path-form";
+import { useTransition, useState, useEffect, useMemo } from "react";
+import { toast } from "sonner";
+import SettingsOption from "@/components/settings-item/settings-option";
+import { useTranslation } from "react-i18next";
+import { ChoiceOption } from "@/components/settings-item/scan-option";
+import { isDescKey } from "@/lib/helpers/scan";
+import { getErrorMessage } from "@/lib/helpers";
+import { platform } from "@tauri-apps/plugin-os";
+
+export default function ScanSettings({scanProfile}: SettingsProps){
+     const {settings, setSettings} = useSettings();
+     const { values, setValue, isLoading } = useScanProfile(scanProfile ?? DEFAULT_SETTINGS.currScanProfile);
+     const [isFetching, startTransition] = useTransition()
+     const {getSettingsByKey,setSettingsbyKey} = useBackendSettings()
+     const [exclusions, setExclusions] = useState<IBackendSettings["exclusions"]>(DEFAULT_BACKEND_SETTINGS.exclusions);
+     const [includeMacSystemExclusions, setIncludeMacSystemExclusions] = useState(DEFAULT_BACKEND_SETTINGS.includeMacSystemExclusions)
+     const {t: messageTxt} = useTranslation("messages",{
+          keyPrefix: "fetch-error"
+     })
+     useEffect(()=>{
+          startTransition(async()=>{
+               try {
+                    const [storedExclusions,storedIncludeMacExclusions] = await Promise.all([
+                         getSettingsByKey("exclusions"),
+                         getSettingsByKey("includeMacSystemExclusions")
+                    ])
+                    setExclusions(val=>!storedExclusions ? val : storedExclusions)
+                    setIncludeMacSystemExclusions(storedIncludeMacExclusions ?? DEFAULT_BACKEND_SETTINGS.includeMacSystemExclusions)
+               } catch (err){
+                    toast.error(messageTxt("exclusions"),{
+                         description: getErrorMessage(err)
+                    });
+               }
+          })
+     },[])
+     const updateExclusions = async(value: IBackendSettings["exclusions"]) => {
+          await setSettingsbyKey("exclusions",value);
+          setExclusions(value)
+     }
+     const dirExclusions = useMemo(()=>!exclusions ? DEFAULT_BACKEND_SETTINGS.exclusions: exclusions,[exclusions]);
+     const handleExclusionAction = async (value: string, action: "exclude" | "remove") => {
+          if(value.trim()==="") return;
+          const mainArr = !exclusions ? DEFAULT_BACKEND_SETTINGS.exclusions : exclusions
+          const newArr = action==="exclude" ? [...mainArr,value] : mainArr.filter(val=>val!==value)
+          await updateExclusions(newArr);
+     }
+     const {t: scanTxt} = useTranslation("scan-settings")
+     const {t} = useTranslation("settings",{
+          keyPrefix: "scan"
+     })
+     const currPlatform = platform()
+     return (
+          <div className="px-1 py-2 space-y-3">
+               <SettingsItem
+                    Icon={Search}
+                    title={t("title")}
+                    className="space-y-4"
+                    description={t("desc")}
+               >
+                    <SettingsOption
+                         title={t("confirm-stop.title")}
+                         description={t("confirm-stop.desc")}
+                    >
+                         <Switch
+                              checked={settings.confirmStopScan}
+                              onCheckedChange={checked=>setSettings({confirmStopScan: checked})}
+                         />
+                    </SettingsOption>
+                    {currPlatform==="macos" && (
+                         <SettingsOption
+                              title={t("mac-os-exclusion.title")}
+                              description={t("mac-os-exclusion.desc")}
+                         >
+                              <Switch
+                                   checked={includeMacSystemExclusions}
+                                   onCheckedChange={async checked => {
+                                        await setSettingsbyKey("includeMacSystemExclusions", checked)
+                                        setIncludeMacSystemExclusions(checked)
+                                   }}
+                              />
+                         </SettingsOption>
+                    )}
+               </SettingsItem>
+               {Object.entries(SCAN_SETTINGS_GROUPED).filter(([key])=>key!=="advanced" as ScanOptionGroup).map(([key,options])=>{
+                    const visibleOptions = scanProfile === "file" ? options.filter(o =>FILE_SCAN_WHITELIST.includes(o.optionKey)) : options;
+                    return visibleOptions.length > 0 ? (
+                         <SettingsItem
+                              key={key}
+                              Icon={SCAN_OPTION_ICON[key as ScanOptionGroup]}
+                              title={scanTxt(`option-group.${key as ScanOptionGroup}`)}
+                              className="space-y-4"
+                         >
+                              {visibleOptions.map(option=>(
+                                   <SettingsOption
+                                        title={scanTxt(`labels.${option.optionKey}`)}
+                                        description={option.flag}
+                                        tooltip={isDescKey(option.optionKey) ? scanTxt(`descriptions.${option.optionKey}`) : undefined}
+                                   >
+                                        {option.value.kind==="yes-no" ? (
+                                             isLoading ? (
+                                                  <Skeleton className="w-8 h-4.5"/>
+                                             ): (
+                                                  <Switch
+                                                       checked={(values[option.optionKey] ?? option.value.default) as boolean}
+                                                       onCheckedChange={checked => setValue(option.optionKey, checked)}
+                                                  />
+                                             )
+                                        ) : option.value.kind==="choice" ? (
+                                             isLoading ? (
+                                                  <Skeleton className="h-9 w-32"/>
+                                             ) : (
+                                                  <ChoiceOption
+                                                       value={String(values[option.optionKey] ?? option.value.default)}
+                                                       onValueChange={val=>setValue(option.optionKey, typeof option.value.default === "number" ? Number(val) : val)}
+                                                       label={scanTxt(`labels.${option.optionKey}`)}
+                                                       choiceKey={option.optionKey==="structuredSSNFormat" ? "ssn-formats" : "sym-links"}
+                                                  />
+                                             )
+                                        ) : isLoading ? (
+                                             <Skeleton className="w-1/3 h-9"/>
+                                        ) : (
+                                             <Input
+                                                  type={option.value.inputType==="number" ? "number" : "text"}
+                                                  min={option.value.min}
+                                                  max={option.value.max}
+                                                  className="max-w-1/3"
+                                                  value={(values[option.optionKey] ?? option.value.default ?? "") as number}
+                                                  onChange={e =>setValue(option.optionKey, Number(e.target.value))}
+                                             />
+                                        )}
+                                   </SettingsOption>
+                              ))}
+                         </SettingsItem>
+                    ) : null})
+               }
+               {isFetching ? (
+                    <FolderPathFormLoader items={dirExclusions.length}/>
+               ) : (
+                    <FolderPathForm
+                         description="--exclude-dir"
+                         title={t("exclusions.title")}
+                         addButtonText={t("exclusions.add-button")}
+                         emptyText={t("exclusions.no-exclusions")}
+                         formTitle={t("exclusions.form-title")}
+                         confirmationTitle={t("exclusions.modal-title")}
+                         data={dirExclusions}
+                         onSubmit={values=>handleExclusionAction(values.path,"exclude")}
+                         onDelete={path=>handleExclusionAction(path,"remove")}
+                    />
+               )}
+          </div>
+     )
+}

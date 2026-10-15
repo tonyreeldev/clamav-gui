@@ -1,0 +1,92 @@
+{
+     "actions": {
+          "cancel": "Cancel",
+          "clear": "Clear",
+          "delete": "Delete",
+          "restore": "Restore",
+          "delete-settings": "Delete Settings",
+          "restore-defaults": "Restore Defaults",
+          "delete-job": "Remove Job",
+          "clear-jobs": "Clear Jobs",
+          "remove": "Remove",
+          "stop": "Stop",
+          "turn-off": "Turn off"
+     },
+     "clear-all": {
+          "title": "Clear history?",
+          "desc": "This will remove all scan, update, and action history. Logs and quarantine items will not be affected."
+     },
+     "clear-acknowledged": {
+          "title": "Clear acknowledged entries?",
+          "desc": "This will remove only acknowledged history entries. Unresolved events will remain."
+     },
+     "clear-errors": {
+          "title": "Clear all errors?",
+          "desc": "This will remove all errors in the history table. Rest of these events will remain."
+     },
+     "clear-warnings": {
+          "title": "Clear all warnings?",
+          "desc": "This will remove all warnings in the history table. Rest of these events will remain."
+     },
+     "clear-last-24h": {
+          "title": "Clear all entries in last 24 hours?",
+          "desc": "This will remove those entries, which have been added 24 hours ago. Rest of these events will remain."
+     },
+     "clear-last-7d": {
+          "title": "Clear all entries in last 7 days",
+          "desc": "This will remove those entries, which have been added 7 days ago. Rest of these events will remain."
+     },
+     "clear-last-30d": {
+          "title": "Clear all entries in last 30 days?",
+          "desc": "This will remove those entries, which have been added 30 days ago. Rest of these events will remain."
+     },
+     "restore": {
+          "title": "This will restore the file from quarantine.",
+          "desc": "Continue?"
+     },
+     "delete": {
+          "title": "Are you sure to delete this file permanently?",
+          "desc": "The process can't be undone."
+     },
+     "bulk-restore": {
+          "title": "This will restore all quarantined threats.",
+          "desc": "Continue?"
+     },
+     "bulk-delete": {
+          "title": "Are you sure to delete all quarantined threats?",
+          "desc": "The process can't be undone."
+     },
+     "delete-settings": {
+          "title": "This will permanently delete all ClamAV GUI settings, exclusions, and preferences.",
+          "desc": "Continue?"
+     },
+     "restore-defaults": {
+          "title": "This will permanently restore all ClamAV GUI settings, exclusions, and preferences into default values.",
+          "desc": "Continue?"
+     },
+     "delete-threats": {
+          "title": "Are you sure to delete this file permanently?",
+          "desc": "The process can't be undone."
+     },
+     "clear-threats": {
+          "title": "Are you sure to delete all detected threats?",
+          "desc": "The process can't be undone."
+     },
+     "delete-job": {
+          "title": "This will remove the selected scheduled scan job",
+          "desc": "Continue?"
+     },
+     "clear-jobs": {
+          "title": "This will remove all scheduled scan jobs",
+          "desc": "Continue?"
+     },
+     "scan": {
+          "title": "Are you sure to stop the {{scanName}}?",
+          "desc": "This will cancel all the scan process and return to the scan options menu."
+     },
+     "folder-path-form-desc": "Continue?",
+     "real-time-scan": {
+          "title": "Are you sure you want to turn off Real-Time Scan?",
+          "desc": "Disabling real-time protection may expose your device to threats."
+     }
+}

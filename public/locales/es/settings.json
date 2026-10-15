@@ -1,0 +1,217 @@
+{
+     "title": "Configuración",
+     "json-settings": "Configuración JSON",
+     "window-titles": {
+          "general": "Configuración general",
+          "advanced": "Configuración avanzada",
+          "scan": "Configuración de escaneo",
+          "update": "Actualizaciones"
+     },
+     "export": {
+          "button-title": "Exportar configuración",
+          "title": "Exportar la configuración de ClamAV GUI",
+          "success": "Configuración exportada correctamente",
+          "error": "No se pudo exportar la configuración"
+     },
+     "import": {
+          "button-title": "Importar configuración",
+          "title": "Importar la configuración de ClamAV GUI",
+          "empty-content": "Parece que el contenido de la configuración está casi vacío",
+          "success": "Configuración importada correctamente",
+          "error": "No se pudo importar la configuración"
+     },
+     "scan-profile": {
+          "title": "Perfil de escaneo activo",
+          "main": "Escaneo principal",
+          "custom": "Escaneo personalizado",
+          "file": "Escaneo de archivo"
+     },
+     "tabs": {
+          "general": "General",
+          "advanced": "Avanzado",
+          "scan": "Escaneo",
+          "update": "Actualización"
+     },
+     "general": {
+          "appearance": {
+               "title": "Apariencia",
+               "theme": {
+                    "title": "Tema",
+                    "system": "Sistema",
+                    "light": "Claro",
+                    "dark": "Oscuro"
+               },
+               "color": {
+                    "title": "Color",
+                    "teal": "Turquesa",
+                    "blue": "Azul",
+                    "green": "Verde",
+                    "rose": "Rosa"
+               }
+          },
+          "date-format": {
+               "title": "Formato de fecha",
+               "us": {
+                    "title": "Estadounidense",
+                    "format": "mm/dd/aaaa hh:mm:ss"
+               },
+               "eu": {
+                    "title": "Europeo",
+                    "format": "dd/mm/aaaa hh:mm:ss"
+               },
+               "iso": {
+                    "title": "Internacional",
+                    "format": "aaaa-mm-dd hh:mm:ss"
+               }
+          },
+          "ui": {
+               "title": "Interfaz de usuario",
+               "scheduler-ui": {
+                    "title": "Habilitar la interfaz del programador",
+                    "desc": "Te da acceso a la página del programador"
+               },
+               "language": {
+                    "title": "Idioma",
+                    "desc": "El idioma de ClamAV GUI"
+               },
+               "badge": {
+                    "title": "Visibilidad de las insignias",
+                    "desc": "Muestra íconos o texto en las insignias de la interfaz",
+                    "placeholder": "Selecciona el tipo de visibilidad de las insignias",
+                    "options": {
+                         "icon": "Solo ícono",
+                         "icon-text": "Ícono y texto",
+                         "text": "Solo texto"
+                    }
+               },
+               "sidebar": {
+                    "title": "Comportamiento al contraer la barra lateral",
+                    "desc": "Controla cómo se contrae la barra lateral con esta opción",
+                    "placeholder": "Elige un modo de contracción",
+                    "options": {
+                         "off-canvas": "Ventana fuera del lienzo",
+                         "icon": "Hasta los íconos"
+                    }
+               },
+               "reduce-motion": {
+                    "title": "Reducir movimiento",
+                    "desc": "Mejora la capacidad de respuesta reduciendo las transiciones y animaciones en toda la aplicación."
+               }
+          },
+          "notifs": {
+               "title": "Notificaciones",
+               "scan-start": {
+                    "title": "Al iniciar el escaneo",
+                    "desc": "Notifica cuando se inicia el escaneo"
+               },
+               "scan-finish": {
+                    "title": "Al finalizar el escaneo",
+                    "desc": "Notifica cuando finaliza el escaneo"
+               }
+          }
+     },
+     "scan": {
+          "title": "Configuración de escaneo",
+          "desc": "Todas estas opciones se aplican solo al escaneo principal, al escaneo personalizado y al escaneo de archivo",
+          "confirm-stop": {
+               "title": "Confirmar detención",
+               "desc": "Muestra un mensaje de confirmación al detener el escaneo."
+          },
+          "mac-os-exclusion": {
+               "title": "Incluir exclusiones del sistema macOS",
+               "desc": "Agrega las rutas del sistema macOS a las exclusiones"
+          },
+          "exclusions": {
+               "title": "Exclusiones de directorios",
+               "add-button": "Agregar una exclusión",
+               "no-exclusions": "Aún no hay carpetas excluidas",
+               "form-title": "Agregar un directorio a las exclusiones",
+               "modal-title": "Se quitará la ruta del directorio de las exclusiones"
+          }
+     },
+     "folder-path-form": {
+          "path": "Ruta del directorio",
+          "browse": "Examinar",
+          "add": "Agregar",
+          "close": "Cerrar",
+          "dialog-title": "Elige la ruta de una carpeta para agregar"
+     },
+     "advanced": {
+          "title": "Opciones avanzadas de la GUI",
+          "desc": "Puede afectar algunas funciones y reducir la precisión de la detección",
+          "scan-desc": "Opciones avanzadas para cualquier perfil de escaneo. Puede reducir la precisión de la detección",
+          "dev-mode": {
+               "title": "Modo desarrollador",
+               "desc": "Muestra el ID de cada dato. ¡Ideal para desarrolladores!"
+          },
+          "real-time-scan": {
+               "title": "Escaneo en tiempo real",
+               "desc": "Escanea automáticamente los archivos cuando se crean o modifican."
+          },
+          "behavior": {
+               "title": "Comportamiento",
+               "desc": "¿Cómo debe actuar ClamAV GUI en otros casos?",
+               "placeholder": "Comportamiento de ClamAV",
+               "choices": {
+                    "balanced": "Equilibrado",
+                    "safe": "Seguro",
+                    "strict": "Estricto",
+                    "expert": "Experto"
+               }
+          },
+          "logs": {
+               "title": "Registros",
+               "auto-scroll": {
+                    "title": "Desplazamiento automático del texto",
+                    "desc": "Desplaza el registro automáticamente cuando se agrega una nueva entrada"
+               },
+               "max-lines": {
+                    "title": "Máximo de líneas del registro",
+                    "desc": "Muestra el registro hasta el número máximo de líneas indicado",
+                    "placeholder": "Selecciona el número máximo de líneas",
+                    "lines": "{{lines}} líneas"
+               }
+          },
+          "danger-zone": {
+               "title": "Zona de peligro",
+               "desc": "Ten cuidado antes de eliminar la configuración relacionada con ClamAV GUI",
+               "delete": {
+                    "title": "Eliminar configuración (permanente)",
+                    "desc": "Se borrarán todos los datos de configuración",
+                    "button": "Eliminar configuración"
+               },
+               "restore": {
+                    "title": "Restablecer valores predeterminados",
+                    "desc": "Se restablecerá toda la configuración a sus valores predeterminados",
+                    "button": "Restablecer valores predeterminados"
+               },
+               "pending": "Espera un momento..."
+          },
+          "realtime-paths": {
+               "title": "Rutas supervisadas por el escaneo en tiempo real",
+               "desc": "Lista de carpetas supervisadas actualmente por el escaneo en tiempo real",
+               "add-button": "Agregar ruta",
+               "no-paths": "No hay rutas supervisadas actualmente",
+               "form-title": "Agregar una ruta para supervisar",
+               "modal-title": "Se quitará la carpeta de las rutas supervisadas, lo que puede exponerla a amenazas."
+          },
+          "tray-startup": {
+               "title": "Configuración de bandeja e inicio",
+               "desc": "Controla el comportamiento de la bandeja del sistema y del inicio",
+               "close-behavior": {
+                    "title": "Comportamiento del botón cerrar",
+                    "desc": "Elige qué sucede al presionar el botón para cerrar la ventana",
+                    "minimize-to-tray": "Minimizar a la bandeja",
+                    "exit": "Salir de la aplicación"
+               },
+               "autostart": {
+                    "title": "Iniciar con el sistema",
+                    "desc": "Abre ClamAV GUI en la bandeja al iniciar sesión, para que la protección en tiempo real y las actualizaciones automáticas sigan funcionando"
+               },
+               "auto-update": {
+                    "title": "Actualizar las definiciones automáticamente",
+                    "desc": "Actualiza las definiciones de virus poco después del inicio y luego cada 4 horas"
+               }
+          }
+     }
+}

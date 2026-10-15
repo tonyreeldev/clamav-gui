@@ -1,0 +1,39 @@
+{
+     "sidebar": {
+          "overview": "Գլխավոր",
+          "scan": "Սկանավորում",
+          "quarantine": "Կարանտին",
+          "history": "Պատմություն",
+          "stats": "Վիճակագրություն",
+          "scheduler": "Ժամանակացույց",
+          "settings": "Կարգավորումներ",
+          "about": "ClamAV GUI-ի մասին"
+     },
+     "num-suffix": {
+          "kilo": "հզր․",
+          "million": "մլն․",
+          "billion": "մլրդ․",
+          "trillion": "տրլն․"
+     },
+     "size-suffix": {
+          "byte": "Բայթ",
+          "kb": "ԿԲ",
+          "mb": "ՄԲ",
+          "gb": "ԳԲ",
+          "tb": "ՏԲ"
+     },
+     "log": {
+          "title": "Հաշվետվություն",
+          "page-name": "Հաշվետվության դիտիչ",
+          "log-id": "Հաշվետվության ID՝",
+          "back": "Վերադառնալ",
+          "please-wait": "Խնդրում ենք սպասել..."
+     },
+     "splash-screen-text": "Բեռնվում է...",
+     "copy-command": "Պատճենել հրամանը",
+     "date-picker-label": "Ընտրել ամսաթիվը",
+     "status": {
+          "protected": "Պաշտպանված",
+          "unprotected": "Անպաշտպան"
+     }
+}

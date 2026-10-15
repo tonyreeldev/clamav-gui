@@ -1,0 +1,80 @@
+{
+     "actions": {
+          "cancel": "Anuluj",
+          "clear": "Wyczyść",
+          "delete": "Usuń",
+          "restore": "Przywróć",
+          "delete-settings": "Usuń ustawienia",
+          "restore-defaults": "Przywróć ustawienia domyślne",
+          "delete-job": "Usuń zadanie",
+          "clear-jobs": "Wyczyść zadania",
+          "remove": "Usuń",
+          "stop": "Zatrzymaj",
+          "turn-off": "Wyłącz"
+     },
+     "clear-all": {
+          "title": "Wyczyścić historię?",
+          "desc": "Spowoduje to usunięcie całej historii skanowania, aktualizacji i działań. Logi oraz elementy kwarantanny pozostaną bez zmian."
+     },
+     "clear-acknowledged": {
+          "title": "Wyczyścić potwierdzone wpisy?",
+          "desc": "Spowoduje to usunięcie tylko potwierdzonych wpisów z historii. Nierozwiązane zdarzenia pozostaną."
+     },
+     "clear-errors": {
+          "title": "Wyczyścić wszystkie błędy?",
+          "desc": "Spowoduje to usunięcie wszystkich błędów z tabeli historii. Pozostałe zdarzenia pozostaną."
+     },
+     "clear-warnings": {
+          "title": "Wyczyścić wszystkie ostrzeżenia?",
+          "desc": "Spowoduje to usunięcie wszystkich ostrzeżeń z tabeli historii. Pozostałe zdarzenia pozostaną."
+     },
+     "restore": {
+          "title": "Spowoduje to przywrócenie pliku z kwarantanny.",
+          "desc": "Kontynuować?"
+     },
+     "delete": {
+          "title": "Czy na pewno chcesz trwale usunąć ten plik?",
+          "desc": "Tego procesu nie można cofnąć."
+     },
+     "bulk-restore": {
+          "title": "Spowoduje to przywrócenie wszystkich zagrożeń z kwarantanny.",
+          "desc": "Kontynuować?"
+     },
+     "bulk-delete": {
+          "title": "Czy na pewno chcesz usunąć wszystkie zagrożenia z kwarantanny?",
+          "desc": "Tego procesu nie można cofnąć."
+     },
+     "delete-settings": {
+          "title": "Spowoduje to trwałe usunięcie wszystkich ustawień, wykluczeń i preferencji GUI ClamAV.",
+          "desc": "Kontynuować?"
+     },
+     "restore-defaults": {
+          "title": "Spowoduje to trwałe przywrócenie wszystkich ustawień, wykluczeń i preferencji GUI ClamAV do wartości domyślnych.",
+          "desc": "Kontynuować?"
+     },
+     "delete-threats": {
+          "title": "Czy na pewno chcesz trwale usunąć ten plik?",
+          "desc": "Tego procesu nie można cofnąć."
+     },
+     "clear-threats": {
+          "title": "Czy na pewno chcesz usunąć wszystkie wykryte zagrożenia?",
+          "desc": "Tego procesu nie można cofnąć."
+     },
+     "delete-job": {
+          "title": "Spowoduje to usunięcie wybranego zaplanowanego zadania skanowania.",
+          "desc": "Kontynuować?"
+     },
+     "clear-jobs": {
+          "title": "Spowoduje to usunięcie wszystkich zaplanowanych skanów.",
+          "desc": "Kontynuować?"
+     },
+     "scan": {
+          "title": "Czy na pewno chcesz zatrzymać {{scanName}}?",
+          "desc": "Spowoduje to anulowanie całego procesu skanowania i powrót do menu opcji skanowania."
+     },
+     "folder-path-form-desc": "Kontynuować?",
+     "real-time-scan": {
+          "title": "Czy na pewno chcesz wyłączyć ochronę w czasie rzeczywistym?",
+          "desc": "Wyłączenie ochrony w czasie rzeczywistym narazi urządzenie na wirusy."
+     }
+}

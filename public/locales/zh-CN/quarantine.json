@@ -1,0 +1,15 @@
+{
+     "title": "隔离区",
+     "no-threats": {
+          "title": "没有已隔离的威胁",
+          "desc": "你的系统很干净，看起来不错！"
+     },
+     "bulk-actions": {
+          "refresh": {
+               "original": "刷新",
+               "loading": "正在刷新..."
+          },
+          "clear": "全部清除",
+          "restore": "全部恢复"
+     }
+}

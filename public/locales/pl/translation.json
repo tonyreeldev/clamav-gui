@@ -1,0 +1,38 @@
+{
+     "sidebar": {
+          "overview": "Przegląd",
+          "scan": "Skanowanie",
+          "quarantine": "Kwarantanna",
+          "history": "Historia",
+          "stats": "Statystyki",
+          "scheduler": "Harmonogram",
+          "settings": "Ustawienia",
+          "about": "O ClamAV GUI"
+     },
+     "num-suffix": {
+          "kilo": "K",
+          "million": "M",
+          "billion": "B",
+          "trillion": "T"
+     },
+     "size-suffix": {
+          "byte": "Bajty",
+          "kb": "KB",
+          "mb": "MB",
+          "gb": "GB",
+          "tb": "TB"
+     },
+     "log": {
+          "title": "Log",
+          "page-name": "Przeglądarka logów",
+          "log-id": "ID logu:",
+          "back": "Powrót",
+          "please-wait": "Proszę czekać..."
+     },
+     "splash-screen-text": "Ładowanie...",
+     "copy-command": "Skopiuj polecenie",
+     "status": {
+          "protected": "Chroniony",
+          "unprotected": "Niechroniony"
+     }
+}

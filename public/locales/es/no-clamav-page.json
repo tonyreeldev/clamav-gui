@@ -1,0 +1,51 @@
+{
+     "title": "Ups, <primary>ClamAV</primary> no está instalado",
+     "step": "Paso {{current}} de {{total}}",
+     "installation": {
+          "title": "Instalación",
+          "info": "Asegúrate de instalar ClamAV siguiendo la guía de instalación aquí:",
+          "linux-commands": "Comandos recomendados para Linux"
+     },
+     "add-to-path": {
+          "title": "Hacer que ClamAV sea detectable",
+          "windows": {
+               "cmd": "Abre el Símbolo del sistema y escribe:",
+               "if-returns-path": "Cuando devuelva la ruta (por ejemplo: <code>C:\\Program Files\\ClamAV</code>):",
+               "steps": [
+                    "Abre el menú Inicio y escribe <code>env</code>",
+                    "Haz clic en \"Editar las variables de entorno del sistema\".",
+                    "Haz clic en \"Variables de entorno\" en la ventana Propiedades del sistema.",
+                    "Busca la variable <code>Path</code>, haz clic en <bold>Editar</bold> y agrega la ruta que devolvió el comando <code>where clamscan</code>.",
+                    "Haz clic en <bold>Aceptar</bold>, luego en <bold>Aceptar</bold>, <bold>Aplicar</bold> y <bold>Aceptar</bold>"
+               ],
+               "verification": "Verifica abriendo el Símbolo del sistema y escribiendo:"
+          },
+          "linux": {
+               "cmd": "Abre tu terminal preferida y escribe:",
+               "nano": "Cuando devuelva la ruta (por ejemplo: <code>/path/to/clamav/bin</code>), abre el archivo <bold>~/.bashrc</bold> con nano:",
+               "snippet": "Agrega el siguiente fragmento al final del archivo <bold>~/.bashrc</bold>:",
+               "kbd-shortcut": "Presiona <save/>, luego <exit/>, y recarga la terminal con:",
+               "verification": "Verifica escribiendo:"
+          },
+          "macos": {
+               "info": "Abre la terminal de macOS y escribe:",
+               "symlink-info": "Si clamscan está instalado pero no se detecta, es posible que debas crear un enlace simbólico según la ruta de instalación de Homebrew.",
+               "min-requirement": "Requisito mínimo del sistema operativo: <bold>macOS 10.13 High Sierra</bold>"
+          },
+          "check-step": "Una vez que ClamAV esté instalado y sea detectable, haz clic en el botón <bold>Comprobar disponibilidad</bold> de abajo para activar ClamAV GUI de forma gratuita"
+     },
+     "buttons": {
+          "prev": "Anterior",
+          "next": "Siguiente",
+          "check": {
+               "pending": "Comprobando...",
+               "original": "Comprobar disponibilidad"
+          }
+     },
+     "auto-install": {
+          "installing": "Instalando ClamAV...",
+          "uac": "Acepta la solicitud de permisos de Windows (UAC) si aparece. Esto puede tardar unos minutos.",
+          "failed": "La instalación automática falló. Vuelve a intentarlo o instala ClamAV manualmente con los pasos a continuación.",
+          "retry": "Reintentar la instalación automática"
+     }
+}

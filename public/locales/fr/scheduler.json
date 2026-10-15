@@ -1,0 +1,44 @@
+{
+     "title": "Planificateur",
+     "refresh": {
+          "original": "Actualiser",
+          "loading": "Actualisation en cours..."
+     },
+     "clear-jobs": "Effacer les tâches",
+     "form": {
+          "title": "Planifier une analyse",
+          "interval": {
+               "label": "Intervalle",
+               "values": {
+                    "daily": "Quotidien",
+                    "weekly": "Hebdomadaire",
+                    "monthly": "Mensuel"
+               },
+               "placeholder": "Sélectionner un intervalle de tâche"
+          },
+          "scan-type": {
+               "label": "Type d'analyse",
+               "placeholder": "Sélectionner un type d'analyse"
+          },
+          "days": {
+               "label": "Jour de la semaine",
+               "values": {
+                    "mon": "Lundi",
+                    "tue": "Mardi",
+                    "wed": "Mercredi",
+                    "thu": "Jeudi",
+                    "fri": "Vendredi",
+                    "sat": "Samedi",
+                    "sun": "Dimanche"
+               },
+               "placeholder": "Sélectionner un jour de la semaine"
+          },
+          "hour": "Heure",
+          "minute": "Minute",
+          "button": {
+               "pending": "Veuillez patienter...",
+               "original": "Planifier"
+          },
+          "scheduled-time": "Heure planifiée : {{time}}"
+     }
+}

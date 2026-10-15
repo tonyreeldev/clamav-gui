@@ -1,0 +1,15 @@
+{
+     "title": "Cuarentena",
+     "no-threats": {
+          "title": "No hay amenazas en cuarentena",
+          "desc": "¡Tu sistema está limpio y en perfecto estado!"
+     },
+     "bulk-actions": {
+          "refresh": {
+               "original": "Actualizar",
+               "loading": "Actualizando..."
+          },
+          "clear": "Eliminar todo",
+          "restore": "Restaurar todo"
+     }
+}

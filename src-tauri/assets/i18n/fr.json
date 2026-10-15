@@ -1,0 +1,22 @@
+{
+     "tray": {
+          "open": "Ouvrir l'interface graphique",
+          "about": "À propos de ClamAV GUI",
+          "settings": "Paramètre de la GUI",
+          "scan": {
+               "title": "Analyse",
+               "main": "Commencer une analyse courante",
+               "full": "Commencer une analyse complète",
+               "custom": "Commencer une analyse personnalisée",
+               "file": "Commencer une analyse de fichier"
+          },
+          "quit": "Quitter",
+          "update": "Mettre à jour",
+          "tooltip": "L'interface graphique de ClamAV est en cours d'exécution dans la barre d'état système"
+     },
+     "notification": {
+          "threat-blocked": "Menace bloquée",
+          "threat-detected": "Menace détectée",
+          "threat-body": "Menace : {threat}\nFichier : {file}"
+     }
+}

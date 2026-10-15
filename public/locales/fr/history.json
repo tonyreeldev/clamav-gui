@@ -1,0 +1,87 @@
+{
+     "title": "Historique",
+     "refresh": {
+          "original": "Actualiser",
+          "loading": "Actualisation en cours..."
+     },
+     "clear": {
+          "title": "Effacer l'historique",
+          "all": "Effacer tout",
+          "acknowledged": "Effacer les événements traités",
+          "errors": "Effacer les erreurs",
+          "warnings": "Effacer les avertissements",
+          "loading": "Effacement en cours..."
+     },
+     "export": {
+          "title": "Exporter l'historique sous",
+          "dialog-title": "Exporter les données d'historique sous",
+          "csv": "Fichier CSV",
+          "json": "Fichier JSON"
+     },
+     "clear-messages": {
+          "all": "Historique effacé !",
+          "acknowledged": "Entrées traitées effacées !",
+          "error": "Toutes les erreurs effacées !",
+          "warning": "Tous les avertissements effacés !"
+     },
+     "events": {
+          "real-time-error": "Échec de l'analyse en temps réel",
+          "real-time-start": "Analyse en temps réel démarrée",
+          "real-time-stop": "Analyse en temps réel arrêtée",
+          "quarantine-threat": "Menace mise en quarantaine",
+          "restore-threat": "Menace restaurée",
+          "delete-threat": "Menace supprimée",
+          "scan-start": "Analyse démarrée",
+          "scan-finish": "Analyse terminée",
+          "def-update-start": "Mise à jour des définitions démarrée",
+          "def-update-finish": "Mise à jour des définitions terminée",
+          "def-update-error": "Échec de la mise à jour des définitions",
+          "scheduler-create": "Nouvelle tâche d'analyse planifiée créée",
+          "scheduler-delete": "Tâche d'analyse planifiée supprimée",
+          "scheduler-trigger": "Tâche d'analyse planifiée déclenchée",
+          "file-delete": "Fichier supprimé",
+          "file-delete-error": "Échec de la suppression du fichier"
+     },
+     "behavior": {
+          "balanced": "Équilibré",
+          "safe": "Sécurisé",
+          "strict": "Strict",
+          "expert": "Expert"
+     },
+     "details": {
+          "real-time-error": "Échec du démarrage de l'analyse en temps réel : {{err}}",
+          "real-time-start_one": "Analyse en temps réel démarrée en mode {{behavior}}, surveillant un chemin",
+          "real-time-start_two": "Analyse en temps réel démarrée en mode {{behavior}}, surveillant deux chemins",
+          "real-time-start_few": "Analyse en temps réel démarrée en mode {{behavior}}, surveillant {{count}} chemins",
+          "real-time-start_many": "Analyse en temps réel démarrée en mode {{behavior}}, surveillant {{count}} chemins",
+          "real-time-start_other": "Analyse en temps réel démarrée en mode {{behavior}}, surveillant {{count}} chemins",
+          "real-time-stop": "L'analyse en temps réel a été arrêtée",
+          "quarantine-threat": "{{threat}} a été déplacé vers la quarantaine",
+          "restore-threat": "{{threat}} a été restauré depuis la quarantaine",
+          "delete-threat": "{{threat}} a été supprimé depuis la quarantaine",
+          "scan-start": "L'analyse {{scanType}} a été démarrée",
+          "scan-finish": {
+               "state_zero": "Analyse terminée avec succès, aucune menace trouvée",
+               "state_one": "Analyse terminée avec succès, une menace trouvée",
+               "state_two": "Analyse terminée avec succès, deux menaces trouvées",
+               "state_few": "Analyse terminée avec succès, {{count}} menaces trouvées",
+               "state_many": "Analyse terminée avec succès, {{count}} menaces trouvées",
+               "state_other": "Analyse terminée avec succès, {{count}} menaces trouvées",
+               "partial": "Analyse terminée avec des erreurs ; certains fichiers n'ont peut-être pas été analysés",
+               "clamav-error": "Échec de l'analyse en raison d'une erreur ClamAV",
+               "error": "Échec de l'analyse (code de sortie {{code}})"
+          },
+          "def-update-start": "Mise à jour de la base de données ClamAV démarrée",
+          "def-update-finish": {
+               "success": "Les définitions sont déjà à jour",
+               "warning": "Mise à jour terminée avec des avertissements",
+               "error": "Échec de la mise à jour (code de sortie {{code}})"
+          },
+          "scheduler-create": "Nouvelle tâche planifiée créée avec succès : {{task}}",
+          "scheduler-delete": "Tâche d'analyse supprimée avec succès : {{task}}",
+          "scheduler-trigger-error": "Échec de l'exécution de la tâche planifiée : {{task}}",
+          "scheduler-trigger": "Tâche planifiée déclenchée manuellement : {{task}}",
+          "file-delete": "Le fichier a été supprimé : {{path}}",
+          "file-delete-error": "Échec de la suppression du fichier : {{path}} ({{err}})"
+     }
+}

@@ -1,0 +1,89 @@
+{
+     "title": "Analyse",
+     "scan-complete": "Analyse terminée !",
+     "dialog-title": {
+          "file": "Choisir un fichier à analyser",
+          "folder": "Choisir plusieurs dossiers à analyser"
+     },
+     "scan-type": {
+          "title": "Type d'analyse : {{scanType}}",
+          "main": {
+               "name": "Analyse courante",
+               "desc": "Vérifier les emplacements courants pour les fichiers malveillants"
+          },
+          "full": {
+               "name": "Analyse complète",
+               "desc": "Analyser tout le contenu de cet appareil (cela peut prendre un certain temps)"
+          },
+          "custom": {
+               "name": "Analyse personnalisée",
+               "desc": "Choisir un dossier à analyser"
+          },
+          "file": {
+               "name": "Analyse de fichier",
+               "desc": "Choisir un fichier à analyser"
+          },
+          "fallback": "Type d'analyse inconnu"
+     },
+     "process": {
+          "preparing": "Préparation de l'analyse...",
+          "percentage": "{{percentage}}% - {{scanned}}/{{total}} fichiers analysés",
+          "files": "{{scanned}} fichiers analysés",
+          "scanning": "Analyse en cours..."
+     },
+     "items": {
+          "currently-scanned": "Actuellement analysé",
+          "location": "Emplacement de l'analyse",
+          "findings": "Résultats",
+          "start-time": "Heure de début",
+          "threat": "{{threats}} menaces"
+     },
+     "stop-scan": "Arrêter l'analyse",
+     "full-scan-warn": "Les analyses complètes peuvent prendre un certain temps selon la taille du disque.",
+     "start-scan": "Démarrer l'analyse",
+     "choose": {
+          "file": "Choisir un fichier",
+          "folder": "Choisir un dossier"
+     },
+     "finished": {
+          "error": "Échec de l'analyse",
+          "no-threats": "Aucune menace détectée !",
+          "with-threats_one": "Une menace nécessite une attention",
+          "with-threats_two": "Deux menaces nécessitent une attention",
+          "with-threats_few": "{{count}} menaces nécessitent une attention",
+          "with-threats_many": "{{count}} menaces nécessitent une attention",
+          "with-threats_other": "{{count}} menaces nécessitent une attention"
+     },
+     "close": "Fermer",
+     "back-to-overview": "Retour à la vue d'ensemble",
+     "exit-code": [
+          "Analyse terminée avec succès",
+          "Des menaces ont été détectées",
+          "Certains fichiers n'ont pas pu être analysés en raison de restrictions d'accès"
+     ],
+     "exit-code-fallback": "Échec de l'analyse en raison d'une erreur interne",
+     "exit-code-formatting": "{{msg}} (Code de sortie : {{exitCode}})",
+     "please-wait": "Veuillez patienter...",
+     "resolve": {
+          "title": "Résoudre",
+          "quarantine": "Tout mettre en quarantaine",
+          "delete": "Tout supprimer",
+          "success": "Résolution réussie !"
+     },
+     "notification": {
+          "scan-finish": {
+               "title": "Analyse terminée !",
+               "desc_zero": "Aucune menace n'a été trouvée",
+               "desc_one": "Une menace a été trouvée",
+               "desc_two": "Deux menaces ont été trouvées",
+               "desc_few": "{{count}} menaces ont été trouvées",
+               "desc_many": "{{count}} menaces ont été trouvées",
+               "desc_other": "{{count}} menaces ont été trouvées",
+               "with-err": "Analyse terminée avec des erreurs"
+          },
+          "scan-start": {
+               "title": "Analyse démarrée !",
+               "desc": "L'analyse {{scanName}} a été lancée"
+          }
+     }
+}

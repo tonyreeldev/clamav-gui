@@ -1,0 +1,15 @@
+{
+     "title": "Quarantaine",
+     "no-threats": {
+          "title": "Aucune menace présente en quarantaine",
+          "desc": "Votre système est propre et semble au point !"
+     },
+     "bulk-actions": {
+          "refresh": {
+               "original": "Actualiser",
+               "loading": "Actualisation en cours..."
+          },
+          "clear": "Tout nettoyer",
+          "restore": "Tout restaurer"
+     }
+}

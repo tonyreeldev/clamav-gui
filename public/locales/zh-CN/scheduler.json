@@ -1,0 +1,44 @@
+{
+     "title": "计划任务",
+     "refresh": {
+          "original": "刷新",
+          "loading": "正在刷新..."
+     },
+     "clear-jobs": "清空任务",
+     "form": {
+          "title": "计划扫描",
+          "interval": {
+               "label": "间隔",
+               "values": {
+                    "daily": "每天",
+                    "weekly": "每周",
+                    "monthly": "每月"
+               },
+               "placeholder": "选择任务间隔"
+          },
+          "scan-type": {
+               "label": "扫描类型",
+               "placeholder": "选择扫描类型"
+          },
+          "days": {
+               "label": "星期几",
+               "values": {
+                    "mon": "星期一",
+                    "tue": "星期二",
+                    "wed": "星期三",
+                    "thu": "星期四",
+                    "fri": "星期五",
+                    "sat": "星期六",
+                    "sun": "星期日"
+               },
+               "placeholder": "选择星期几"
+          },
+          "hour": "小时",
+          "minute": "分钟",
+          "button": {
+               "pending": "请稍候...",
+               "original": "计划"
+          },
+          "scheduled-time": "计划时间：{{time}}"
+     }
+}

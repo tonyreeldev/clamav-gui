@@ -1,0 +1,15 @@
+{
+     "title": "Quarantine",
+     "no-threats": {
+          "title": "No Quarantined Threats",
+          "desc": "Your system is clean and lookin' good!"
+     },
+     "bulk-actions": {
+          "refresh": {
+               "original": "Refresh",
+               "loading": "Refreshing..."
+          },
+          "clear": "Clear All",
+          "restore": "Restore All"
+     }
+}

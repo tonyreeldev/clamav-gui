@@ -1,0 +1,66 @@
+{
+     "definitions": {
+          "title": "病毒库",
+          "status": {
+               "updating": "正在更新病毒库...",
+               "checking": "正在检查数据库状态...",
+               "outdated": "需要更新！",
+               "updated": "已是最新！"
+          },
+          "last-updated": "上次更新：{{date}}",
+          "update": {
+               "pending": "正在更新...",
+               "original": "更新数据库"
+          },
+          "exit-codes": [
+               "病毒库更新成功",
+               "病毒库已是最新"
+          ],
+          "update-failed": "更新失败（代码 {{code}}）。详情请查看更新日志。",
+          "clamav-version": "ClamAV v{{engine}}，数据库版本：{{dbVersion}}",
+          "version": "病毒定义数据库版本"
+     },
+     "gui": {
+          "title": "GUI 更新器",
+          "checking": {
+               "main": "正在检查新版本...",
+               "secondary": "请稍候..."
+          },
+          "updating": {
+               "main": "正在更新 GUI...",
+               "secondary": "请等待内容下载完成..."
+          },
+          "needs-update": {
+               "main": "新版本可用！",
+               "secondary": "请更新 GUI 以获得改进。"
+          },
+          "updated": {
+               "main": "GUI 已是最新版本！",
+               "secondary": "没有可用的新更新"
+          },
+          "failed-check": {
+               "main": "检查更新失败",
+               "secondary": "请稍后重试以检查新版本。"
+          },
+          "completed": {
+               "main": "GUI 已更新到新版本！",
+               "secondary": "请重新启动应用以完成更新。"
+          },
+          "failed-update": {
+               "main": "更新 GUI 失败",
+               "secondary": "请稍后重试。"
+          },
+          "buttons": {
+               "relaunch": "重新启动",
+               "update": {
+                    "pending": "正在更新...",
+                    "original": "更新"
+               },
+               "check": {
+                    "pending": "正在检查...",
+                    "original": "检查更新"
+               },
+               "changelog": "打开更新日志"
+          }
+     }
+}

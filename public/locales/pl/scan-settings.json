@@ -1,0 +1,70 @@
+{
+     "labels": {
+          "recursive": "Rekursywnie",
+          "crossFs": "Skanuj inne zamontowane systemy plików",
+          "followDirSymlinks": "Śledź dowiązania symboliczne katalogów",
+          "followFileSymlinks": "Śledź dowiązania symboliczne plików",
+          "quiet": "Tłumienie standardowego wyjścia",
+          "verbose": "Wyświetl szczegółowe logi",
+          "infected": "Wyświetl tylko zainfekowane pliki",
+          "noSummary": "Ukryj podsumowanie skanowania",
+          "bell": "Odtwórz dźwięk przy wykryciu",
+          "debug": "Wyjście debug",
+          "algorithmicDetection": "Wykrywanie algorytmiczne",
+          "heuristicAlerts": "Alerty heurystyczne",
+          "heuristicPrecedence": "Priorytet skanowania heurystycznego",
+          "detectPUA": "Wykryj potencjalnie niepożądane aplikacje (PUA)",
+          "detectStructured": "Wykryj numery SSN i karty kredytowe",
+          "structuredSSNFormat": "Format SSN",
+          "structuredSSNCount": "Próg wykrywania SSN",
+          "structuredCCCount": "Próg wykrywania kart kredytowych",
+          "scanPE": "Skanuj pliki PE",
+          "scanELF": "Skanuj pliki ELF",
+          "scanOLE2": "Skanuj pliki Office / MSI",
+          "scanPDF": "Skanuj pliki PDF",
+          "scanHTML": "Skanuj pliki HTML",
+          "scanArchive": "Skanuj archiwa",
+          "scanMail": "Skanuj pliki mailowe",
+          "detectBroken": "Wykryj uszkodzone pliki wykonywalne",
+          "maxFileSize": "Maksymalny rozmiar pliku (KB)",
+          "maxScanSize": "Maksymalny rozmiar skanowania (KB)",
+          "alertEncrypted": "Alert dla zaszyfrowanych archiwów lub dokumentów",
+          "maxFiles": "Maksymalna liczba wyodrębnionych plików",
+          "maxRecursion": "Limit rekursji archiwum",
+          "maxDirRecursion": "Głębokość rekursji katalogów",
+          "noCerts": "Wyłącz weryfikację Authenticode",
+          "disableCache": "Wyłącz pamięć podręczną",
+          "officialDbOnly": "Używaj tylko oficjalnych baz danych",
+          "leaveTemps": "Nie usuwaj plików tymczasowych",
+          "bytecode": "Włącz bytecode",
+          "bytecodeUnsigned": "Pozwól na niezaufany bytecode",
+          "bytecodeTimeout": "Limit czasu bytecode (ms)",
+          "databasePath": "Ścieżka bazy danych",
+          "tempDir": "Katalog plików tymczasowych"
+     },
+     "descriptions": {
+          "debug": "Wyświetl komunikaty debug z libclamav.",
+          "heuristicAlerts": "Może zwiększyć liczbę fałszywych alarmów.",
+          "bytecodeUnsigned": "Niebezpieczne. Używaj tylko do testów."
+     },
+     "option-group": {
+          "detection": "Wykrywanie",
+          "file-types": "Typy plików",
+          "filesystem": "System plików",
+          "limits-performance": "Limity i wydajność",
+          "output": "Wyjście",
+          "advanced": "Zaawansowane opcje skanowania"
+     },
+     "choices": {
+          "sym-links": [
+               "Nigdy",
+               "Tylko jeśli podano jawnie",
+               "Zawsze"
+          ],
+          "ssn-formats": [
+               "xxx-yy-zzzz",
+               "xxxyyzzzz",
+               "Oba formaty"
+          ]
+     }
+}

@@ -1,0 +1,92 @@
+{
+     "actions": {
+          "cancel": "Cancelar",
+          "clear": "Borrar",
+          "delete": "Eliminar",
+          "restore": "Restaurar",
+          "delete-settings": "Eliminar configuración",
+          "restore-defaults": "Restablecer valores predeterminados",
+          "delete-job": "Quitar tarea",
+          "clear-jobs": "Borrar tareas",
+          "remove": "Quitar",
+          "stop": "Detener",
+          "turn-off": "Desactivar"
+     },
+     "clear-all": {
+          "title": "¿Borrar el historial?",
+          "desc": "Se eliminará todo el historial de escaneos, actualizaciones y acciones. Los registros y los elementos en cuarentena no se verán afectados."
+     },
+     "clear-acknowledged": {
+          "title": "¿Borrar las entradas revisadas?",
+          "desc": "Solo se eliminarán las entradas del historial marcadas como revisadas. Los eventos sin resolver se conservarán."
+     },
+     "clear-errors": {
+          "title": "¿Borrar todos los errores?",
+          "desc": "Se eliminarán todos los errores de la tabla del historial. El resto de los eventos se conservará."
+     },
+     "clear-warnings": {
+          "title": "¿Borrar todas las advertencias?",
+          "desc": "Se eliminarán todas las advertencias de la tabla del historial. El resto de los eventos se conservará."
+     },
+     "clear-last-24h": {
+          "title": "¿Borrar todas las entradas de las últimas 24 horas?",
+          "desc": "Se eliminarán las entradas agregadas en las últimas 24 horas. El resto de los eventos se conservará."
+     },
+     "clear-last-7d": {
+          "title": "¿Borrar todas las entradas de los últimos 7 días?",
+          "desc": "Se eliminarán las entradas agregadas en los últimos 7 días. El resto de los eventos se conservará."
+     },
+     "clear-last-30d": {
+          "title": "¿Borrar todas las entradas de los últimos 30 días?",
+          "desc": "Se eliminarán las entradas agregadas en los últimos 30 días. El resto de los eventos se conservará."
+     },
+     "restore": {
+          "title": "Se restaurará el archivo desde la cuarentena.",
+          "desc": "¿Deseas continuar?"
+     },
+     "delete": {
+          "title": "¿Seguro que deseas eliminar este archivo de forma permanente?",
+          "desc": "Esta acción no se puede deshacer."
+     },
+     "bulk-restore": {
+          "title": "Se restaurarán todas las amenazas en cuarentena.",
+          "desc": "¿Deseas continuar?"
+     },
+     "bulk-delete": {
+          "title": "¿Seguro que deseas eliminar todas las amenazas en cuarentena?",
+          "desc": "Esta acción no se puede deshacer."
+     },
+     "delete-settings": {
+          "title": "Se eliminarán de forma permanente toda la configuración, las exclusiones y las preferencias de ClamAV GUI.",
+          "desc": "¿Deseas continuar?"
+     },
+     "restore-defaults": {
+          "title": "Se restablecerán de forma permanente toda la configuración, las exclusiones y las preferencias de ClamAV GUI a sus valores predeterminados.",
+          "desc": "¿Deseas continuar?"
+     },
+     "delete-threats": {
+          "title": "¿Seguro que deseas eliminar este archivo de forma permanente?",
+          "desc": "Esta acción no se puede deshacer."
+     },
+     "clear-threats": {
+          "title": "¿Seguro que deseas eliminar todas las amenazas detectadas?",
+          "desc": "Esta acción no se puede deshacer."
+     },
+     "delete-job": {
+          "title": "Se quitará la tarea de escaneo programado seleccionada",
+          "desc": "¿Deseas continuar?"
+     },
+     "clear-jobs": {
+          "title": "Se quitarán todas las tareas de escaneo programado",
+          "desc": "¿Deseas continuar?"
+     },
+     "scan": {
+          "title": "¿Seguro que deseas detener el {{scanName}}?",
+          "desc": "Se cancelará todo el proceso de escaneo y volverás al menú de opciones de escaneo."
+     },
+     "folder-path-form-desc": "¿Deseas continuar?",
+     "real-time-scan": {
+          "title": "¿Seguro que deseas desactivar el escaneo en tiempo real?",
+          "desc": "Desactivar la protección en tiempo real puede exponer tu dispositivo a amenazas."
+     }
+}

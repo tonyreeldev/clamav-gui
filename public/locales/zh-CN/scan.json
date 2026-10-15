@@ -1,0 +1,92 @@
+{
+     "title": "扫描",
+     "scan-complete": "扫描完成！",
+     "dialog-title": {
+          "file": "选择要扫描的文件",
+          "folder": "选择多个要扫描的文件夹"
+     },
+     "choose-scan-type": "选择扫描类型",
+     "scan-type": {
+          "title": "扫描类型：{{scanType}}",
+          "main": {
+               "name": "主扫描",
+               "desc": "检查常见位置是否存在恶意文件"
+          },
+          "full": {
+               "name": "全盘扫描",
+               "desc": "扫描此设备中的所有内容（可能需要一段时间）"
+          },
+          "custom": {
+               "name": "自定义扫描",
+               "desc": "选择要扫描的文件夹"
+          },
+          "file": {
+               "name": "文件扫描",
+               "desc": "选择要扫描的文件"
+          },
+          "fallback": "未知扫描"
+     },
+     "process": {
+          "preparing": "正在准备扫描...",
+          "percentage": "{{percentage}}% - 已扫描 {{scanned}}/{{total}} 个文件",
+          "files": "已扫描 {{scanned}} 个文件",
+          "scanning": "正在扫描..."
+     },
+     "progress": "已扫描 {{percentage}}%",
+     "items": {
+          "currently-scanned": "当前扫描",
+          "location": "扫描位置",
+          "findings": "发现项",
+          "start-time": "开始时间",
+          "threat": "{{threats}} 个威胁"
+     },
+     "stop-scan": "停止扫描",
+     "full-scan-warn": "全盘扫描可能需要一段时间，具体取决于磁盘大小。",
+     "start-scan": "开始扫描",
+     "choose": {
+          "file": "选择文件",
+          "folder": "选择文件夹"
+     },
+     "finished": {
+          "error": "扫描失败",
+          "partial": "扫描已完成，但部分文件受限或无法访问",
+          "no-threats": "未检测到威胁！",
+          "with-threats_one": "一个威胁需要处理",
+          "with-threats_two": "两个威胁需要处理",
+          "with-threats_few": "{{count}} 个威胁需要处理",
+          "with-threats_many": "{{count}} 个威胁需要处理",
+          "with-threats_other": "{{count}} 个威胁需要处理"
+     },
+     "close": "关闭",
+     "back-to-overview": "返回概览",
+     "exit-code": [
+          "扫描成功完成",
+          "检测到威胁",
+          "部分文件因访问限制无法扫描"
+     ],
+     "exit-code-fallback": "由于内部错误，扫描失败",
+     "exit-code-formatting": "{{msg}}（退出代码：{{exitCode}}）",
+     "please-wait": "请稍候...",
+     "resolve": {
+          "title": "处理",
+          "quarantine": "全部隔离",
+          "delete": "全部删除",
+          "success": "处理成功！"
+     },
+     "notification": {
+          "scan-finish": {
+               "title": "扫描完成！",
+               "desc_zero": "未发现威胁",
+               "desc_one": "发现一个威胁",
+               "desc_two": "发现两个威胁",
+               "desc_few": "发现 {{count}} 个威胁",
+               "desc_many": "发现 {{count}} 个威胁",
+               "desc_other": "发现 {{count}} 个威胁",
+               "with-err": "扫描完成，但出现错误"
+          },
+          "scan-start": {
+               "title": "扫描已开始！",
+               "desc": "{{scanName}} 已启动"
+          }
+     }
+}

@@ -1,0 +1,39 @@
+{
+     "sidebar": {
+          "overview": "Обзор",
+          "scan": "Сканирование",
+          "quarantine": "Карантин",
+          "history": "История",
+          "stats": "Статистика",
+          "scheduler": "Планировщик",
+          "settings": "Настройки",
+          "about": "О приложении ClamAV GUI"
+     },
+     "num-suffix": {
+          "kilo": "тыс.",
+          "million": "млн.",
+          "billion": "млрд.",
+          "trillion": "трлн."
+     },
+     "size-suffix": {
+          "byte": "Байт",
+          "kb": "КБ",
+          "mb": "МБ",
+          "gb": "ГБ",
+          "tb": "ТБ"
+     },
+     "log": {
+          "title": "Отчёт",
+          "page-name": "Просмотрщик отчётов",
+          "log-id": "Идентификатор отчёта:",
+          "back": "Назад",
+          "please-wait": "Пожалуйста, подождите..."
+     },
+     "splash-screen-text": "Загрузка...",
+     "copy-command": "Скопируйте команду",
+     "date-picker-label": "Выберите дату",
+     "status": {
+          "protected": "Защищено",
+          "unprotected": "Не защищено"
+     }
+}

@@ -1,0 +1,6 @@
+{
+     "title": "关于 ClamAV GUI",
+     "version": "版本 {{version}}",
+     "clamav-version": "ClamAV v{{engine}}，数据库版本：{{dbVersion}}",
+     "def-version": "病毒定义数据库版本"
+}

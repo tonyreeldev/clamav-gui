@@ -1,0 +1,44 @@
+{
+     "title": "Harmonogram",
+     "refresh": {
+          "original": "Odśwież",
+          "loading": "Odświeżanie..."
+     },
+     "clear-jobs": "Wyczyść zadania",
+     "form": {
+          "title": "Zaplanuj skanowanie",
+          "interval": {
+               "label": "Interwał",
+               "values": {
+                    "daily": "Codziennie",
+                    "weekly": "Co tydzień",
+                    "monthly": "Co miesiąc"
+               },
+               "placeholder": "Wybierz interwał zadania"
+          },
+          "scan-type": {
+               "label": "Typ skanowania",
+               "placeholder": "Wybierz typ skanowania"
+          },
+          "days": {
+               "label": "Dzień tygodnia",
+               "values": {
+                    "mon": "Poniedziałek",
+                    "tue": "Wtorek",
+                    "wed": "Środa",
+                    "thu": "Czwartek",
+                    "fri": "Piątek",
+                    "sat": "Sobota",
+                    "sun": "Niedziela"
+               },
+               "placeholder": "Wybierz dzień tygodnia"
+          },
+          "hour": "Godzina",
+          "minute": "Minuta",
+          "button": {
+               "pending": "Proszę czekać...",
+               "original": "Zaplanuj"
+          },
+          "scheduled-time": "Zaplanowany czas: {{time}}"
+     }
+}

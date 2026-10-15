@@ -1,0 +1,87 @@
+{
+     "title": "Historia",
+     "refresh": {
+          "original": "Odśwież",
+          "loading": "Odświeżanie..."
+     },
+     "clear": {
+          "title": "Wyczyść historię",
+          "all": "Wyczyść wszystko",
+          "acknowledged": "Wyczyść potwierdzone",
+          "errors": "Wyczyść błędy",
+          "warnings": "Wyczyść ostrzeżenia",
+          "loading": "Czyszczenie..."
+     },
+     "export": {
+          "title": "Eksportuj historię jako",
+          "dialog-title": "Eksportuj dane historii jako",
+          "csv": "Plik CSV",
+          "json": "Plik JSON"
+     },
+     "clear-messages": {
+          "all": "Historia została wyczyszczona!",
+          "acknowledged": "Potwierdzone wpisy zostały wyczyszczone!",
+          "error": "Wszystkie błędy zostały wyczyszczone!",
+          "warning": "Wszystkie ostrzeżenia zostały wyczyszczone!"
+     },
+     "events": {
+          "real-time-error": "Błąd skanowania w czasie rzeczywistym",
+          "real-time-start": "Rozpoczęto skanowanie w czasie rzeczywistym",
+          "real-time-stop": "Zatrzymano skanowanie w czasie rzeczywistym",
+          "quarantine-threat": "Zagrożenie przeniesione do kwarantanny",
+          "restore-threat": "Zagrożenie przywrócone",
+          "delete-threat": "Zagrożenie usunięte",
+          "scan-start": "Rozpoczęto skanowanie",
+          "scan-finish": "Zakończono skanowanie",
+          "def-update-start": "Rozpoczęto aktualizację baz sygnatur",
+          "def-update-finish": "Zakończono aktualizację baz sygnatur",
+          "def-update-error": "Błąd aktualizacji baz sygnatur",
+          "scheduler-create": "Utworzono nowe zaplanowane zadanie skanowania",
+          "scheduler-delete": "Usunięto zaplanowane zadanie skanowania",
+          "scheduler-trigger": "Uruchomiono zaplanowane zadanie skanowania",
+          "file-delete": "Plik usunięty",
+          "file-delete-error": "Nie udało się usunąć pliku"
+     },
+     "behavior": {
+          "balanced": "Zrównoważony",
+          "safe": "Bezpieczny",
+          "strict": "Restrykcyjny",
+          "expert": "Ekspert"
+     },
+     "details": {
+          "real-time-error": "Nie udało się uruchomić skanowania w czasie rzeczywistym: {{err}}",
+          "real-time-start_one": "Uruchomiono skanowanie w czasie rzeczywistym w trybie {{behavior}}, monitorowana jest jedna ścieżka",
+          "real-time-start_two": "Uruchomiono skanowanie w czasie rzeczywistym w trybie {{behavior}}, monitorowane są dwie ścieżki",
+          "real-time-start_few": "Uruchomiono skanowanie w czasie rzeczywistym w trybie {{behavior}}, monitorowane są {{count}} ścieżki",
+          "real-time-start_many": "Uruchomiono skanowanie w czasie rzeczywistym w trybie {{behavior}}, monitorowanych jest {{count}} ścieżek",
+          "real-time-start_other": "Uruchomiono skanowanie w czasie rzeczywistym w trybie {{behavior}}, monitorowanych jest {{count}} ścieżek",
+          "real-time-stop": "Skanowanie w czasie rzeczywistym zostało zatrzymane",
+          "quarantine-threat": "{{threat}} został przeniesiony do kwarantanny",
+          "restore-threat": "{{threat}} został przywrócony z kwarantanny",
+          "delete-threat": "{{threat}} został usunięty z kwarantanny",
+          "scan-start": "Rozpoczęto skanowanie typu: {{scanType}}",
+          "scan-finish": {
+               "state_zero": "Skanowanie zakończone pomyślnie, nie znaleziono zagrożeń",
+               "state_one": "Skanowanie zakończone pomyślnie, znaleziono jedno zagrożenie",
+               "state_two": "Skanowanie zakończone pomyślnie, znaleziono dwa zagrożenia",
+               "state_few": "Skanowanie zakończone pomyślnie, znaleziono {{count}} zagrożenia",
+               "state_many": "Skanowanie zakończone pomyślnie, znaleziono {{count}} zagrożeń",
+               "state_other": "Skanowanie zakończone pomyślnie, znaleziono {{count}} zagrożeń",
+               "partial": "Skanowanie zakończone z błędami; niektóre pliki mogły nie zostać przeskanowane",
+               "clamav-error": "Skanowanie nie powiodło się z powodu błędu ClamAV",
+               "error": "Skanowanie nie powiodło się (kod wyjścia {{code}})"
+          },
+          "def-update-start": "Rozpoczęto aktualizację bazy ClamAV",
+          "def-update-finish": {
+               "success": "Baza sygnatur jest już aktualna",
+               "warning": "Aktualizacja zakończona z ostrzeżeniami",
+               "error": "Aktualizacja nie powiodła się (kod wyjścia {{code}})"
+          },
+          "scheduler-create": "Nowe zadanie zaplanowane zostało utworzone pomyślnie: {{task}}",
+          "scheduler-delete": "Zadanie skanowania zostało usunięte pomyślnie: {{task}}",
+          "scheduler-trigger-error": "Nie udało się uruchomić zaplanowanego zadania: {{task}}",
+          "scheduler-trigger": "Zaplanowane zadanie uruchomione ręcznie: {{task}}",
+          "file-delete": "Plik został usunięty: {{path}}",
+          "file-delete-error": "Nie udało się usunąć pliku: {{path}} ({{err}})"
+     }
+}

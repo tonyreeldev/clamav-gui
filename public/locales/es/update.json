@@ -1,0 +1,66 @@
+{
+     "definitions": {
+          "title": "Definiciones",
+          "status": {
+               "updating": "Actualizando definiciones...",
+               "checking": "Comprobando el estado de la base de datos...",
+               "outdated": "¡Se requiere una actualización!",
+               "updated": "¡Actualizadas!"
+          },
+          "last-updated": "Última actualización: {{date}}",
+          "update": {
+               "pending": "Actualizando...",
+               "original": "Actualizar base de datos"
+          },
+          "exit-codes": [
+               "Las definiciones se actualizaron correctamente",
+               "Las definiciones ya están actualizadas"
+          ],
+          "update-failed": "La actualización falló (código {{code}}). Revisa el registro de actualización para más detalles.",
+          "clamav-version": "ClamAV v{{engine}}, versión de la base de datos: {{dbVersion}}",
+          "version": "Versión de la base de datos de definiciones de virus"
+     },
+     "gui": {
+          "title": "Actualizador de la GUI",
+          "checking": {
+               "main": "Buscando una nueva versión...",
+               "secondary": "Espera un momento..."
+          },
+          "updating": {
+               "main": "Actualizando la GUI...",
+               "secondary": "Espera a que termine la descarga del contenido..."
+          },
+          "needs-update": {
+               "main": "¡Hay una nueva versión disponible!",
+               "secondary": "Asegúrate de actualizar la GUI para obtener las mejoras."
+          },
+          "updated": {
+               "main": "¡La GUI está actualizada!",
+               "secondary": "No hay actualizaciones nuevas disponibles"
+          },
+          "failed-check": {
+               "main": "No se pudo buscar actualizaciones",
+               "secondary": "Vuelve a intentarlo más tarde para buscar la nueva versión."
+          },
+          "completed":{
+               "main": "¡La GUI se actualizó a la nueva versión!",
+               "secondary": "Reinicia la aplicación para completar la actualización."
+          },
+          "failed-update": {
+               "main": "No se pudo actualizar la GUI",
+               "secondary": "Vuelve a intentarlo más tarde."
+          },
+          "buttons": {
+               "relaunch": "Reiniciar",
+               "update": {
+                    "pending": "Actualizando...",
+                    "original": "Actualizar"
+               },
+               "check": {
+                    "pending": "Comprobando...",
+                    "original": "Buscar actualizaciones"
+               },
+               "changelog": "Abrir el registro de cambios"
+          }
+     }
+}

@@ -1,0 +1,15 @@
+{
+     "title": "Kwarantanna",
+     "no-threats": {
+          "title": "Brak zagrożeń w kwarantannie",
+          "desc": "Twój system jest czysty i wszystko wygląda dobrze!"
+     },
+     "bulk-actions": {
+          "refresh": {
+               "original": "Odśwież",
+               "loading": "Odświeżanie..."
+          },
+          "clear": "Usuń wszystko",
+          "restore": "Przywróć wszystko"
+     }
+}

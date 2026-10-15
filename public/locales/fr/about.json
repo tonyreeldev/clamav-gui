@@ -1,0 +1,6 @@
+{
+     "title": "À propos de ClamAV GUI",
+     "version": "Version {{version}}",
+     "clamav-version": "ClamAV v{{engine}}, Version de la base de données : {{dbVersion}}",
+     "def-version": "Version de la base de définitions de virus"
+}

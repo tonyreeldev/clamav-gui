@@ -1,0 +1,96 @@
+{
+     "copy-command": {
+          "success": "Commande copiée",
+          "error": "Échec de copie de la commande"
+     },
+     "fetch-error": {
+          "history": "Échec du chargement des données d'historique récentes",
+          "scheduler": "Échec du chargement des analyses planifiées",
+          "exclusions": "Échec du chargement des exclusions existantes",
+          "realtime-paths": "Échec du chargement des chemins pour l'analyse en temps réel"
+     },
+     "scan-stop-error": "Échec de l'arrêt de l'analyse",
+     "scan-start-error": "Échec du démarrage de l'analyse",
+     "log-reveal-error": "Échec de l'affichage du fichier journal",
+     "acknowledge-history": {
+          "success": "Entrée accusée de réception !",
+          "error": "Échec de la mise à jour de l'entrée comme accusée de réception"
+     },
+     "trigger-scan": {
+          "success": "Tâche d'analyse déclenchée",
+          "error": "Échec de l'exécution de la tâche planifiée"
+     },
+     "quarantine": {
+         "success": "Menace mise en quarantaine !",
+         "error": "Échec de la mise en quarantaine de la menace"
+     },
+     "history-clear-errror": "Échec de l'effacement de l'historique",
+     "export": {
+          "success": "Données d'historique exportées sous {{fileName}}",
+          "error": "Échec de l'exportation des données d'historique"
+     },
+     "schedule-scan-error": "Échec de la planification d'une tâche d'analyse",
+     "remove-job": {
+          "success": "Tâche d'analyse planifiée supprimée !",
+          "error": "Échec de la suppression de la tâche d'analyse planifiée"
+     },
+     "clear-jobs": {
+          "success": "Toutes les tâches d'analyse planifiées effacées !",
+          "error": "Échec de l'effacement de toutes les tâches d'analyse planifiées"
+     },
+     "threat-deleted": {
+          "success": "Menace supprimée définitivement !",
+          "error": "Échec de la suppression de la menace"
+     },
+     "threat-quarantined": {
+          "success": "Toutes les menaces mises en quarantaine",
+          "error": "Échec de la mise en quarantaine de toutes les menaces"
+     },
+     "threat-bulk-delete": {
+          "success": "Toutes les menaces supprimées",
+          "error": "Échec de la suppression de toutes les menaces"
+     },
+     "restore-settings": {
+          "success": "Paramètres restaurés aux valeurs par défaut",
+          "error": "Échec de la restauration des valeurs par défaut"
+     },
+     "delete-settings": {
+          "success": "Paramètres supprimés avec succès",
+          "error": "Échec de la suppression des paramètres"
+     },
+     "def-update-error": "Échec de la mise à jour des définitions",
+     "save-settings-error": "Échec de l'enregistrement des paramètres",
+     "restore-quarantine": {
+          "success": "Fichier restauré depuis la quarantaine !",
+          "error": "Échec de la restauration du fichier depuis la quarantaine"
+     },
+     "delete-quarantine": {
+          "success": "Le fichier a été supprimé définitivement",
+          "error": "Échec de la suppression du fichier depuis la quarantaine"
+     },
+     "bulk-restore-quarantine": {
+          "success": "Toutes les menaces restaurées",
+          "error": "Échec de la restauration de toutes les menaces"
+     },
+     "bulk-delete-quarantine": {
+          "success": "Toutes les menaces supprimées",
+          "error": "Échec de la suppression de toutes les menaces"
+     },
+     "form-validations": {
+          "interval": "Veuillez définir le type d'intervalle",
+          "scanType": "Veuillez choisir le type d'analyse",
+          "days": "Veuillez choisir un jour de la semaine",
+          "hours": {
+               "min": "Il doit être compris entre 0 et 23 heures",
+               "max": "Il est supérieur à 23 heures"
+          },
+          "minutes": {
+               "min": "Il doit être compris entre 0 et 59 minutes",
+               "max": "Il est supérieur à 59 minutes"
+          },
+          "directory-path": {
+               "required": "Le chemin du dossier est requis.",
+               "too-long": "Le chemin du dossier est trop long."
+          }
+     }
+}

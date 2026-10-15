@@ -1,0 +1,55 @@
+{
+     "main-scan": {
+          "name": "Analyse principale",
+          "desc": "Vérifier les dossiers courants maintenant"
+     },
+     "full-scan": {
+          "name": "Analyse complète",
+          "desc": "Analyser tout le contenu (cela peut prendre un certain temps)"
+     },
+     "custom-scan": {
+          "name": "Analyse personnalisée",
+          "desc": "Choisir un dossier à analyser"
+     },
+     "file-scan": {
+          "name": "Analyse de fichier",
+          "desc": "Choisir un fichier à analyser"
+     },
+     "quarantine": {
+          "name": "Quarantaine",
+          "desc": "Voir les fichiers malveillants isolés"
+     },
+     "update": {
+          "name": "Mise à jour",
+          "desc": "Mettre à jour les définitions de virus depuis la base de données ClamAV"
+     },
+     "history": {
+          "name": "Historique",
+          "desc": "Voir l'historique des actions de ClamAV GUI"
+     },
+     "real-time": {
+          "name": "Analyse en temps réel",
+          "desc": "Analyse les fichiers nouvellement créés en temps réel"
+     },
+     "indicator": {
+          "safe": "L'appareil est sécurisé !",
+          "alert": "L'appareil est vulnérable !",
+          "warning": "Certains paramètres de protection sont désactivés.",
+          "outdated": "Les définitions ont plus de 7 jours. Mettez à jour immédiatement !",
+          "last-scan": "Dernière analyse :",
+          "never-scanned": "Jamais analysé"
+     },
+     "definition": {
+          "title": "Définitions : {{status}}",
+          "updated": "À jour",
+          "outdated": "Obsolètes",
+          "loading": "Chargement en cours..."
+     },
+     "turn-on-realtime": "Activer l'analyse en temps réel",
+     "dialog-title": {
+          "file": "Choisir un fichier à analyser",
+          "folder": "Choisir plusieurs dossiers à analyser"
+     },
+     "scan-now": "Analyser maintenant",
+     "quick-actions": "Actions rapides"
+}

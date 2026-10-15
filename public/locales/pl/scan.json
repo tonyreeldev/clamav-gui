@@ -1,0 +1,89 @@
+{
+     "title": "Skanowanie",
+     "scan-complete": "Skanowanie zakończone!",
+     "dialog-title": {
+          "file": "Wybierz plik do skanowania",
+          "folder": "Wybierz foldery do skanowania"
+     },
+     "scan-type": {
+          "title": "Typ skanowania: {{scanType}}",
+          "main": {
+               "name": "Skan szybki",
+               "desc": "Sprawdź najczęstsze lokalizacje pod kątem złośliwych plików"
+          },
+          "full": {
+               "name": "Pełne skanowanie",
+               "desc": "Skanuj wszystko na tym urządzeniu (może to chwilę potrwać)"
+          },
+          "custom": {
+               "name": "Skan niestandardowy",
+               "desc": "Wybierz folder do skanowania"
+          },
+          "file": {
+               "name": "Skan pliku",
+               "desc": "Wybierz plik do skanowania"
+          },
+          "fallback": "Nieznany typ skanowania"
+     },
+     "process": {
+          "preparing": "Przygotowywanie skanowania...",
+          "percentage": "{{percentage}}% - przeskanowano {{scanned}} z {{total}} plików",
+          "files": "Przeskanowano {{scanned}} plików",
+          "scanning": "Skanowanie..."
+     },
+     "items": {
+          "currently-scanned": "Aktualnie skanowane",
+          "location": "Miejsce skanowania",
+          "findings": "Wyniki",
+          "start-time": "Czas rozpoczęcia",
+          "threat": "{{threats}} zagrożeń"
+     },
+     "stop-scan": "Zatrzymaj skanowanie",
+     "full-scan-warn": "Pełne skanowanie może potrwać dłużej w zależności od rozmiaru dysku.",
+     "start-scan": "Rozpocznij skanowanie",
+     "choose": {
+          "file": "Wybierz plik",
+          "folder": "Wybierz folder"
+     },
+     "finished": {
+          "error": "Skanowanie nie powiodło się",
+          "no-threats": "Nie wykryto zagrożeń!",
+          "with-threats_one": "Jedno zagrożenie wymaga uwagi",
+          "with-threats_two": "Dwa zagrożenia wymagają uwagi",
+          "with-threats_few": "{{count}} zagrożenia wymagają uwagi",
+          "with-threats_many": "{{count}} zagrożeń wymaga uwagi",
+          "with-threats_other": "{{count}} zagrożeń wymaga uwagi"
+     },
+     "close": "Zamknij",
+     "back-to-overview": "Powrót do przeglądu",
+     "exit-code": [
+          "Skanowanie zakończone pomyślnie",
+          "Wykryto zagrożenia",
+          "Niektóre pliki nie mogły zostać przeskanowane z powodu ograniczeń dostępu"
+     ],
+     "exit-code-fallback": "Skanowanie nie powiodło się z powodu błędu wewnętrznego",
+     "exit-code-formatting": "{{msg}} (Kod wyjścia: {{exitCode}})",
+     "please-wait": "Proszę czekać...",
+     "resolve": {
+          "title": "Rozwiąż",
+          "quarantine": "Przenieś wszystkie do kwarantanny",
+          "delete": "Usuń wszystkie",
+          "success": "Pomyślnie rozwiązano!"
+     },
+     "notification": {
+          "scan-finish": {
+               "title": "Skanowanie zakończone!",
+               "desc_zero": "Nie wykryto żadnych zagrożeń",
+               "desc_one": "Wykryto jedno zagrożenie",
+               "desc_two": "Wykryto dwa zagrożenia",
+               "desc_few": "Wykryto {{count}} zagrożenia",
+               "desc_many": "Wykryto {{count}} zagrożeń",
+               "desc_other": "Wykryto {{count}} zagrożeń",
+               "with-err": "Skanowanie zakończone z błędami"
+          },
+          "scan-start": {
+               "title": "Rozpoczęto skanowanie!",
+               "desc": "Rozpoczęto skanowanie: {{scanName}}"
+          }
+     }
+}

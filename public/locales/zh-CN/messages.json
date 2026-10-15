@@ -1,0 +1,100 @@
+{
+     "copy-command": {
+          "success": "命令已复制",
+          "error": "复制命令失败"
+     },
+     "fetch-error": {
+          "history": "加载最近历史数据失败",
+          "scheduler": "加载计划扫描失败",
+          "exclusions": "加载现有排除项失败",
+          "realtime-paths": "加载实时扫描路径失败",
+          "date": "获取日期失败"
+     },
+     "scan-status-error": "获取扫描状态失败",
+     "scan-stop-error": "停止扫描失败",
+     "scan-start-error": "启动扫描失败",
+     "log-reveal-error": "显示日志文件失败",
+     "acknowledge-history": {
+          "success": "条目已确认！",
+          "error": "将条目标记为已确认失败"
+     },
+     "trigger-scan": {
+          "success": "扫描任务已触发",
+          "error": "运行计划任务失败"
+     },
+     "quarantine": {
+         "success": "威胁已隔离！",
+         "error": "隔离威胁失败"
+     },
+     "history-clear-errror": "清除历史记录失败",
+     "export": {
+          "success": "历史数据已导出为 {{fileName}}",
+          "error": "导出历史数据失败"
+     },
+     "schedule-scan-error": "计划扫描任务失败",
+     "remove-job": {
+          "success": "计划扫描任务已移除！",
+          "error": "移除计划扫描任务失败"
+     },
+     "clear-jobs": {
+          "success": "所有计划扫描任务已清除！",
+          "error": "清除所有计划扫描任务失败"
+     },
+     "threat-deleted": {
+          "success": "威胁已永久删除！",
+          "error": "删除威胁失败"
+     },
+     "threat-quarantined": {
+          "success": "所有威胁已隔离",
+          "error": "隔离所有威胁失败"
+     },
+     "threat-bulk-delete": {
+          "success": "所有威胁已删除",
+          "error": "删除所有威胁失败"
+     },
+     "restore-settings": {
+          "success": "设置已恢复为默认值",
+          "error": "恢复默认值失败"
+     },
+     "delete-settings": {
+          "success": "设置已成功删除",
+          "error": "删除设置失败"
+     },
+     "def-update-error": "更新病毒库失败",
+     "save-settings-error": "保存设置失败",
+     "restore-quarantine": {
+          "success": "文件已从隔离区恢复！",
+          "error": "从隔离区恢复文件失败"
+     },
+     "delete-quarantine": {
+          "success": "文件已永久删除",
+          "error": "从隔离区删除文件失败"
+     },
+     "bulk-restore-quarantine": {
+          "success": "所有威胁已恢复",
+          "error": "恢复所有威胁失败"
+     },
+     "bulk-delete-quarantine": {
+          "success": "所有威胁已删除",
+          "error": "删除所有威胁失败"
+     },
+     "form-validations": {
+          "interval": "请设置间隔类型",
+          "scanType": "请选择扫描类型",
+          "days": "请选择一周中的某天",
+          "hours": {
+               "min": "应在 0 到 23 小时之间",
+               "max": "大于 23 小时"
+          },
+          "minutes": {
+               "min": "应在 0 到 59 分钟之间",
+               "max": "大于 59 分钟"
+          },
+          "directory-path": {
+               "required": "目录路径为必填项。",
+               "too-long": "目录路径过长。"
+          },
+          "date-no-future": "日期输入不能设置为未来日期",
+          "invalid-range": "请选择完整的日期范围"
+     }
+}

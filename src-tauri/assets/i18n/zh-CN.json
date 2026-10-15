@@ -1,0 +1,22 @@
+{
+     "tray": {
+          "open": "打开 GUI",
+          "about": "关于 ClamAV GUI",
+          "settings": "设置",
+          "scan": {
+               "title": "扫描",
+               "main": "主扫描",
+               "full": "全盘扫描",
+               "custom": "自定义扫描",
+               "file": "文件扫描"
+          },
+          "quit": "退出",
+          "update": "GUI 更新器",
+          "tooltip": "ClamAV GUI 正在系统托盘中运行。"
+     },
+     "notification": {
+          "threat-blocked": "威胁已拦截",
+          "threat-detected": "检测到威胁",
+          "threat-body": "威胁：{threat}\n文件：{file}"
+     }
+}

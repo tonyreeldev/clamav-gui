@@ -1,0 +1,119 @@
+{
+     "title": "Historial",
+     "refresh": {
+          "original": "Actualizar",
+          "loading": "Actualizando..."
+     },
+     "clear": {
+          "title": "Borrar historial",
+          "all": "Borrar todo",
+          "acknowledged": "Borrar revisadas",
+          "errors": "Borrar errores",
+          "warnings": "Borrar advertencias",
+          "last-24-hours": "Borrar últimas 24 horas",
+          "last-7-days": "Borrar últimos 7 días",
+          "last-30-days": "Borrar últimos 30 días",
+          "by-date": "Borrar hasta una fecha",
+          "by-range": "Borrar por rango de fechas",
+          "loading": "Borrando..."
+     },
+     "export": {
+          "title": "Exportar historial como",
+          "dialog-title": "Exportar los datos del historial como",
+          "csv": "Archivo CSV",
+          "json": "Archivo JSON"
+     },
+     "clear-messages": {
+          "all": "¡Historial borrado!",
+          "acknowledged": "¡Entradas revisadas borradas!",
+          "error": "¡Todos los errores borrados!",
+          "warning": "¡Todas las advertencias borradas!",
+          "last24-hours": "¡Entradas de las últimas 24 horas borradas!",
+          "last7-days": "¡Entradas de los últimos 7 días borradas!",
+          "last30-days": "¡Entradas de los últimos 30 días borradas!",
+          "by-date": "¡Entradas hasta la fecha indicada borradas!",
+          "by-range": "¡Entradas dentro del rango indicado borradas!"
+     },
+     "events": {
+          "real-time-error": "Falló el escaneo en tiempo real",
+          "real-time-start": "Escaneo en tiempo real iniciado",
+          "real-time-stop": "Escaneo en tiempo real detenido",
+          "quarantine-threat": "Amenaza puesta en cuarentena",
+          "restore-threat": "Amenaza restaurada",
+          "delete-threat": "Amenaza eliminada",
+          "scan-start": "Escaneo iniciado",
+          "scan-finish": "Escaneo finalizado",
+          "def-update-start": "Actualización de definiciones iniciada",
+          "def-update-finish": "Actualización de definiciones finalizada",
+          "def-update-error": "Falló la actualización de definiciones",
+          "scheduler-create": "Nueva tarea de escaneo programado creada",
+          "scheduler-delete": "Tarea de escaneo programado eliminada",
+          "scheduler-trigger": "Tarea de escaneo programado ejecutada",
+          "file-delete": "Archivo eliminado",
+          "file-delete-error": "Falló la eliminación del archivo",
+          "gui-updater-check-error": "Falló la búsqueda de actualizaciones de la GUI",
+          "gui-updater-started": "Se inició la actualización de la GUI",
+          "gui-updater-finished": "Finalizó la actualización de la GUI",
+          "gui-updater-error": "Falló la actualización de la GUI",
+          "gui-updater-updated": "La GUI está actualizada",
+          "gui-updater-needed": "Actualización de la GUI disponible"
+     },
+     "behavior": {
+          "balanced": "Equilibrado",
+          "safe": "Seguro",
+          "strict": "Estricto",
+          "expert": "Experto"
+     },
+     "details": {
+          "real-time-error": "No se pudo iniciar el escaneo en tiempo real: {{err}}",
+          "real-time-start_one": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando una ruta",
+          "real-time-start_two": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando dos rutas",
+          "real-time-start_few": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando {{count}} rutas",
+          "real-time-start_many": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando {{count}} rutas",
+          "real-time-start_other": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando {{count}} rutas",
+          "real-time-stop": "Se detuvo el escaneo en tiempo real",
+          "quarantine-threat": "{{threat}} se movió a la cuarentena",
+          "restore-threat": "{{threat}} se restauró desde la cuarentena",
+          "delete-threat": "{{threat}} se eliminó de la cuarentena",
+          "scan-start": "Se inició el escaneo {{scanType}}",
+          "scan-finish": {
+               "state_zero": "Escaneo completado correctamente, no se encontraron amenazas",
+               "state_one": "Escaneo completado correctamente, se encontró una amenaza",
+               "state_two": "Escaneo completado correctamente, se encontraron dos amenazas",
+               "state_few": "Escaneo completado correctamente, se encontraron {{count}} amenazas",
+               "state_many": "Escaneo completado correctamente, se encontraron {{count}} amenazas",
+               "state_other": "Escaneo completado correctamente, se encontraron {{count}} amenazas",
+               "partial": "Escaneo completado con errores; es posible que algunos archivos no se hayan escaneado",
+               "clamav-error": "El escaneo falló debido a un error de ClamAV",
+               "error": "El escaneo falló (código de salida {{code}})"
+          },
+          "def-update-start": "Se inició la actualización de la base de datos de ClamAV",
+          "def-update-finish": {
+               "success": "Las definiciones ya están actualizadas",
+               "warning": "Actualización completada con advertencias",
+               "error": "La actualización falló con el código de salida {{code}}"
+          },
+          "scheduler-create": "Nueva tarea programada creada correctamente: {{task}}",
+          "scheduler-delete": "Tarea de escaneo eliminada correctamente: {{task}}",
+          "scheduler-trigger-error": "No se pudo ejecutar la tarea programada: {{task}}",
+          "scheduler-trigger": "Tarea programada ejecutada manualmente: {{task}}",
+          "file-delete": "Se eliminó el archivo: {{path}}",
+          "file-delete-error": "No se pudo eliminar el archivo: {{path}} ({{err}})",
+          "gui-updater-check-error": "No se pudo buscar actualizaciones: {{err}}",
+          "gui-updater-started": "ClamAV GUI se está actualizando a la nueva versión",
+          "gui-updater-finished": "ClamAV GUI se actualizó correctamente a la nueva versión",
+          "gui-updater-error": "No se pudo actualizar la GUI: {{err}}",
+          "gui-updater-updated": "Estás usando la versión más reciente de ClamAV GUI: v{{version}}",
+          "gui-updater-needed": "Hay una nueva versión de ClamAV GUI disponible"
+     },
+     "clear-date": {
+          "title": "Borrar hasta una fecha",
+          "desc": "Elige una fecha para borrar los eventos hasta la fecha indicada. El resto de los eventos se conservará.",
+          "date-label": "Fecha límite de borrado"
+     },
+     "clear-range": {
+          "title": "Borrar por rango de fechas",
+          "desc": "Elige un rango para borrar los eventos dentro del rango indicado. El resto de los eventos se conservará.",
+          "range-label": "Rango de fechas a borrar"
+     }
+}

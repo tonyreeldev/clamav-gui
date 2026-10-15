@@ -1,0 +1,44 @@
+{
+     "title": "Programador",
+     "refresh": {
+          "original": "Actualizar",
+          "loading": "Actualizando..."
+     },
+     "clear-jobs": "Borrar tareas",
+     "form": {
+          "title": "Programar un escaneo",
+          "interval": {
+               "label": "Intervalo",
+               "values": {
+                    "daily" : "Diario",
+                    "weekly" : "Semanal",
+                    "monthly" : "Mensual"
+               },
+               "placeholder": "Selecciona el intervalo de la tarea"
+          },
+          "scan-type": {
+               "label": "Tipo de escaneo",
+               "placeholder": "Selecciona un tipo de escaneo"
+          },
+          "days": {
+               "label": "Día de la semana",
+               "values": {
+                    "mon": "Lunes",
+                    "tue": "Martes",
+                    "wed": "Miércoles",
+                    "thu": "Jueves",
+                    "fri": "Viernes",
+                    "sat": "Sábado",
+                    "sun": "Domingo"
+               },
+               "placeholder": "Selecciona un día de la semana"
+          },
+          "hour": "Hora",
+          "minute": "Minuto",
+          "button": {
+               "pending": "Espera un momento...",
+               "original": "Programar"
+          },
+          "scheduled-time": "Hora programada: {{time}}"
+     }
+}

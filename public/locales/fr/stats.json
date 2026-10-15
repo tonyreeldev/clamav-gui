@@ -1,0 +1,71 @@
+{
+     "title": "Statistiques",
+     "refresh": {
+          "original": "Actualiser les statistiques de l'antivirus",
+          "loading": "Actualisation en cours..."
+     },
+     "device-info": {
+          "title": "Informations sur l'appareil",
+          "os": "Système d'exploitation :",
+          "host-name": "Nom de l'hôte :"
+     },
+     "loading": "Chargement en cours...",
+     "no-data": "Aucune donnée pour le moment",
+     "date": {
+          "last-30-secs": "30 dernières secondes",
+          "last-6-months": "6 derniers mois"
+     },
+     "disk": {
+          "title": "Disque dur",
+          "desc": "E/S du disque dur",
+          "read-stat": "Lecture : {{read}}/s",
+          "write-stat": "Écriture : {{write}}/s",
+          "labels": {
+               "read": "Vitesse de lecture",
+               "write": "Vitesse d'écriture"
+          }
+     },
+     "ram": {
+          "title": "Mémoire",
+          "desc": "Utilisation actuelle de la RAM",
+          "stat": "{{total}} ({{used}} utilisées)",
+          "usage": "Utilisation (%):"
+     },
+     "cpu": {
+          "title": "Activité du processeur",
+          "desc": "Activité CPU actuelle basée sur la fréquence de base",
+          "speed-stat": "Vitesse : {{freq}} GHz",
+          "util-stat": "Utilisation : {{util}}%",
+          "utilization": "Utilisation (%):"
+     },
+     "stat-label": "Menaces",
+     "threats": {
+          "title": "Aperçu de l'état des menaces",
+          "quarantined": "Mis en quarantaine",
+          "skipped": "Ignoré",
+          "deleted": "Nettoyé",
+          "unresolved": "Non résolu"
+     },
+     "virus-types": {
+          "title": "Menaces par type de logiciel malveillant",
+          "trojan": "Cheval de Troie",
+          "ransomware": "Ransomware",
+          "spyware": "Espion",
+          "rootkit": "Rootkit",
+          "other": "Autre"
+     },
+     "scan": {
+          "title": "Menaces par type d'analyse",
+          "main": "Analyse courante",
+          "full": "Analyse complète",
+          "custom": "Analyse personnalisée",
+          "file": "Analyse de fichier",
+          "real-time": "Analyse en temps réel"
+     },
+     "activity": {
+          "title": "Activité d'analyse",
+          "unresolved": "Non résolu",
+          "resolved": "Résolu"
+     },
+     "month": ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+}

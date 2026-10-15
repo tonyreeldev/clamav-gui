@@ -1,0 +1,39 @@
+{
+     "sidebar": {
+          "overview": "Overview",
+          "scan": "Scan",
+          "quarantine": "Quarantine",
+          "history": "History",
+          "stats": "Statistics",
+          "scheduler": "Scheduler",
+          "settings": "Settings",
+          "about": "About ClamAV GUI"
+     },
+     "num-suffix": {
+          "kilo": "K",
+          "million": "M",
+          "billion": "B",
+          "trillion": "T"
+     },
+     "size-suffix": {
+          "byte": "Bytes",
+          "kb": "KB",
+          "mb": "MB",
+          "gb": "GB",
+          "tb": "TB"
+     },
+     "log": {
+          "title": "Log",
+          "page-name": "Log Viewer",
+          "log-id": "Log ID:",
+          "back": "Back",
+          "please-wait": "Please wait..."
+     },
+     "splash-screen-text": "Loading...",
+     "copy-command": "Copy the Command",
+     "date-picker-label": "Choose a date",
+     "status": {
+          "protected": "Protected",
+          "unprotected": "Unprotected"
+     }
+}
