@@ -56,7 +56,8 @@
           "gui-updater-finished": "Finalizó la actualización de la GUI",
           "gui-updater-error": "Falló la actualización de la GUI",
           "gui-updater-updated": "La GUI está actualizada",
-          "gui-updater-needed": "Actualización de la GUI disponible"
+          "gui-updater-needed": "Actualización de la GUI disponible",
+          "real-time-threat": "Amenaza detectada en tiempo real"
      },
      "behavior": {
           "balanced": "Equilibrado",
@@ -65,7 +66,7 @@
           "expert": "Experto"
      },
      "details": {
-          "real-time-error": "No se pudo iniciar el escaneo en tiempo real: {{err}}",
+          "real-time-error": "Problema en la protección en tiempo real: {{err}}",
           "real-time-start_one": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando una ruta",
           "real-time-start_two": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando dos rutas",
           "real-time-start_few": "Escaneo en tiempo real iniciado en modo {{behavior}}, supervisando {{count}} rutas",
@@ -105,7 +106,10 @@
           "gui-updater-finished": "ClamAV GUI se actualizó correctamente a la nueva versión",
           "gui-updater-error": "No se pudo actualizar la GUI: {{err}}",
           "gui-updater-updated": "Estás usando la versión más reciente de ClamAV GUI: v{{version}}",
-          "gui-updater-needed": "Hay una nueva versión de ClamAV GUI disponible"
+          "gui-updater-needed": "Hay una nueva versión de ClamAV GUI disponible",
+          "real-time-threat": "{{threat}} detectada en {{file}}. El modo actual solo avisa: escanea el archivo para ponerlo en cuarentena.",
+          "real-time-threat-failed": "{{threat}} detectada en {{file}}, pero no se pudo mover a la cuarentena (puede estar en uso). Cierra el programa y escanéalo.",
+          "quarantine-threat-file": "{{threat}} se encontró en {{file}} y se movió a la cuarentena"
      },
      "clear-date": {
           "title": "Borrar hasta una fecha",

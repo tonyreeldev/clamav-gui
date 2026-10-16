@@ -17,6 +17,8 @@
      "notification": {
           "threat-blocked": "Menace bloquée",
           "threat-detected": "Menace détectée",
-          "threat-body": "Menace : {threat}\nFichier : {file}"
+          "threat-body": "Menace : {threat}\nFichier : {file}",
+          "threat-not-isolated": "Menace détectée, non isolée",
+          "threat-not-isolated-hint": "Impossible de la mettre en quarantaine (elle est peut-être utilisée). Fermez le programme qui l'utilise et lancez une analyse."
      }
 }

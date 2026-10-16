@@ -246,6 +246,67 @@ pub fn get_security_status() -> Result<Vec<SecurityItem>, String> {
     }
 }
 
+/// The fixed command that turns a protection on or off. Defender's antivirus can't be switched from outside
+/// (Tamper Protection blocks it) and SmartScreen is split between Windows and Edge, so those only open their page.
+fn toggle_command(check: SecurityCheck, enable: bool) -> Result<String, String> {
+    let state = if enable { "Enabled" } else { "Disabled" };
+    Ok(match check {
+        SecurityCheck::Firewall => format!(
+            "Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled {}",
+            if enable { "True" } else { "False" }
+        ),
+        SecurityCheck::NetworkProtection => format!("Set-MpPreference -EnableNetworkProtection {}", state),
+        SecurityCheck::RansomwareProtection => format!("Set-MpPreference -EnableControlledFolderAccess {}", state),
+        SecurityCheck::Antivirus | SecurityCheck::SmartScreen => {
+            return Err("This protection can only be changed in Windows Security".into())
+        }
+    })
+}
+
+/// Runs the commands in one elevated PowerShell, so Windows shows a single UAC prompt.
+#[cfg(windows)]
+fn run_elevated(script: &str) -> Result<(), String> {
+    // A declined UAC prompt makes Start-Process throw; 1223 is Windows' ERROR_CANCELLED.
+    let outer = format!(
+        "try {{ $p = Start-Process powershell -Verb RunAs -WindowStyle Hidden -Wait -PassThru \
+         -ArgumentList '-NoProfile','-NonInteractive','-Command','$ErrorActionPreference=''Stop''; {}'; exit $p.ExitCode }} \
+         catch {{ exit 1223 }}",
+        script
+    );
+    let status = crate::helpers::silent_command("powershell")
+        .args(["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", &outer])
+        .status()
+        .map_err(|e| e.to_string())?;
+    match status.code() {
+        Some(0) => Ok(()),
+        Some(1223) => Err("UAC_CANCELLED".into()),
+        code => Err(format!("Windows rejected the change (exit code {})", code.unwrap_or(-1))),
+    }
+}
+
+/// Turns protections on or off with one UAC prompt. Only the fixed commands above can run.
+#[command(async)]
+#[specta(result)]
+pub fn set_security_features(checks: Vec<SecurityCheck>, enable: bool) -> Result<(), String> {
+    if checks.is_empty() {
+        return Ok(());
+    }
+    let script = checks
+        .iter()
+        .map(|c| toggle_command(*c, enable))
+        .collect::<Result<Vec<_>, _>>()?
+        .join("; ");
+    #[cfg(windows)]
+    {
+        run_elevated(&script)
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = script;
+        Err("Only available on Windows".into())
+    }
+}
+
 /// Opens the Windows Security page for a check. The target list is fixed, so the webview can't open anything else.
 #[command]
 #[specta(result)]
@@ -307,6 +368,20 @@ mod tests {
             assert_eq!(&eval(&json)[2..4], &[expected, expected], "value {}", value);
         }
         assert_eq!(&eval(&format!("{{{}}}", base))[2..4], &[Unknown, Unknown]);
+    }
+
+    #[test]
+    fn toggle_commands_are_fixed() {
+        assert_eq!(
+            toggle_command(SecurityCheck::Firewall, true).unwrap(),
+            "Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True"
+        );
+        assert_eq!(
+            toggle_command(SecurityCheck::RansomwareProtection, false).unwrap(),
+            "Set-MpPreference -EnableControlledFolderAccess Disabled"
+        );
+        assert!(toggle_command(SecurityCheck::Antivirus, false).is_err());
+        assert!(toggle_command(SecurityCheck::SmartScreen, true).is_err());
     }
 
     #[test]

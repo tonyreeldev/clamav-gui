@@ -1,5 +1,6 @@
 use notify::{event::ModifyKind, EventKind, RecursiveMode, Watcher};
 use once_cell::sync::Lazy;
+use tauri::Emitter;
 use std::{
     collections::{HashMap, HashSet},
     path::{Path, PathBuf},
@@ -13,6 +14,9 @@ use std::{
 
 static NOTIFIED: Lazy<Mutex<HashSet<PathBuf>>> = Lazy::new(|| Mutex::new(HashSet::new()));
 pub static REALTIME_ENABLED: AtomicBool = AtomicBool::new(false);
+/// Failed scan attempts per file (locked or still being written); see MAX_SCAN_RETRIES.
+static RETRIES: Lazy<Mutex<HashMap<PathBuf, u8>>> = Lazy::new(|| Mutex::new(HashMap::new()));
+const MAX_SCAN_RETRIES: u8 = 5;
 /// Files waiting to be scanned, with the time of their latest event.
 static PENDING: Lazy<Mutex<HashMap<PathBuf, Instant>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 static BEHAVIOR: Lazy<Arc<Mutex<BehaviorConfig>>> =
@@ -22,31 +26,42 @@ use crate::{
     antivirus::{quarantine::quarantine_file},
     helpers::{
         clamd,
+        history::append_realtime_history,
+        log::{initialize_log_with_id, log_err, log_info},
+        new_id,
         matcher::{user_exclusions, EXCLUSIONS, ExclusionMatcher},
         path::{clamscan_command, path_to_regex},
         notifier::{notify, NotifyKind},
         i18n::t,
     },
     types::{
-        enums::BehaviorMode,
-        structs::BehaviorConfig
+        enums::{BehaviorMode, HistoryDetails, HistoryStatus, HistoryType, LogCategory, ScanType},
+        structs::{BehaviorConfig, HistoryItem}
     },
 };
 
+/// Executables, scripts, installers and shortcuts: the usual first stage of an infection.
+const EXECUTABLE_TYPES: &[&str] = &[
+    "exe", "dll", "com", "scr", "msi", "msix", "bat", "cmd", "ps1", "js", "jse", "vbs", "vbe", "wsf", "hta", "jar", "lnk",
+];
+/// Containers that commonly carry them: macro-enabled Office files, archives and disk images.
+const CONTAINER_TYPES: &[&str] = &["pdf", "docm", "xlsm", "pptm", "zip", "rar", "7z", "cab", "iso", "img"];
+
 fn behavior_config(mode: BehaviorMode) -> BehaviorConfig {
+    let with_containers = || [EXECUTABLE_TYPES, CONTAINER_TYPES].concat();
     match mode {
         BehaviorMode::Balanced => BehaviorConfig {
-            scan_extensions: vec!["exe", "dll", "js", "vbs", "bat", "ps1", "pdf", "zip", "com"],
+            scan_extensions: with_containers(),
             auto_quarantine: true,
             rescan_on_modify: false,
         },
         BehaviorMode::Safe => BehaviorConfig {
-            scan_extensions: vec!["exe", "dll", "js", "vbs", "bat", "ps1", "com"],
+            scan_extensions: EXECUTABLE_TYPES.to_vec(),
             auto_quarantine: false,
             rescan_on_modify: false,
         },
         BehaviorMode::Strict => BehaviorConfig {
-            scan_extensions: vec!["exe", "dll", "js", "vbs", "bat", "ps1", "pdf", "zip", "com", "txt"],
+            scan_extensions: [with_containers(), vec!["txt"]].concat(),
             auto_quarantine: true,
             rescan_on_modify: true,
         },
@@ -67,7 +82,7 @@ fn is_current(generation: u64) -> bool {
     GENERATION.load(Ordering::SeqCst) == generation
 }
 
-fn start_watcher(paths: Vec<String>, generation: u64) -> Result<(), String> {
+fn start_watcher(paths: Vec<String>, generation: u64, log: LogFile) -> Result<(), String> {
     if paths.is_empty() {
         return Err("No paths provided for monitoring".into());
     }
@@ -76,7 +91,7 @@ fn start_watcher(paths: Vec<String>, generation: u64) -> Result<(), String> {
     let mut failed_paths = Vec::new();
     for path in &paths {
         if let Err(e) = watcher.watch(path.as_ref(), RecursiveMode::Recursive) {
-            eprintln!("Failed to watch path {}: {}", path, e);
+            log_err(&log, &format!("Failed to watch {}: {}", path, e));
             failed_paths.push(path.clone());
         }
     }
@@ -90,7 +105,7 @@ fn start_watcher(paths: Vec<String>, generation: u64) -> Result<(), String> {
             let event = match rx.recv_timeout(Duration::from_millis(500)) {
                 Ok(Ok(event)) => event,
                 Ok(Err(e)) => {
-                    eprintln!("File watcher error: {}", e);
+                    log_err(&log, &format!("File watcher error: {}", e));
                     continue;
                 }
                 Err(_) => continue,
@@ -135,11 +150,20 @@ fn take_settled() -> Vec<PathBuf> {
     ready
 }
 
-fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64) {
+fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64, log: LogFile) {
     thread::spawn(move || {
+        // Reported once per session in the history; every later failure only goes to the log file.
+        let mut reported_clamd_down = false;
+        let mut clamd_down = |err: String, app: &tauri::AppHandle| {
+            log_err(&log, &format!("clamd unavailable, using clamscan (slower): {}", err));
+            if !reported_clamd_down {
+                reported_clamd_down = true;
+                record(app, &log, &log_id, HistoryType::RealTimeError, HistoryStatus::Error, HistoryDetails::RealTimeError { err });
+            }
+        };
         // Load the signatures now rather than on the first file.
         if let Err(e) = clamd::ensure_running() {
-            eprintln!("clamd unavailable, falling back to clamscan: {}", e);
+            clamd_down(e, &app);
         }
         while is_current(generation) {
             thread::sleep(Duration::from_secs(1));
@@ -159,50 +183,98 @@ fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64) {
                 let result = match clamd::ensure_running() {
                     Ok(()) => clamd::scan(&path),
                     Err(e) => {
-                        eprintln!("clamd unavailable, falling back to clamscan: {}", e);
+                        clamd_down(e, &app);
                         scan_file(&path)
                     }
                 };
                 match result {
                     Ok(Some(threat_name)) => {
-                        let mut notified = NOTIFIED.lock().unwrap();
-                        if notified.contains(&path) {
+                        RETRIES.lock().unwrap().remove(&path);
+                        if !NOTIFIED.lock().unwrap().insert(path.clone()) {
                             continue;
                         }
-                        notified.insert(path.clone());
-                        drop(notified);
-                        let notification_title = t(if behavior.auto_quarantine {
-                            "notification.threat-blocked"
-                        } else {
-                            "notification.threat-detected"
-                        });
-                        let notification_body = t("notification.threat-body")
-                            .replace("{threat}", &threat_name)
-                            .replace("{file}", &path.display().to_string());
-                        notify(&app, &notification_title, &notification_body, NotifyKind::Alert);
-
-                        if behavior.auto_quarantine {
-                            if let Err(e) = quarantine_file(
-                                app.clone(),
-                                path.to_string_lossy().to_string(),
-                                threat_name,
-                                Some(log_id.clone()),
-                            ) {
-                                eprintln!("Failed to quarantine {}: {}", path.display(), e);
-                            } else {
-                                // The path is free again; a new copy dropped there must be caught too.
-                                NOTIFIED.lock().unwrap().remove(&path);
-                            }
-                        }
+                        handle_detection(&app, &log, &log_id, &behavior, &path, threat_name);
                     }
-                    Ok(None) => {}
+                    Ok(None) => {
+                        RETRIES.lock().unwrap().remove(&path);
+                    }
                     Err(e) => {
-                        eprintln!("Scan error for {:?}: {}", path, e);
+                        // Often the file is still locked by whoever is writing it: try again a few times before giving up.
+                        let mut retries = RETRIES.lock().unwrap();
+                        let attempts = retries.entry(path.clone()).or_insert(0);
+                        *attempts += 1;
+                        if *attempts <= MAX_SCAN_RETRIES {
+                            PENDING.lock().unwrap().insert(path, Instant::now());
+                        } else {
+                            retries.remove(&path);
+                            log_err(&log, &format!("Could not scan {}: {}", path.display(), e));
+                        }
                     }
                 }
             }
         }
     });
+}
+
+type LogFile = Arc<Mutex<std::fs::File>>;
+
+fn record(app: &tauri::AppHandle, log: &LogFile, log_id: &str, action: HistoryType, status: HistoryStatus, details: HistoryDetails) {
+    append_realtime_history(
+        app,
+        HistoryItem {
+            id: new_id(),
+            timestamp: chrono::Utc::now().to_rfc3339(),
+            action: Some(action),
+            details: Some(details),
+            status,
+            category: Some(LogCategory::Realtime),
+            log_id: Some(log_id.to_string()),
+            scan_type: Some(ScanType::Realtime),
+            threat_count: Some(1),
+            scan_result: None,
+        },
+        log,
+    );
+}
+
+/// The notification must say what really happened: "blocked" only once the file is in quarantine.
+fn handle_detection(app: &tauri::AppHandle, log: &LogFile, log_id: &str, behavior: &BehaviorConfig, path: &Path, threat_name: String) {
+    let file = path.display().to_string();
+    log_info(log, &format!("Threat detected: {} in {}", threat_name, file));
+    let quarantined = behavior.auto_quarantine
+        && match quarantine_file(app.clone(), file.clone(), threat_name.clone(), Some(log_id.to_string())) {
+            Ok(()) => true,
+            Err(e) => {
+                log_err(log, &format!("Could not quarantine {}: {}", file, e));
+                false
+            }
+        };
+    let mut body = t("notification.threat-body").replace("{threat}", &threat_name).replace("{file}", &file);
+    let title = if quarantined {
+        t("notification.threat-blocked")
+    } else if behavior.auto_quarantine {
+        body = format!("{}\n{}", body, t("notification.threat-not-isolated-hint"));
+        t("notification.threat-not-isolated")
+    } else {
+        t("notification.threat-detected")
+    };
+    notify(app, &title, &body, NotifyKind::Alert);
+
+    if quarantined {
+        // quarantine_file already wrote the history entry. The path is free again: a new copy there must be caught too.
+        NOTIFIED.lock().unwrap().remove(path);
+        let _ = app.emit("realtime:quarantined", ());
+    } else {
+        // Nothing else records it, so a missed notification would otherwise lose the detection.
+        record(
+            app,
+            log,
+            log_id,
+            HistoryType::RealTimeThreat,
+            if behavior.auto_quarantine { HistoryStatus::Error } else { HistoryStatus::Warning },
+            HistoryDetails::RealTimeThreat { threat: threat_name, file_path: file, quarantine_failed: behavior.auto_quarantine },
+        );
+    }
 }
 
 fn should_scan(path: &Path, behavior: &BehaviorConfig) -> bool {
@@ -292,12 +364,14 @@ pub fn start_realtime_scan(
     }
     let generation = GENERATION.fetch_add(1, Ordering::SeqCst) + 1;
     PENDING.lock().unwrap().clear();
+    RETRIES.lock().unwrap().clear();
     NOTIFIED.lock().unwrap().clear();
     *BEHAVIOR.lock().unwrap() = behavior_config(mode);
+    let log = initialize_log_with_id(&app, LogCategory::Realtime, &log_id)?.file;
     // The bump above already ended any previous session, so a failure leaves protection off.
-    start_watcher(paths, generation).inspect_err(|_| REALTIME_ENABLED.store(false, Ordering::SeqCst))?;
+    start_watcher(paths, generation, log.clone()).inspect_err(|_| REALTIME_ENABLED.store(false, Ordering::SeqCst))?;
     REALTIME_ENABLED.store(true, Ordering::SeqCst);
-    start_scan_worker(app, log_id, generation);
+    start_scan_worker(app, log_id, generation, log);
 
     Ok(())
 }
@@ -314,4 +388,21 @@ pub fn stop_realtime_scan() {
             clamd::shutdown();
         }
     });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn modes_watch_the_right_file_types() {
+        let balanced = behavior_config(BehaviorMode::Balanced).scan_extensions;
+        let safe = behavior_config(BehaviorMode::Safe).scan_extensions;
+        for ext in ["msi", "scr", "lnk", "hta", "docm", "rar", "iso", "exe"] {
+            assert!(balanced.contains(&ext), "balanced misses {}", ext);
+        }
+        assert!(safe.contains(&"msi") && !safe.contains(&"zip"));
+        assert!(behavior_config(BehaviorMode::Strict).scan_extensions.contains(&"txt"));
+        assert!(behavior_config(BehaviorMode::Expert).scan_extensions.is_empty());
+    }
 }

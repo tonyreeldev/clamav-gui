@@ -28,9 +28,10 @@ export type ScanUIStatus = "idle" | "starting" | "running" | "reconnecting" | "f
 
 export interface IDetailsData {
      "real-time-error": { err: string };
+     "real-time-threat": { threat: string; file_path: string; quarantine_failed: boolean };
      "real-time-start": { behavior: BehaviorMode; paths: number };
      "real-time-stop": null;
-     "quarantine-threat": { threat: string };
+     "quarantine-threat": { threat: string; file_path?: string | null };
      "restore-threat": { threat: string };
      "delete-threat": { threat: string };
      "scan-start": { scan_type: ScanType };

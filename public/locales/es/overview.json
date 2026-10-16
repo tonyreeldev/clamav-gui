@@ -57,8 +57,6 @@
           "intro": "ClamAV GUI analiza archivos. Estas protecciones de Windows cubren lo que no hace: ataques de red, webs maliciosas y ransomware.",
           "refresh": "Comprobar de nuevo",
           "open": "Abrir",
-          "how-to-enable": "Cómo activarla",
-          "command-note": "Seguridad de Windows no tiene un interruptor para esto. Ejecuta este comando en PowerShell como administrador y luego pulsa \"Comprobar de nuevo\":",
           "error": "No se pudo comprobar el estado de Seguridad de Windows.",
           "checks": {
                "firewall": {
@@ -105,6 +103,28 @@
                "Domain": "de dominio",
                "Private": "privadas",
                "Public": "públicas"
+          },
+          "uac-note": "Al cambiar un interruptor, Windows pedirá permiso de administrador: pulsa \"Sí\" en la ventana que aparece.",
+          "recommended": {
+               "title": "Hay protecciones recomendadas desactivadas",
+               "desc": "Activa el firewall y la protección de red para bloquear ataques y webs maliciosas.",
+               "button": "Activar recomendadas"
+          },
+          "toggle": {
+               "label": "Activar o desactivar {{name}}",
+               "applied": "Cambio aplicado",
+               "cancelled": "Cambio cancelado: no se concedió el permiso de Windows",
+               "failed": "Windows no pudo aplicar el cambio",
+               "unchanged": "Windows no aplicó el cambio. Puede que lo gestione tu organización u otro producto de seguridad."
+          },
+          "confirm": {
+               "off-title": "¿Desactivar {{name}}?",
+               "off-desc": "Tu equipo quedará menos protegido. Puedes volver a activarlo cuando quieras desde aquí.",
+               "off-submit": "Desactivar",
+               "cfa-title": "¿Activar la protección contra ransomware?",
+               "cfa-desc": "Protege tus documentos, imágenes y escritorio. Algunas aplicaciones legítimas podrían no poder guardar ahí; Windows te avisará y podrás permitirlas en Seguridad de Windows.",
+               "cfa-submit": "Activar",
+               "cancel": "Cancelar"
           }
      }
 }

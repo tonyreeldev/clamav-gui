@@ -17,6 +17,8 @@
      "notification": {
           "threat-blocked": "Threat blocked",
           "threat-detected": "Threat detected",
-          "threat-body": "Threat: {threat}\nFile: {file}"
+          "threat-body": "Threat: {threat}\nFile: {file}",
+          "threat-not-isolated": "Threat detected, not isolated",
+          "threat-not-isolated-hint": "It couldn't be moved to quarantine (it may be in use). Close the program that uses it and run a scan."
      }
 }

@@ -35,7 +35,7 @@
 | ⚙️ **Instalación automática de ClamAV** | Si falta, lo instala con `winget` (paquete oficial de Cisco). Solo pide confirmar la ventana de permisos de Windows (UAC). |
 | 🚀 **Inicio con Windows** | Se abre minimizada en la bandeja al encender el equipo. Se puede desactivar. |
 | 🗂️ **Cuarentena e historial** | Restaura o elimina archivos aislados y revisa todo lo que hizo el antivirus. |
-| 🧱 **Seguridad de Windows** | Panel en la pantalla principal que muestra si el firewall, Microsoft Defender, la protección de red, la protección contra ransomware y SmartScreen están activos, y abre su configuración. |
+| 🧱 **Seguridad de Windows** | Panel en la pantalla principal con el estado del firewall, Microsoft Defender, la protección de red, la protección contra ransomware y SmartScreen. Los tres primeros que se pueden cambiar tienen interruptor; Defender y SmartScreen abren su configuración. |
 | 📊 **Estadísticas** | Amenazas por tipo, actividad de escaneo y uso de CPU, memoria y disco. |
 | ⏰ **Escaneos programados** | Diarios, semanales o mensuales con el Programador de tareas de Windows. |
 | 🌐 **Idiomas** | Español e inglés (además de francés, polaco, ruso, armenio y chino). |
@@ -74,10 +74,12 @@ Se cambian en **Configuración → Avanzado → Comportamiento**:
 
 | Modo | Qué vigila | Si detecta algo |
 |---|---|---|
-| **Equilibrado** (por defecto) | Ejecutables, scripts, PDF y ZIP | Lo pone en cuarentena y avisa |
-| **Seguro** | Ejecutables y scripts | Solo avisa |
-| **Estricto** | Lo anterior y archivos de texto; reescanea al modificarse | Lo pone en cuarentena y avisa |
+| **Equilibrado** (por defecto) | Ejecutables, instaladores, scripts y accesos directos; documentos de Office con macros, PDF, comprimidos (ZIP, RAR, 7z, CAB) e imágenes de disco (ISO, IMG) | Lo pone en cuarentena y avisa |
+| **Seguro** | Ejecutables, instaladores, scripts y accesos directos | Solo avisa |
+| **Estricto** | Lo mismo que Equilibrado, más archivos de texto; reescanea al modificarse | Lo pone en cuarentena y avisa |
 | **Experto** | Todos los archivos | Solo avisa |
+
+Toda detección queda en el **Historial**, también en los modos que solo avisan. Si un archivo infectado está en uso y no se puede mover a la cuarentena, la notificación lo dice ("no se pudo aislar") en vez de darlo por bloqueado. Un archivo que todavía se está escribiendo se vuelve a intentar unas cuantas veces antes de darlo por no escaneable.
 
 Mientras está activa, la protección mantiene las firmas cargadas en memoria con `clamd`, el servicio de ClamAV. Así cada archivo se revisa en milisegundos, a cambio de cerca de 1 GB de RAM. Al desactivarla, esa memoria se libera.
 
@@ -90,7 +92,7 @@ No. Todo el escaneo ocurre en tu equipo. La app solo se conecta a internet para 
 No, y no hace falta desactivarlo. ClamAV GUI analiza archivos por firmas y funciona al lado de Defender como segunda opinión.
 
 **¿Protege contra ataques de red o webs maliciosas?**
-No por sí mismo: ClamAV solo analiza archivos. Esa protección la dan el firewall de Windows, la protección de red de Defender y SmartScreen. El panel **Seguridad de Windows** de la pantalla principal muestra si están activos y lleva a su configuración. La protección de red no tiene interruptor en Windows, así que el panel muestra el comando para activarla.
+No por sí mismo: ClamAV solo analiza archivos. Esa protección la dan el firewall de Windows, la protección de red de Defender y SmartScreen. El panel **Seguridad de Windows** de la pantalla principal muestra si están activos. El firewall, la protección de red y la protección contra ransomware se activan desde ahí con un interruptor (Windows pide permiso de administrador), y el botón **Activar recomendadas** enciende el firewall y la protección de red de una vez.
 
 **¿Dónde guarda sus datos?**
 

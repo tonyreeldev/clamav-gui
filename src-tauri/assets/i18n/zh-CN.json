@@ -17,6 +17,8 @@
      "notification": {
           "threat-blocked": "威胁已拦截",
           "threat-detected": "检测到威胁",
-          "threat-body": "威胁：{threat}\n文件：{file}"
+          "threat-body": "威胁：{threat}\n文件：{file}",
+          "threat-not-isolated": "检测到威胁，未能隔离",
+          "threat-not-isolated-hint": "无法移入隔离区（可能正在使用）。请关闭使用它的程序并运行扫描。"
      }
 }

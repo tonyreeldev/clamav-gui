@@ -56,7 +56,8 @@
           "gui-updater-finished": "GUI update has been finished",
           "gui-updater-error": "GUI update failed",
           "gui-updater-updated": "GUI is up to date",
-          "gui-updater-needed": "GUI Update Available"
+          "gui-updater-needed": "GUI Update Available",
+          "real-time-threat": "Real-time Threat Detected"
      },
      "behavior": {
           "balanced": "Balanced",
@@ -65,7 +66,7 @@
           "expert": "Expert"
      },
      "details": {
-          "real-time-error": "Failed to start real-time scan: {{err}}",
+          "real-time-error": "Real-time protection problem: {{err}}",
           "real-time-start_one": "Real-time scan started in {{behavior}} mode, monitoring one path",
           "real-time-start_two": "Real-time scan started in {{behavior}} mode, monitoring two paths",
           "real-time-start_few": "Real-time scan started in {{behavior}} mode, monitoring {{count}} paths",
@@ -105,7 +106,10 @@
           "gui-updater-finished": "The ClamAV GUI successfully updated to the new version",
           "gui-updater-error": "Failed to update the GUI: {{err}}",
           "gui-updater-updated": "You are using the latest version of the ClamAV GUI: v{{version}}",
-          "gui-updater-needed": "The new version of the ClamAV GUI is available"
+          "gui-updater-needed": "The new version of the ClamAV GUI is available",
+          "real-time-threat": "{{threat}} detected in {{file}}. The current mode only warns: scan the file to quarantine it.",
+          "real-time-threat-failed": "{{threat}} detected in {{file}}, but it couldn't be moved to quarantine (it may be in use). Close the program and scan it.",
+          "quarantine-threat-file": "{{threat}} was found in {{file}} and moved to quarantine"
      },
      "clear-date": {
           "title": "Clear up to the date",

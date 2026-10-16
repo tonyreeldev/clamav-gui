@@ -57,8 +57,6 @@
           "intro": "ClamAV GUI scans files. These Windows protections cover what it doesn't: network attacks, malicious websites and ransomware.",
           "refresh": "Check again",
           "open": "Open",
-          "how-to-enable": "How to turn it on",
-          "command-note": "Windows Security has no switch for this. Run this command in PowerShell as administrator, then click \"Check again\":",
           "error": "Couldn't check the Windows Security status.",
           "checks": {
                "firewall": {
@@ -105,6 +103,28 @@
                "Domain": "domain",
                "Private": "private",
                "Public": "public"
+          },
+          "uac-note": "Changing a switch asks Windows for administrator permission: click \"Yes\" in the window that appears.",
+          "recommended": {
+               "title": "Recommended protections are off",
+               "desc": "Turn on the firewall and network protection to block attacks and malicious websites.",
+               "button": "Turn on recommended"
+          },
+          "toggle": {
+               "label": "Turn {{name}} on or off",
+               "applied": "Change applied",
+               "cancelled": "Change cancelled: Windows permission was not granted",
+               "failed": "Windows couldn't apply the change",
+               "unchanged": "Windows didn't apply the change. It may be managed by your organization or by another security product."
+          },
+          "confirm": {
+               "off-title": "Turn off {{name}}?",
+               "off-desc": "Your PC will be less protected. You can turn it back on at any time from here.",
+               "off-submit": "Turn off",
+               "cfa-title": "Turn on ransomware protection?",
+               "cfa-desc": "It protects your documents, pictures and desktop. Some legitimate apps may be blocked from saving there; Windows will notify you and you can allow them in Windows Security.",
+               "cfa-submit": "Turn on",
+               "cancel": "Cancel"
           }
      }
 }

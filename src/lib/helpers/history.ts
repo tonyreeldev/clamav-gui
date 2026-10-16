@@ -7,12 +7,19 @@ export function translateDetails(d: HistoryDetails, t: TFunction<"history">) {
      switch (d.type) {
           case "real-time-error":
                return t("details.real-time-error", { err: d.details.err });
+          case "real-time-threat":
+               return t(d.details.quarantine_failed ? "details.real-time-threat-failed" : "details.real-time-threat", {
+                    threat: d.details.threat,
+                    file: d.details.file_path,
+               });
           case "real-time-start":
                return t("details.real-time-start", {
                     behavior: t(`behavior.${d.details.behavior}`),
                     count: d.details.paths,
                });
           case "quarantine-threat":
+               if (d.details.file_path) return t("details.quarantine-threat-file", { threat: d.details.threat, file: d.details.file_path });
+               return t("details.quarantine-threat", { threat: d.details.threat });
           case "restore-threat":
           case "delete-threat":
                return t(`details.${d.type}`, { threat: d.details.threat });

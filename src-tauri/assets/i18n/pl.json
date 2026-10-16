@@ -17,6 +17,8 @@
      "notification": {
           "threat-blocked": "Zagrożenie zablokowane",
           "threat-detected": "Wykryto zagrożenie",
-          "threat-body": "Zagrożenie: {threat}\nPlik: {file}"
+          "threat-body": "Zagrożenie: {threat}\nPlik: {file}",
+          "threat-not-isolated": "Wykryto zagrożenie, nie odizolowano",
+          "threat-not-isolated-hint": "Nie udało się przenieść do kwarantanny (może być w użyciu). Zamknij program, który go używa, i uruchom skanowanie."
      }
 }

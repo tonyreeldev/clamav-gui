@@ -97,6 +97,7 @@ export enum HistoryClearType {
 }
 export enum HistoryType {
      RealTimeError = "real-time-error",
+     RealTimeThreat = "real-time-threat",
      RealTimeStart = "real-time-start",
      RealTimeStop = "real-time-stop",
      QuarantineThreat = "quarantine-threat",

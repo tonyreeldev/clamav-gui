@@ -45,10 +45,26 @@ use crate::{
             clear_scheduled_jobs, list_scheduler, remove_scheduled_task, run_job_now, schedule_task,
         },
         sysinfo::{get_sys_info, get_sys_stats},
-        security::{get_security_status, open_security_settings},
+        security::{get_security_status, open_security_settings, set_security_features},
     },
     types::structs::AppLanguage
 };
+
+/// The configured 1300x900 doesn't fit common laptops (e.g. 1920x1080 at 150% leaves ~1280x690),
+/// so shrink the window to the screen's usable area (without the taskbar) and center it.
+fn fit_to_screen(window: &tauri::WebviewWindow) {
+    let Ok(Some(monitor)) = window.current_monitor() else { return };
+    let scale = monitor.scale_factor();
+    let area = monitor.work_area().size.to_logical::<f64>(scale);
+    let Ok(size) = window.outer_size() else { return };
+    let size = size.to_logical::<f64>(scale);
+    let width = size.width.min(area.width * 0.95);
+    let height = size.height.min(area.height * 0.95);
+    if width < size.width || height < size.height {
+        let _ = window.set_size(tauri::LogicalSize::new(width, height));
+    }
+    let _ = window.center();
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -104,7 +120,8 @@ pub fn run() {
         install_clamav,
         notify,
         get_security_status,
-        open_security_settings
+        open_security_settings,
+        set_security_features
     ]);
 
     tauri::Builder::default()
@@ -126,6 +143,7 @@ pub fn run() {
                 *guard = default;
             }
             if let Some(window) = app.get_webview_window("main") {
+                fit_to_screen(&window);
                 // The window starts hidden (tauri.conf.json); a login launch stays in the tray.
                 if !std::env::args().any(|arg| arg == MINIMIZED_FLAG) {
                     let _ = window.show();

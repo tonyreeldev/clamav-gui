@@ -2,6 +2,26 @@
 
 ## Sin publicar
 
+## 1.0.10 — 2026-10-16
+
+### Añadido
+- Interruptores en el panel **Seguridad de Windows** para activar o desactivar el firewall, la protección de red y la protección contra ransomware. Windows pide permiso de administrador una vez por cambio.
+- Botón **Activar recomendadas**, que enciende el firewall y la protección de red con un solo permiso.
+- El tiempo real vigila más tipos de archivo peligrosos:
+  - instaladores y ejecutables: `.msi`, `.msix`, `.scr`, `.cmd`, `.hta`, `.jar`, `.lnk`, `.wsf`, `.vbe`, `.jse`
+  - documentos de Office con macros: `.docm`, `.xlsm`, `.pptm`
+  - comprimidos e imágenes de disco: `.rar`, `.7z`, `.cab`, `.iso`, `.img`
+- Toda detección del tiempo real queda en el historial, también en los modos que solo avisan.
+- El historial de cuarentena muestra en qué archivo y ruta se encontró la amenaza, no solo su nombre.
+
+### Corregido
+- En laptops, la ventana ya no se sale de la pantalla: se ajusta al área disponible y tiene un tamaño mínimo de 800×560.
+- En ventanas estrechas, la barra superior muestra solo iconos, para que todas las secciones sigan visibles (antes Estadísticas y Programador quedaban ocultas).
+- El tiempo real ya no notifica "Amenaza bloqueada" si no pudo moverla a la cuarentena (por ejemplo, porque el archivo está en uso). Ahora avisa "Amenaza detectada, no se pudo aislar" y lo registra como error.
+- Los archivos que todavía se están escribiendo o están bloqueados se reintentan, en vez de quedarse sin escanear.
+- Los errores del tiempo real (carpetas que no se pueden vigilar, `clamd` caído, archivos no escaneables) quedan en su registro y en el historial.
+- El contador de la cuarentena se actualiza también cuando el tiempo real aísla un archivo.
+
 ## 1.0.9 — 2026-10-16
 
 ### Añadido

@@ -76,7 +76,7 @@ pub fn quarantine_file(
             id: new_id(),
             timestamp: chrono::Utc::now().to_rfc3339(),
             action: Some(HistoryType::QuarantineThreat),
-            details: Some(HistoryDetails::QuarantineThreat { threat: threat_name.clone() }),
+            details: Some(HistoryDetails::QuarantineThreat { threat: threat_name.clone(), file_path: Some(file_path.clone()) }),
             status: HistoryStatus::Warning,
             category: Some(LogCategory::Quarantine),
             log_id: Some(log_id.clone()),

@@ -1,4 +1,5 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { listen } from "@tauri-apps/api/event";
 
 interface QuarantineCountContextValue{
      quarantineCount: number
@@ -10,6 +11,14 @@ const QuarantineCountContext = createContext<QuarantineCountContextValue | null>
 
 export function QuarantineCountProvider({ children }: { children: React.ReactNode }){
      const [count, setCount] = useState(()=>parseInt(localStorage.getItem("quarantine-count") as string) || 0)
+     // Real-time protection quarantines in the background, outside any page.
+     useEffect(() => {
+          const unlisten = listen("realtime:quarantined", () => setCount(prev => {
+               localStorage.setItem("quarantine-count", String(prev + 1));
+               return prev + 1;
+          }));
+          return () => { unlisten.then(fn => fn()); };
+     }, []);
      const values: QuarantineCountContextValue = useMemo(()=>({
           quarantineCount: count,
           // Functional updates: two quarantines finishing together must both count.

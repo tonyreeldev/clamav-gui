@@ -17,6 +17,8 @@
      "notification": {
           "threat-blocked": "Amenaza bloqueada",
           "threat-detected": "Amenaza detectada",
-          "threat-body": "Amenaza: {threat}\nArchivo: {file}"
+          "threat-body": "Amenaza: {threat}\nArchivo: {file}",
+          "threat-not-isolated": "Amenaza detectada, no se pudo aislar",
+          "threat-not-isolated-hint": "No se pudo mover a la cuarentena (puede estar en uso). Cierra el programa que la usa y ejecuta un escaneo."
      }
 }

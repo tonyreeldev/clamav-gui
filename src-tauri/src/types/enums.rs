@@ -131,6 +131,7 @@ pub enum BehaviorMode {
 #[serde(rename_all = "kebab-case")]
 pub enum HistoryType{
     RealTimeError,
+    RealTimeThreat,
     RealTimeStart,
     RealTimeStop,
     QuarantineThreat,
@@ -158,9 +159,12 @@ pub enum HistoryType{
 #[serde(tag = "type", content = "details", rename_all = "kebab-case")]
 pub enum HistoryDetails{
     RealTimeError {err: String},
+    /// A real-time detection that is NOT in quarantine: warn-only mode, or the move failed.
+    RealTimeThreat {threat: String, file_path: String, quarantine_failed: bool},
     RealTimeStart {behavior: BehaviorMode, paths: usize},
     RealTimeStop,
-    QuarantineThreat {threat: String},
+    /// file_path is missing in entries written before 1.0.10.
+    QuarantineThreat {threat: String, file_path: Option<String>},
     RestoreThreat {threat: String},
     DeleteThreat {threat: String},
     ScanStart {scan_type: ScanType},
@@ -229,5 +233,15 @@ impl SettingKeyString {
         match self {
             SettingKeyString::CloseButtonBehavior => "closeButtonBehavior",
         }
+    }
+}
+#[cfg(test)]
+mod tests {
+    use super::HistoryDetails;
+
+    #[test]
+    fn old_quarantine_entries_without_path_still_load() {
+        let old: HistoryDetails = serde_json::from_str(r#"{"type":"quarantine-threat","details":{"threat":"Win.Test"}}"#).unwrap();
+        assert!(matches!(old, HistoryDetails::QuarantineThreat { file_path: None, .. }));
     }
 }

@@ -1,3 +1,71 @@
+# v1.0.10: interruptores de seguridad, tiempo real más fiable y ventana adaptada a laptops
+
+## Interruptores en "Seguridad de Windows"
+
+**Por qué.** Quien no es técnico no sabe qué hacer con un botón "Abrir" o con un comando. El usuario pidió interruptores como en el resto de la app.
+
+**Qué se puede cambiar y qué no:**
+
+| Fila | Control | Motivo |
+|---|---|---|
+| Firewall | Interruptor | `Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True/False` |
+| Protección de red | Interruptor | `Set-MpPreference -EnableNetworkProtection Enabled/Disabled` |
+| Protección contra ransomware | Interruptor, con aviso al activar | `Set-MpPreference -EnableControlledFolderAccess ...`. Puede bloquear apps legítimas, así que se confirma antes. |
+| Antivirus de Windows | "Abrir" | La protección contra alteraciones de Defender bloquea cambiarlo desde fuera (está activa en este equipo). |
+| SmartScreen | "Abrir" | Está repartido entre Windows (HKLM) y Edge (HKCU); cambiarlo por registro no es fiable. |
+
+**Cómo funciona.**
+- `set_security_features` (en `system/security.rs`) solo ejecuta comandos fijos: el webview no puede pasar nada más.
+- Los cambios se aplican en un PowerShell elevado (`Start-Process -Verb RunAs`), así que Windows muestra una sola ventana de permisos, también para "Activar recomendadas".
+- Si se cancela el permiso, la app avisa "Cambio cancelado" (Windows devuelve el código 1223).
+- Después de cada cambio se vuelve a leer el estado. Si una directiva u otro producto mantiene el valor anterior, se avisa en vez de dar el cambio por hecho.
+- Desactivar algo pide confirmación.
+- El envoltorio se probó sin elevación, con comandos inofensivos: un comando correcto devuelve 0 y uno que falla devuelve 1.
+
+## Tiempo real: detecciones fiables y visibles
+
+**Problemas encontrados al revisar qué hace el tiempo real en segundo plano:**
+1. La notificación "Amenaza bloqueada" salía *antes* de intentar la cuarentena. Si el archivo estaba en uso, se decía "bloqueada" y el archivo seguía ahí.
+2. En los modos que solo avisan, la detección no quedaba en ningún sitio; si no se veía la notificación, se perdía.
+3. El modo por defecto no vigilaba formatos muy usados para colar malware (`.msi`, `.scr`, `.lnk`, `.hta`, Office con macros, `.rar`, `.7z`, `.iso`...).
+4. Los errores solo iban a `eprintln`, que no se ve en la app compilada.
+5. Un archivo que `clamd` no podía leer en ese momento (bloqueado o a medio escribir) se quedaba sin escanear.
+6. El contador de la cuarentena no subía con el tiempo real.
+
+**Solución (`helpers/real_time.rs`):**
+- `handle_detection` primero intenta la cuarentena y luego notifica lo que realmente pasó. Si no se pudo aislar, el aviso es "Amenaza detectada, no se pudo aislar", con instrucciones, en los 7 idiomas.
+- Cada detección que no acaba en cuarentena se guarda con el tipo `real-time-threat` (`quarantine_failed` distingue el caso). Las que sí acaban en cuarentena ya las registraba `quarantine_file`.
+- Las listas de extensiones están en dos constantes (`EXECUTABLE_TYPES` y `CONTAINER_TYPES`), con su prueba unitaria.
+- Los errores van al registro del tiempo real. Una caída de `clamd` también va al historial, una sola vez por sesión.
+- Cada lectura fallida se reintenta hasta 5 veces, más o menos cada 3 s.
+- El evento `realtime:quarantined` actualiza el contador de la interfaz.
+- La entrada de historial `quarantine-threat` ahora guarda `file_path`. La interfaz muestra "X se encontró en <ruta> y se movió a la cuarentena". Las entradas antiguas, sin ruta, se siguen leyendo (hay una prueba para ello). Esto salió de una observación del usuario: el historial no decía qué archivo ni en qué ruta.
+
+**Prueba de punta a punta en el equipo de desarrollo.** Se creó una firma temporal propia (`sigtool --md5`, con el nombre `ClamAVGUI.Prueba.Inofensiva`) para un archivo inofensivo, porque Defender bloquea EICAR. Se probaron 3 casos en Descargas:
+
+| Caso | Resultado |
+|---|---|
+| A: `.exe` nuevo | Detectado, en cuarentena, notificado y registrado |
+| B: `.exe` abierto en solo lectura y sin permitir moverlo (como uno en ejecución) | Detectado, la cuarentena falla (código 32), aviso "no se pudo aislar", registrado como error y sin metadatos huérfanos |
+| C: archivo bloqueado del todo durante 8 s | Los reintentos lo escanean al liberarse y acaba en cuarentena |
+
+Al terminar se borraron la firma, los archivos, sus entradas de cuarentena y las entradas de prueba del historial.
+
+## Ventana y responsive
+
+**Problema.**
+- La ventana abría siempre a 1300×900 (unidades lógicas). En una laptop de 1920×1080 al 150 % quedan unos 1280×690 útiles, así que se salía de la pantalla.
+- Con ventanas estrechas, la barra superior escondía Estadísticas y Programador en un desplazamiento horizontal sin barra visible.
+
+**Solución.**
+- `lib.rs` (`fit_to_screen`): al arrancar, la ventana se reduce al 95 % del área útil del monitor (sin la barra de tareas) y se centra.
+- `tauri.conf.json`: tamaño mínimo de 800×560.
+- `top-nav.tsx`: los nombres de las secciones solo aparecen desde 1280 px; por debajo, iconos con el nombre como descripción emergente y etiqueta accesible.
+
+**Verificado.** Se renderizaron todas las pantallas en un Edge headless (sin ventana, con un perfil temporal) y el backend simulado, a 800×560, 1093×614 y 1280×690, con los tres juegos de estados del panel. El arnés de prueba no se guardó en el repositorio.
+
+---
+
 # v1.0.9: tiempo real desde el primer arranque y panel de Seguridad de Windows
 
 ## Panel "Seguridad de Windows"

@@ -31,6 +31,7 @@ export default function TopNav(){
                                    <li key={href}>
                                         <Link
                                              to={href}
+                                             title={t(`sidebar.${name}`)}
                                              aria-current={isActive(href) ? "page" : undefined}
                                              className={cn(
                                                   "relative flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-colors",
@@ -38,7 +39,8 @@ export default function TopNav(){
                                              )}
                                         >
                                              <Icon className="size-4"/>
-                                             <span className="hidden md:inline">{t(`sidebar.${name}`)}</span>
+                                             {/* All six labels only fit from ~1280 px; narrower windows (laptops) show icons only, so no tab is pushed out of view. */}
+                                             <span className="sr-only xl:not-sr-only">{t(`sidebar.${name}`)}</span>
                                              {name===SidebarLink.Quarantine && quarantineCount>0 && (
                                                   <span className="ml-0.5 rounded-full bg-destructive px-1.5 text-[10px] leading-4 font-semibold text-white">{quarantineCount}</span>
                                              )}
