@@ -29,7 +29,7 @@ fn request(cmd: &str, timeout: Duration) -> Result<String, String> {
     Ok(String::from_utf8_lossy(&reply).trim_end_matches('\0').trim().to_string())
 }
 
-fn is_alive() -> bool {
+pub fn is_alive() -> bool {
     request("PING", Duration::from_secs(5)).is_ok_and(|r| r == "PONG")
 }
 

@@ -2,6 +2,17 @@
 
 ## Sin publicar
 
+## 1.0.9 — 2026-10-16
+
+### Añadido
+- Panel **Seguridad de Windows** en la pantalla principal. Muestra el estado del firewall, Microsoft Defender, la protección de red, la protección contra ransomware y SmartScreen, y abre la página correspondiente de Seguridad de Windows. Solo consulta: no cambia ningún ajuste.
+
+### Corregido
+- La protección en tiempo real no se activaba en el primer arranque tras instalar, aunque está activada por defecto: la lista de carpetas vigiladas aún no existía. Ahora, si está vacía, se vigilan las carpetas de usuario habituales.
+- Si una carpeta vigilada ya no existe, se omite en vez de dejar todo el equipo sin protección.
+- Si el arranque de la protección falla, se reintenta cada 30 segundos.
+- En una instalación nueva, `clamd` arranca en cuanto termina la primera descarga de firmas.
+
 ## 1.0.8 — 2026-10-16
 
 ### Añadido

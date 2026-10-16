@@ -1,5 +1,6 @@
 pub mod logs;
 pub mod scheduler;
+pub mod security;
 pub mod sysinfo;
 
 use std::sync::atomic::Ordering;

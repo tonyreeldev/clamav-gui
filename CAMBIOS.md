@@ -1,3 +1,66 @@
+# v1.0.9: tiempo real desde el primer arranque y panel de Seguridad de Windows
+
+## Panel "Seguridad de Windows"
+
+**Por qué.** ClamAV solo analiza archivos: no tiene firewall, protección de red, filtro de webs ni protección contra ransomware. Hacer eso de verdad necesitaría un controlador del kernel firmado por Microsoft. Esas protecciones ya existen en Windows, así que el panel muestra si están activas y lleva a activarlas. Por decisión del usuario, solo abre la configuración y nunca cambia ajustes.
+
+**Qué consulta** (todo sin permisos de administrador, comprobado en el equipo de desarrollo):
+
+| Fila | Fuente |
+|---|---|
+| Firewall | `Get-NetFirewallProfile`, más `SecurityCenter2/FirewallProduct` para firewalls de otras marcas |
+| Antivirus de Windows | `Get-MpComputerStatus`, más `SecurityCenter2/AntiVirusProduct` para otros antivirus |
+| Protección de red | `Get-MpPreference` → `EnableNetworkProtection` |
+| Protección contra ransomware | `Get-MpPreference` → `EnableControlledFolderAccess` |
+| SmartScreen | Registro: `SmartScreenEnabled`, la directiva `EnableSmartScreen` y la clave de Edge en HKCU |
+
+**Estados:**
+- Activado, desactivado y activado en parte (por ejemplo, firewall apagado solo en redes públicas).
+- Solo auditoría.
+- Lo gestiona otro producto.
+- Desactualizado, cuando las firmas de Defender tienen más de 3 días.
+- No aplica: la protección de red y la de ransomware solo funcionan si Defender es el antivirus principal.
+- Desconocido, cuando no se pudo leer.
+
+**Implementación.**
+- `src-tauri/src/system/security.rs`:
+  - Hace una sola consulta de PowerShell que devuelve JSON. Tarda ~4 s y tiene un límite de 20 s.
+  - La interpretación está en Rust, con 5 pruebas: una con la salida real de este equipo y las demás para cada estado.
+  - `open_security_settings` solo abre una lista fija de URI `windowsdefender://`.
+  - La protección de red no tiene interruptor en Seguridad de Windows, así que esa fila muestra el comando `Set-MpPreference -EnableNetworkProtection Enabled` para copiarlo.
+- `src/components/antivirus/windows-security.tsx`:
+  - Mientras carga se ve un esqueleto, y si algo falla aparece un error con reintento.
+  - Se actualiza al abrirse, al volver a la ventana (como mucho cada 15 s) y con "Comprobar de nuevo".
+  - En sistemas que no son Windows el panel no aparece.
+
+**Verificado en uso real:** el panel se ve con los estados del equipo de desarrollo (firewall, Defender y SmartScreen activados; protección de red y contra ransomware desactivadas).
+
+## El tiempo real no se activaba en el primer arranque
+
+**Síntoma.** Tras instalar, la protección en tiempo real aparecía apagada aunque está activada por defecto.
+
+**Causa.** En una instalación nueva, la lista de carpetas vigiladas (`monitoringPaths`) la rellena la interfaz de forma asíncrona. Pero la interfaz pide el tiempo real nada más abrirse, así que:
+1. El backend recibía la lista vacía y respondía `No paths provided for monitoring` antes de escribir ningún registro.
+2. No había reintento.
+3. El aviso se perdía porque salía mientras se veía la pantalla de carga.
+
+Además, una sola carpeta inexistente en la lista (por ejemplo "Música") también impedía arrancar. El diagnóstico salió de los datos de la app: `logs/realtime` no existía y el historial no tenía ninguna entrada del tiempo real.
+
+**Solución.**
+- `antivirus/mod.rs`:
+  - Si la lista está vacía, se vigilan las carpetas habituales (`get_main_paths`).
+  - Las carpetas que no existen se omiten y quedan en el registro.
+  - Las carpetas anidadas se reducen a la más externa con `outermost_paths`, que tiene su propia prueba.
+- `context/antivirus/real-time.tsx`: si el arranque falla, se reintenta cada 30 s mientras la protección siga activada en los ajustes.
+- `antivirus/update.rs`: en una instalación nueva, `clamd` no puede cargar porque aún no hay firmas. Ahora se arranca en cuanto termina la primera descarga, sin esperar al siguiente archivo nuevo.
+
+**Verificado en uso real.** Se desinstaló la app, borrando sus datos, y se abrió la 1.0.9:
+- El tiempo real arrancó solo, vigilando 2 carpetas (la de usuario y la pública).
+- `clamd` arrancó en 5 s con el primer archivo nuevo: respondió `PONG` y usaba ~960 MB.
+- El desinstalador de la 1.0.8 había quitado la entrada de inicio automático.
+
+---
+
 # Cambios del 16 de octubre de 2026 (v1.0.8)
 
 Publicado como [v1.0.8](https://github.com/tonyreeldev/clamav-gui/releases/tag/v1.0.8). Este documento resume qué se cambió en ClamAV GUI, por qué y cómo se comprobó. Sirve como registro para quien revise el código en GitHub. El resumen corto para usuarios está en [CHANGELOG.md](CHANGELOG.md).

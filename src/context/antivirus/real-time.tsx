@@ -35,12 +35,21 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
                setEnabled(false);
                return
           }
-          // Only report protection as on when the backend actually started it (e.g. a watched folder may be gone).
-          start().then(() => setEnabled(true)).catch(e => {
-               setEnabled(false);
-               invoke("update_tray_icon",{state: "disabled"}).catch(()=>{});
-               toast.error(messageTxt("realtime-start-error"), { description: getErrorMessage(e) });
-          });
+          // Only report protection as on when the backend actually started it. Protection is on by default,
+          // so a failed start (e.g. during login) is retried instead of leaving the PC unprotected.
+          let cancelled = false;
+          let retry: ReturnType<typeof setTimeout> | undefined;
+          const attempt = (notify: boolean) => {
+               start().then(() => { if (!cancelled) setEnabled(true) }).catch(e => {
+                    if (cancelled) return;
+                    setEnabled(false);
+                    invoke("update_tray_icon",{state: "disabled"}).catch(()=>{});
+                    if (notify) toast.error(messageTxt("realtime-start-error"), { description: getErrorMessage(e) });
+                    retry = setTimeout(() => attempt(false), 30_000);
+               });
+          };
+          attempt(true);
+          return () => { cancelled = true; clearTimeout(retry); };
      }, [settings.realTime, settings.behavior]);
      const values: RealtimeContextValue = useMemo(()=>({
           enabled,

@@ -76,7 +76,18 @@ pub fn update_definitions(app: tauri::AppHandle) -> Result<(), String> {
                     _ => HistoryStatus::Error,
                 };
                 if exit_code == 0 {
-                    crate::helpers::clamd::reload();
+                    use crate::helpers::{clamd, real_time::REALTIME_ENABLED};
+                    // On a fresh install real-time starts before the first signatures exist and clamd can't load;
+                    // start it as soon as they arrive instead of waiting for the next new file.
+                    std::thread::spawn(|| {
+                        if clamd::is_alive() {
+                            clamd::reload();
+                        } else if REALTIME_ENABLED.load(Ordering::SeqCst) {
+                            if let Err(e) = clamd::ensure_running() {
+                                eprintln!("clamd still unavailable after the update: {}", e);
+                            }
+                        }
+                    });
                 }
                 append_update_history(
                     &app,

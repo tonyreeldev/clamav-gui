@@ -45,6 +45,7 @@ use crate::{
             clear_scheduled_jobs, list_scheduler, remove_scheduled_task, run_job_now, schedule_task,
         },
         sysinfo::{get_sys_info, get_sys_stats},
+        security::{get_security_status, open_security_settings},
     },
     types::structs::AppLanguage
 };
@@ -101,7 +102,9 @@ pub fn run() {
         is_updating_definitions,
         sync_autostart,
         install_clamav,
-        notify
+        notify,
+        get_security_status,
+        open_security_settings
     ]);
 
     tauri::Builder::default()

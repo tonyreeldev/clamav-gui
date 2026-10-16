@@ -290,19 +290,6 @@ pub fn start_realtime_scan(
     if paths.is_empty() {
         return Err("No paths provided for real-time scanning".into());
     }
-    let mut invalid_paths = Vec::new();
-    for path in &paths {
-        let p = PathBuf::from(path);
-        if !p.exists() {
-            invalid_paths.push(path.clone());
-        }
-    }
-    if !invalid_paths.is_empty() {
-        return Err(format!(
-            "The following paths do not exist: {}",
-            invalid_paths.join(", ")
-        ));
-    }
     let generation = GENERATION.fetch_add(1, Ordering::SeqCst) + 1;
     PENDING.lock().unwrap().clear();
     NOTIFIED.lock().unwrap().clear();

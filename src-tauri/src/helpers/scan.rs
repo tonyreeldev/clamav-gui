@@ -216,6 +216,19 @@ pub fn get_root_path() -> &'static str {
     }
 }
 
+/// Scans and watches are recursive, so a folder inside another listed one (e.g. Desktop inside home)
+/// would be handled twice; keep only the outermost folders.
+pub fn outermost_paths(mut paths: Vec<PathBuf>) -> Vec<PathBuf> {
+    paths.sort();
+    let mut roots: Vec<PathBuf> = Vec::new();
+    for p in paths {
+        if !roots.iter().any(|r| p.starts_with(r)) {
+            roots.push(p);
+        }
+    }
+    roots
+}
+
 pub fn get_main_paths(resolver: &PathResolver<Wry>) -> Vec<PathBuf> {
     let mut paths: Vec<PathBuf> = [
         resolver.audio_dir(),
@@ -240,15 +253,7 @@ pub fn get_main_paths(resolver: &PathResolver<Wry>) -> Vec<PathBuf> {
     }
 
     paths.retain(|p| p.exists());
-    paths.sort();
-    // The scan is recursive, so a folder inside another listed one (e.g. Desktop inside home) would be scanned twice.
-    let mut roots: Vec<PathBuf> = Vec::new();
-    for p in paths {
-        if !roots.iter().any(|r| p.starts_with(r)) {
-            roots.push(p);
-        }
-    }
-    let paths = roots;
+    let paths = outermost_paths(paths);
 
     #[cfg(debug_assertions)]
     for p in &paths {
@@ -335,5 +340,21 @@ pub fn fetch_custom_scan_args(args: Option<Vec<String>>, has_directory: bool) ->
         args
     } else {
         default_args
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::PathBuf;
+
+    #[test]
+    fn keeps_only_outermost_folders() {
+        let roots = super::outermost_paths(
+            [r"C:\Users\Tony Reel\Desktop", r"C:\Users\Tony Reel", r"C:\Users\Public", r"C:\Users\Tony Reel\AppData\Local"]
+                .iter()
+                .map(PathBuf::from)
+                .collect(),
+        );
+        assert_eq!(roots, vec![PathBuf::from(r"C:\Users\Public"), PathBuf::from(r"C:\Users\Tony Reel")]);
     }
 }

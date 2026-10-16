@@ -35,6 +35,7 @@
 | ⚙️ **Instalación automática de ClamAV** | Si falta, lo instala con `winget` (paquete oficial de Cisco). Solo pide confirmar la ventana de permisos de Windows (UAC). |
 | 🚀 **Inicio con Windows** | Se abre minimizada en la bandeja al encender el equipo. Se puede desactivar. |
 | 🗂️ **Cuarentena e historial** | Restaura o elimina archivos aislados y revisa todo lo que hizo el antivirus. |
+| 🧱 **Seguridad de Windows** | Panel en la pantalla principal que muestra si el firewall, Microsoft Defender, la protección de red, la protección contra ransomware y SmartScreen están activos, y abre su configuración. |
 | 📊 **Estadísticas** | Amenazas por tipo, actividad de escaneo y uso de CPU, memoria y disco. |
 | ⏰ **Escaneos programados** | Diarios, semanales o mensuales con el Programador de tareas de Windows. |
 | 🌐 **Idiomas** | Español e inglés (además de francés, polaco, ruso, armenio y chino). |
@@ -86,7 +87,10 @@ Mientras está activa, la protección mantiene las firmas cargadas en memoria co
 No. Todo el escaneo ocurre en tu equipo. La app solo se conecta a internet para descargar ClamAV y las firmas de virus desde los servidores oficiales de ClamAV.
 
 **¿Reemplaza a Windows Defender?**
-No hace falta desactivar Defender. ClamAV GUI puede funcionar a su lado como una segunda opinión.
+No, y no hace falta desactivarlo. ClamAV GUI analiza archivos por firmas y funciona al lado de Defender como segunda opinión.
+
+**¿Protege contra ataques de red o webs maliciosas?**
+No por sí mismo: ClamAV solo analiza archivos. Esa protección la dan el firewall de Windows, la protección de red de Defender y SmartScreen. El panel **Seguridad de Windows** de la pantalla principal muestra si están activos y lleva a su configuración. La protección de red no tiene interruptor en Windows, así que el panel muestra el comando para activarla.
 
 **¿Dónde guarda sus datos?**
 

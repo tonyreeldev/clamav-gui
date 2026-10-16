@@ -5,6 +5,7 @@ import { DefinitionStatus, Indicator } from "@/lib/types/enums";
 import { checkDefinitionStatus } from "@/data/app";
 import { SafetyIndicatorLoader } from "@/loaders/overview";
 import OverviewCard from "@/components/cards/overview";
+import WindowsSecurity from "@/components/antivirus/windows-security";
 import { useTranslation } from "react-i18next";
 
 const SafetyIndicator = lazy(()=>import("@/components/antivirus/indicator"));
@@ -41,6 +42,7 @@ export default function OverviewContent(){
                          />
                     ))}
                </div>
+               <WindowsSecurity/>
           </>
      )
 }

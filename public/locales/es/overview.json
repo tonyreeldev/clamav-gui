@@ -51,5 +51,60 @@
           "folder": "Elige varias carpetas para escanear"
      },
      "scan-now": "Escanear ahora",
-     "quick-actions": "Acciones rápidas"
+     "quick-actions": "Acciones rápidas",
+     "windows-security": {
+          "title": "Seguridad de Windows",
+          "intro": "ClamAV GUI analiza archivos. Estas protecciones de Windows cubren lo que no hace: ataques de red, webs maliciosas y ransomware.",
+          "refresh": "Comprobar de nuevo",
+          "open": "Abrir",
+          "how-to-enable": "Cómo activarla",
+          "command-note": "Seguridad de Windows no tiene un interruptor para esto. Ejecuta este comando en PowerShell como administrador y luego pulsa \"Comprobar de nuevo\":",
+          "error": "No se pudo comprobar el estado de Seguridad de Windows.",
+          "checks": {
+               "firewall": {
+                    "name": "Firewall",
+                    "desc": "Bloquea las conexiones de red no deseadas hacia y desde este equipo."
+               },
+               "antivirus": {
+                    "name": "Antivirus de Windows",
+                    "desc": "Protección en tiempo real de Microsoft Defender, con detección en la nube y por comportamiento."
+               },
+               "network-protection": {
+                    "name": "Protección de red",
+                    "desc": "Bloquea las conexiones a servidores maliciosos y de phishing desde cualquier aplicación."
+               },
+               "ransomware-protection": {
+                    "name": "Protección contra ransomware",
+                    "desc": "Acceso controlado a carpetas: impide que apps desconocidas modifiquen tus documentos."
+               },
+               "smart-screen": {
+                    "name": "SmartScreen",
+                    "desc": "Avisa de webs, descargas y aplicaciones peligrosas."
+               }
+          },
+          "states": {
+               "on": "Activado",
+               "off": "Desactivado",
+               "partial": "Activado en parte",
+               "audit": "Solo auditoría",
+               "third-party": "Lo gestiona otro producto",
+               "outdated": "Desactualizado",
+               "not-applicable": "No aplica",
+               "unknown": "Desconocido"
+          },
+          "details": {
+               "profiles-off": "Desactivado para redes: {{profiles}}",
+               "managed-by": "Gestionado por {{name}}",
+               "signatures-age": "Las firmas tienen {{count}} días",
+               "off-in": "Desactivado en {{where}}",
+               "audit": "Registra las amenazas, pero no las bloquea.",
+               "not-applicable": "Solo funciona cuando Microsoft Defender es el antivirus principal.",
+               "unknown": "No se pudo comprobar en este equipo (puede estar gestionado por tu organización)."
+          },
+          "profiles": {
+               "Domain": "de dominio",
+               "Private": "privadas",
+               "Public": "públicas"
+          }
+     }
 }

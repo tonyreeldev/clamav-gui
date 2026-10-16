@@ -6,11 +6,13 @@ pub mod stats;
 pub mod update;
 
 use specta::specta;
-use tauri::command;
+use std::path::PathBuf;
+use tauri::{command, Manager};
 
 use crate::{
     helpers::{
-        settings::get_settings_as_array, history::append_realtime_history, log::{initialize_log, log_err, log_info}, new_id, real_time::{start_realtime_scan, stop_realtime_scan}
+        settings::get_settings_as_array, history::append_realtime_history, log::{initialize_log, log_err, log_info}, new_id, real_time::{start_realtime_scan, stop_realtime_scan},
+        scan::{get_main_paths, outermost_paths},
     },
     types::{
         enums::{BehaviorMode, HistoryDetails, HistoryStatus, HistoryType, LogCategory, ScanType, SettingKeyArray},
@@ -24,19 +26,28 @@ pub fn start_real_time_scan(
     app: tauri::AppHandle,
     behavior: BehaviorMode,
 ) -> Result<(), String> {
-    let paths = get_settings_as_array(&app,SettingKeyArray::MonitoringPaths)?;
-    if paths.is_empty() {
-        return Err("No paths provided for monitoring".into());
+    let mut configured = get_settings_as_array(&app,SettingKeyArray::MonitoringPaths)?;
+    // On first launch the UI fills this setting asynchronously, often after this call:
+    // protection is on by default, so it must not depend on that race.
+    if configured.is_empty() {
+        configured = get_main_paths(app.path()).iter().map(|p| p.to_string_lossy().to_string()).collect();
     }
     let log = initialize_log(&app, LogCategory::Realtime)?;
     let log_id = log.id.clone();
     let log_file = log.file.clone();
-    for path in &paths {
-        let p = std::path::PathBuf::from(path);
-        if !p.exists() {
-            log_err(&log_file, &format!("Path does not exist: {}", path));
-            return Err(format!("Path does not exist: {}", path));
-        }
+    // One missing folder (e.g. a deleted "Music") must not leave the whole PC unprotected.
+    let (existing, missing): (Vec<PathBuf>, Vec<PathBuf>) =
+        configured.iter().map(PathBuf::from).partition(|p| p.exists());
+    for path in &missing {
+        log_err(&log_file, &format!("Skipping missing folder: {}", path.display()));
+    }
+    let paths: Vec<String> = outermost_paths(existing)
+        .iter()
+        .map(|p| p.to_string_lossy().to_string())
+        .collect();
+    if paths.is_empty() {
+        log_err(&log_file, "No existing folder to monitor");
+        return Err("No existing folder to monitor".into());
     }
     if let Err(e) = start_realtime_scan(app.clone(), paths.clone(), behavior, log_id.clone()) {
         log_err(&log_file, &format!("Failed to start real-time scan: {}", e));

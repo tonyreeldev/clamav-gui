@@ -51,5 +51,60 @@
           "folder": "Choose multiple folders to scan"
      },
      "scan-now": "Scan now",
-     "quick-actions": "Quick actions"
+     "quick-actions": "Quick actions",
+     "windows-security": {
+          "title": "Windows Security",
+          "intro": "ClamAV GUI scans files. These Windows protections cover what it doesn't: network attacks, malicious websites and ransomware.",
+          "refresh": "Check again",
+          "open": "Open",
+          "how-to-enable": "How to turn it on",
+          "command-note": "Windows Security has no switch for this. Run this command in PowerShell as administrator, then click \"Check again\":",
+          "error": "Couldn't check the Windows Security status.",
+          "checks": {
+               "firewall": {
+                    "name": "Firewall",
+                    "desc": "Blocks unwanted network connections to and from this PC."
+               },
+               "antivirus": {
+                    "name": "Windows antivirus",
+                    "desc": "Microsoft Defender's real-time protection, cloud and behavior detection."
+               },
+               "network-protection": {
+                    "name": "Network protection",
+                    "desc": "Blocks connections to malicious and phishing servers from any app."
+               },
+               "ransomware-protection": {
+                    "name": "Ransomware protection",
+                    "desc": "Controlled folder access: stops unknown apps from changing your documents."
+               },
+               "smart-screen": {
+                    "name": "SmartScreen",
+                    "desc": "Warns about dangerous websites, downloads and apps."
+               }
+          },
+          "states": {
+               "on": "On",
+               "off": "Off",
+               "partial": "Partly on",
+               "audit": "Audit only",
+               "third-party": "Handled by another product",
+               "outdated": "Outdated",
+               "not-applicable": "Not applicable",
+               "unknown": "Unknown"
+          },
+          "details": {
+               "profiles-off": "Off for networks: {{profiles}}",
+               "managed-by": "Managed by {{name}}",
+               "signatures-age": "Signatures are {{count}} days old",
+               "off-in": "Off in {{where}}",
+               "audit": "It records threats but doesn't block them.",
+               "not-applicable": "Only works when Microsoft Defender is the main antivirus.",
+               "unknown": "Couldn't be checked on this PC (it may be managed by your organization)."
+          },
+          "profiles": {
+               "Domain": "domain",
+               "Private": "private",
+               "Public": "public"
+          }
+     }
 }
