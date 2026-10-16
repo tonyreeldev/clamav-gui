@@ -1,3 +1,15 @@
+# Notas de lanzamiento con historial
+
+- **Por qué:** el usuario pidió conservar el historial de cambios de las versiones anteriores en los lanzamientos de GitHub.
+- **Qué se hizo:**
+  - `scripts/release-notes.py` añade a las notas de una versión un bloque desplegable por cada versión anterior, sacado de `CHANGELOG.md`.
+  - El aviso de SmartScreen y los créditos quedan al final.
+  - Si la versión no está en el CHANGELOG, el script falla.
+  - Las notas de la v1.0.11 se actualizaron con el historial de las versiones 1.0.10, 1.0.9, 1.0.8 y 1.0.7-2. Su instalador y los lanzamientos anteriores no se tocaron.
+- **Corrección del CHANGELOG:** la sección 1.0.8 incluía, por error, las novedades de la 1.0.7-2 (instalación automática de ClamAV, idioma español…), que se publicó el 15 de octubre. Ahora cada versión tiene su propia sección.
+
+---
+
 # v1.0.11: menos consumo de recursos
 
 **Medición de partida** (1.0.10 en reposo, en la bandeja, en el equipo de desarrollo): `clamd` 962 MB, WebView2 437 MB (6 procesos), app 39 MB, CPU 0,2 % de un núcleo. La CPU ya estaba bien; el problema era la RAM (~1,4 GB).

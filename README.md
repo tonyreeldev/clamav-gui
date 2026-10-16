@@ -132,11 +132,11 @@ npx tsc --noEmit                   # tipos del frontend (desde la raíz)
 Los instaladores se compilan en local y se publican a mano. El workflow de GitHub solo comprueba que compila, y solo en los pull requests.
 
 1. **Subir la versión** (por ejemplo `1.0.9`) en `package.json`, `package-lock.json` (las dos primeras apariciones), `src-tauri/Cargo.toml` y `src-tauri/tauri.conf.json`.
-2. **CHANGELOG:** en `CHANGELOG.md`, renombrar `## Sin publicar` a `## 1.0.9 — AAAA-MM-DD`.
+2. **CHANGELOG:** en `CHANGELOG.md`, renombrar `## Sin publicar` a `## 1.0.9 — AAAA-MM-DD` y dejar encima un `## Sin publicar` vacío para lo siguiente.
 3. **Comprobar y compilar:**
    - `cargo test --lib`
    - `npx tsc --noEmit`
-   - `npm run tauri build`
+   - `npx tauri build --bundles nsis` (el instalador MSI no se publica, y su empaquetado puede fallar si el tiempo real está revisando el `.msi`)
 4. **Probar el instalador.** Primero cierra la app desde la bandeja (solo permite una instancia), instala el `.exe` nuevo y prueba:
    - un escaneo
    - el tiempo real
@@ -147,13 +147,16 @@ Los instaladores se compilan en local y se publican a mano. El workflow de GitHu
    git tag v1.0.9
    git push origin main v1.0.9
    ```
-6. **Lanzamiento** con el instalador renombrado a `ClamAV-GUI_1.0.9_x64-setup.exe` (sin espacios):
+6. **Notas del lanzamiento.** Escribe `notas.md` con el formato de los anteriores: descarga, requisitos, novedades de esta versión, aviso de SmartScreen y créditos. Luego añade el **historial de todas las versiones anteriores**, sacado del CHANGELOG, en bloques desplegables:
    ```bash
-   gh release create v1.0.9 ClamAV-GUI_1.0.9_x64-setup.exe --title "ClamAV GUI v1.0.9" --notes-file notas.md --latest
+   python scripts/release-notes.py 1.0.9 notas.md notas-completas.md
    ```
-   Las notas siguen el formato de los lanzamientos anteriores: descarga, requisitos, novedades, aviso de SmartScreen y créditos.
+7. **Lanzamiento** con el instalador renombrado a `ClamAV-GUI_1.0.9_x64-setup.exe` (sin espacios):
+   ```bash
+   gh release create v1.0.9 ClamAV-GUI_1.0.9_x64-setup.exe --title "ClamAV GUI v1.0.9" --notes-file notas-completas.md --latest
+   ```
 
-Cada cambio va en una versión nueva: no se reemplaza el instalador de un lanzamiento ya publicado.
+Cada cambio va en una versión nueva. Los lanzamientos anteriores se conservan tal cual: no se borran ni se reemplaza su instalador, y el último siempre muestra el historial completo.
 
 ### Cómo está hecho
 
