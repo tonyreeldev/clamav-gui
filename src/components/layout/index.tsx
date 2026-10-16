@@ -56,6 +56,8 @@ export function AppLayout({children, className}: Props){
                // The backend percent-encodes query values itself; encodeURI here would double-encode them.
                listen<string>("systray:move",e=>navigate(e.payload))
           ]
+          // The window is rebuilt when opened from the tray; the route it was opened for waits in the backend.
+          invoke<string | null>("take_pending_route").then(route => { if (route) navigate(route) }).catch(() => {});
           return () => {
                Promise.all(listeners).then(fns=>fns.forEach(fn=>fn()))
           }

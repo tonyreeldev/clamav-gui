@@ -14,6 +14,23 @@ use std::{
 
 static NOTIFIED: Lazy<Mutex<HashSet<PathBuf>>> = Lazy::new(|| Mutex::new(HashSet::new()));
 pub static REALTIME_ENABLED: AtomicBool = AtomicBool::new(false);
+/// Low-memory mode: clamd (~1 GB) is loaded on the first file and unloaded after IDLE_UNLOAD without activity.
+pub static LOW_MEMORY: AtomicBool = AtomicBool::new(false);
+const IDLE_UNLOAD: Duration = Duration::from_secs(15 * 60);
+
+fn idle_unload() -> Duration {
+    // Development builds only: lets the unload be checked without waiting 15 minutes.
+    #[cfg(debug_assertions)]
+    if let Some(secs) = std::env::var("CLAMAVGUI_IDLE_UNLOAD_SECS").ok().and_then(|v| v.parse().ok()) {
+        return Duration::from_secs(secs);
+    }
+    IDLE_UNLOAD
+}
+static CURRENT_MODE: Mutex<Option<BehaviorMode>> = Mutex::new(None);
+
+pub fn current_mode() -> Option<BehaviorMode> {
+    *CURRENT_MODE.lock().unwrap_or_else(|e| e.into_inner())
+}
 /// Failed scan attempts per file (locked or still being written); see MAX_SCAN_RETRIES.
 static RETRIES: Lazy<Mutex<HashMap<PathBuf, u8>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 const MAX_SCAN_RETRIES: u8 = 5;
@@ -161,16 +178,27 @@ fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64, log
                 record(app, &log, &log_id, HistoryType::RealTimeError, HistoryStatus::Error, HistoryDetails::RealTimeError { err });
             }
         };
-        // Load the signatures now rather than on the first file.
-        if let Err(e) = clamd::ensure_running() {
-            clamd_down(e, &app);
+        // Load the signatures now rather than on the first file, unless memory matters more than the first ~10 s.
+        let mut clamd_loaded = clamd::is_alive();
+        if !LOW_MEMORY.load(Ordering::SeqCst) {
+            match clamd::ensure_running() {
+                Ok(()) => clamd_loaded = true,
+                Err(e) => clamd_down(e, &app),
+            }
         }
+        let mut last_activity = Instant::now();
         while is_current(generation) {
             thread::sleep(Duration::from_secs(1));
             let batch = take_settled();
             if batch.is_empty() {
+                if clamd_loaded && LOW_MEMORY.load(Ordering::SeqCst) && last_activity.elapsed() >= idle_unload() {
+                    clamd::shutdown();
+                    clamd_loaded = false;
+                    log_info(&log, &format!("Low-memory mode: signatures unloaded after {} minutes without new files", idle_unload().as_secs() / 60));
+                }
                 continue;
             }
+            last_activity = Instant::now();
             let behavior = BEHAVIOR.lock().unwrap().clone();
 
             for path in batch {
@@ -180,8 +208,15 @@ fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64, log
                 if !path.is_file() {
                     continue; // deleted or renamed again before it settled
                 }
+                if !clamd_loaded && LOW_MEMORY.load(Ordering::SeqCst) {
+                    // Tells the user what keeps the signatures in memory in low-memory mode.
+                    log_info(&log, &format!("Low-memory mode: loading signatures to scan {}", path.display()));
+                }
                 let result = match clamd::ensure_running() {
-                    Ok(()) => clamd::scan(&path),
+                    Ok(()) => {
+                        clamd_loaded = true;
+                        clamd::scan(&path)
+                    }
                     Err(e) => {
                         clamd_down(e, &app);
                         scan_file(&path)
@@ -367,6 +402,7 @@ pub fn start_realtime_scan(
     RETRIES.lock().unwrap().clear();
     NOTIFIED.lock().unwrap().clear();
     *BEHAVIOR.lock().unwrap() = behavior_config(mode);
+    *CURRENT_MODE.lock().unwrap() = Some(mode);
     let log = initialize_log_with_id(&app, LogCategory::Realtime, &log_id)?.file;
     // The bump above already ended any previous session, so a failure leaves protection off.
     start_watcher(paths, generation, log.clone()).inspect_err(|_| REALTIME_ENABLED.store(false, Ordering::SeqCst))?;

@@ -212,6 +212,12 @@
                     "title": "Update definitions automatically",
                     "desc": "Update the virus definitions shortly after startup and then every 4 hours"
                }
+          },
+          "low-memory": {
+               "title": "Low memory mode",
+               "desc": "Real-time protection unloads the virus signatures (~1 GB of RAM) after 15 minutes without new files and reloads them when one arrives. The first file after a pause takes a few seconds longer to check.",
+               "auto": "Set automatically for this PC ({{ram}} GB of RAM).",
+               "manual": "This PC has {{ram}} GB of RAM."
           }
      }
 }

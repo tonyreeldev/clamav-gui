@@ -19,7 +19,7 @@ use crate::{
         history::{clear_history, load_history, mark_as_acknowledged, clear_by_date, clear_by_range},
         quarantine::{delete_quarantine, list_quarantine, quarantine_file, restore_quarantine},
         scan::{get_startup_scan, start_custom_scan, start_full_scan, start_main_scan, stop_scan, get_scan_status},
-        start_real_time_scan,
+        start_real_time_scan, get_real_time_status, get_low_memory_mode, set_low_memory_mode,
         stats::get_stats,
         stop_real_time_scan,
         update::{get_clamav_version, update_definitions, is_updating_definitions},
@@ -29,7 +29,8 @@ use crate::{
         scan::run_headless_scan,
         sys_tray::{generate_system_tray, SHOULD_QUIT},
         i18n::{load_translations,TRANSLATIONS},
-        startup::{on_second_instance, start_auto_update, MINIMIZED_FLAG}
+        startup::{on_second_instance, start_auto_update, MINIMIZED_FLAG},
+        window::{show_main_window, take_pending_route}
     },
     system::{
         check_availability,
@@ -49,22 +50,6 @@ use crate::{
     },
     types::structs::AppLanguage
 };
-
-/// The configured 1300x900 doesn't fit common laptops (e.g. 1920x1080 at 150% leaves ~1280x690),
-/// so shrink the window to the screen's usable area (without the taskbar) and center it.
-fn fit_to_screen(window: &tauri::WebviewWindow) {
-    let Ok(Some(monitor)) = window.current_monitor() else { return };
-    let scale = monitor.scale_factor();
-    let area = monitor.work_area().size.to_logical::<f64>(scale);
-    let Ok(size) = window.outer_size() else { return };
-    let size = size.to_logical::<f64>(scale);
-    let width = size.width.min(area.width * 0.95);
-    let height = size.height.min(area.height * 0.95);
-    if width < size.width || height < size.height {
-        let _ = window.set_size(tauri::LogicalSize::new(width, height));
-    }
-    let _ = window.center();
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -120,6 +105,10 @@ pub fn run() {
         install_clamav,
         notify,
         get_security_status,
+        take_pending_route,
+        get_real_time_status,
+        get_low_memory_mode,
+        set_low_memory_mode,
         open_security_settings,
         set_security_features
     ]);
@@ -132,46 +121,32 @@ pub fn run() {
             Some(vec![MINIMIZED_FLAG]),
         ))
         .setup(|app| {
-            use tauri::{Manager, WindowEvent};
-            use crate::helpers::settings::get_settings_as_string;
-            use crate::types::enums::SettingKeyString;
+            use tauri::Manager;
             
             let app_handle = app.handle();
-            let default = load_translations(&app_handle.clone(),"en");
+            let lang = crate::helpers::i18n::boot_language(app_handle);
             {
                 let mut guard = TRANSLATIONS.write().unwrap();
-                *guard = default;
+                *guard = load_translations(&app_handle.clone(), &lang);
             }
-            if let Some(window) = app.get_webview_window("main") {
-                fit_to_screen(&window);
-                // The window starts hidden (tauri.conf.json); a login launch stays in the tray.
-                if !std::env::args().any(|arg| arg == MINIMIZED_FLAG) {
-                    let _ = window.show();
-                }
-                let app_handle = app.handle().clone();
-                window.clone().on_window_event(move |event| {
-                    if let WindowEvent::CloseRequested { api, .. } = event {
-                        if SHOULD_QUIT.load(Ordering::Relaxed) {
-                            return;
-                        }
-                        let behavior = get_settings_as_string(&app_handle,SettingKeyString::CloseButtonBehavior).ok().flatten().unwrap_or_else(|| "minimize-to-tray".to_string());
-                        if behavior == "minimize-to-tray" {
-                            api.prevent_close();
-                            let _ = window.hide();
-                        }
-                    }
-                });
-            }
+            *app.state::<AppLanguage>().0.lock().unwrap() = lang;
             // At early login explorer may not be ready; without a tray, show the window so the app stays reachable.
-            if let Err(e) = generate_system_tray(app_handle) {
-                eprintln!("Failed to create the tray icon: {}", e);
-                if let Some(window) = app.get_webview_window("main") {
-                    let _ = window.show();
+            let has_tray = match generate_system_tray(app_handle) {
+                Ok(_) => true,
+                Err(e) => {
+                    eprintln!("Failed to create the tray icon: {}", e);
+                    false
                 }
+            };
+            // A login launch stays in the tray without building the window (and its WebView2) at all.
+            if !has_tray || !std::env::args().any(|arg| arg == MINIMIZED_FLAG) {
+                show_main_window(app_handle);
             }
             if let Err(e) = crate::helpers::startup::sync_autostart(app_handle) {
                 eprintln!("Failed to sync autostart: {}", e);
             }
+            // Protection no longer waits for the window: it may never be opened in a session.
+            crate::antivirus::start_from_settings(app_handle.clone());
             start_auto_update(app_handle.clone());
             Ok(())
         })
@@ -187,10 +162,13 @@ pub fn run() {
         .invoke_handler(specta_builder.invoke_handler())
         .build(tauri::generate_context!())
         .expect("error while building tauri application")
-        .run(|_, event| {
-            // clamd is a separate process holding ~1 GB; it would outlive the app otherwise.
-            if let tauri::RunEvent::Exit = event {
-                crate::helpers::clamd::shutdown();
+        .run(|_, event| match event {
+            // Closing the window to the tray destroys it; the app keeps running unless the user chose to quit.
+            tauri::RunEvent::ExitRequested { api, code: None, .. } if !SHOULD_QUIT.load(Ordering::Relaxed) => {
+                api.prevent_exit();
             }
+            // clamd is a separate process holding ~1 GB; it would outlive the app otherwise.
+            tauri::RunEvent::Exit => crate::helpers::clamd::shutdown(),
+            _ => {}
         });
 }

@@ -2,6 +2,16 @@
 
 ## Sin publicar
 
+## 1.0.11 — 2026-10-16
+
+### Mejorado (consumo de recursos)
+- La ventana solo existe mientras está abierta. Al cerrarla a la bandeja se libera la memoria de la interfaz (~400 MB), y al iniciar sesión ni siquiera se crea. La protección en tiempo real, las actualizaciones y la bandeja siguen funcionando sin ella.
+- Se eliminó una recarga de firmas cada 4 horas que duplicaba la memoria de `clamd` (~2 GB) aunque no hubiera firmas nuevas. `clamd` sigue recargando solo cuando de verdad cambian.
+- El panel Seguridad de Windows reutiliza su resultado durante 5 minutos, en vez de ejecutar PowerShell cada vez que se abre Resumen.
+
+### Añadido
+- **Modo de bajo consumo de memoria** (Configuración → Avanzado): libera las firmas (~1 GB) tras 15 minutos sin archivos nuevos y las vuelve a cargar cuando llega uno. Viene activado en equipos con 8 GB de RAM o menos.
+
 ## 1.0.10 — 2026-10-16
 
 ### Añadido

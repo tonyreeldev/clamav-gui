@@ -14,6 +14,7 @@ pub mod settings;
 pub mod startup;
 pub mod notifier;
 pub mod clamd;
+pub mod window;
 
 use std::{
     path::PathBuf,

@@ -105,6 +105,14 @@ pub fn set_language(
         let mut guard = state.0.lock().unwrap();
         *guard = lang.clone();
     }
+    // Saved so the tray can be translated at the next login, before any window exists.
+    {
+        use tauri_plugin_store::StoreExt;
+        if let Ok(store) = app.store("settings.json") {
+            store.set("language", lang.clone());
+            let _ = store.save();
+        }
+    }
     let map = load_translations(&app,&lang);
     let mut translations = TRANSLATIONS
         .write()

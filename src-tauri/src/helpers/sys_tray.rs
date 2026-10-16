@@ -1,10 +1,10 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use tauri::{
-    Emitter, Manager, Wry, image::Image, menu::{Menu, MenuBuilder, MenuItem, SubmenuBuilder}, tray::{TrayIcon, TrayIconBuilder}
+    Manager, Wry, image::Image, menu::{Menu, MenuBuilder, MenuItem, SubmenuBuilder}, tray::{TrayIcon, TrayIconBuilder}
 };
 use tauri_plugin_dialog::DialogExt;
-use crate::helpers::{i18n::t, real_time::REALTIME_ENABLED};
+use crate::helpers::{i18n::t, real_time::REALTIME_ENABLED, window::{open_route, show_main_window}};
 
 pub static SHOULD_QUIT: AtomicBool = AtomicBool::new(false);
 
@@ -66,13 +66,13 @@ pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::E
                 app_handle.exit(0);
             }
             "about" => {
-                app_handle.emit("systray:move", "/about").ok();
+                open_route(app_handle, "/about");
             }
             "main-scan" => {
-                app_handle.emit("systray:move", "/scan/main").ok();
+                open_route(app_handle, "/scan/main");
             }
             "full-scan" => {
-                app_handle.emit("systray:move", "/scan/full").ok();
+                open_route(app_handle, "/scan/full");
             }
             // Non-blocking pickers: the menu handler runs on the UI thread.
             "custom-scan" => {
@@ -83,7 +83,7 @@ pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::E
                             .iter()
                             .map(|val| format!("path={}", encode_query(&val.to_string())))
                             .collect();
-                        app.emit("systray:move", format!("/scan/custom?{}", paths.join("&"))).ok();
+                        open_route(&app, &format!("/scan/custom?{}", paths.join("&")));
                     }
                 });
             }
@@ -91,22 +91,18 @@ pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::E
                 let app = app_handle.clone();
                 app_handle.dialog().file().pick_file(move |path| {
                     if let Some(path) = path {
-                        app.emit("systray:move", format!("/scan/file?path={}", encode_query(&path.to_string()))).ok();
+                        open_route(&app, &format!("/scan/file?path={}", encode_query(&path.to_string())));
                     }
                 });
             }
             "update" => {
-                app_handle.emit("systray:move", "/settings?tab=update").ok();
+                open_route(app_handle, "/settings?tab=update");
             }
             "open-ui" => {
-                if let Some(window) = app_handle.get_webview_window("main") {
-                    let _ = window.unminimize();
-                    let _ = window.show();
-                    let _ = window.set_focus();
-                }
+                show_main_window(app_handle);
             }
             "settings" => {
-                app_handle.emit("systray:move", "/settings").ok();
+                open_route(app_handle, "/settings");
             }
             _ => {
                 println!("menu item {:?} not handled", event.id);

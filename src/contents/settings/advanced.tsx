@@ -40,6 +40,11 @@ export default function AdvancedSettings({scanProfile}: SettingsProps){
      const [closeBehavior, setCloseBehavior] = useState<IBackendSettings["closeButtonBehavior"]>(DEFAULT_BACKEND_SETTINGS.closeButtonBehavior)
      const [autostart, setAutostart] = useState(DEFAULT_BACKEND_SETTINGS.autostart)
      const [autoUpdateDefs, setAutoUpdateDefs] = useState(DEFAULT_BACKEND_SETTINGS.autoUpdateDefinitions)
+     // Decided in the backend: it defaults to on for machines with 8 GB of RAM or less.
+     const [lowMemory, setLowMemory] = useState<{enabled: boolean, automatic: boolean, total_ram_gb: number} | null>(null)
+     useEffect(()=>{
+          invoke<{enabled: boolean, automatic: boolean, total_ram_gb: number}>("get_low_memory_mode").then(setLowMemory).catch(()=>{})
+     },[])
      const {t: messageTxt} = useTranslation("messages")
      useEffect(()=>{
           startFetching(async()=>{
@@ -133,6 +138,23 @@ export default function AdvancedSettings({scanProfile}: SettingsProps){
                          description={t("real-time-scan.desc")}
                     >
                          <RealTimeToggle/>
+                    </SettingsOption>
+                    <SettingsOption
+                         title={t("low-memory.title")}
+                         description={lowMemory ? `${t("low-memory.desc")} ${t(lowMemory.automatic ? "low-memory.auto" : "low-memory.manual", {ram: lowMemory.total_ram_gb})}` : t("low-memory.desc")}
+                    >
+                         <Switch
+                              checked={lowMemory?.enabled ?? false}
+                              disabled={!lowMemory}
+                              onCheckedChange={async enabled => {
+                                   try {
+                                        await invoke("set_low_memory_mode", {enabled})
+                                        setLowMemory(prev => prev && {...prev, enabled, automatic: false})
+                                   } catch (err) {
+                                        toast.error(messageTxt("save-settings-error"),{ description: getErrorMessage(err) })
+                                   }
+                              }}
+                         />
                     </SettingsOption>
                     <SettingsOption
                          title={t("behavior.title")}

@@ -1,6 +1,5 @@
 use std::time::Duration;
 
-use tauri::{Emitter, Manager};
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_store::StoreExt;
 
@@ -57,17 +56,15 @@ pub fn start_auto_update(app: tauri::AppHandle) {
 
 /// Called when the user launches the app while it is already running in the tray.
 pub fn on_second_instance(app: &tauri::AppHandle, args: Vec<String>) {
-    if let Some(window) = app.get_webview_window("main") {
-        let _ = window.unminimize();
-        let _ = window.show();
-        let _ = window.set_focus();
-    }
     let route = args.iter().find_map(|arg| match arg.as_str() {
         "--scan=main" => Some("/scan/main"),
         "--scan=full" => Some("/scan/full"),
         _ => None,
     });
-    if let Some(route) = route {
-        app.emit("systray:move", route).ok();
+    match route {
+        Some(route) => crate::helpers::window::open_route(app, route),
+        None => {
+            crate::helpers::window::show_main_window(app);
+        }
     }
 }

@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "@/lib/helpers";
+import { store } from "@/lib/store";
 
 type RealtimeContextValue = {
      enabled: boolean;
@@ -29,16 +30,15 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
      useEffect(() => {
           const firstRun = isFirstRun.current;
           isFirstRun.current = false;
-          if(!settings.realTime){
-               // Nothing to stop at launch; stopping would only log a bogus "stopped" entry.
-               if (!firstRun) stop().catch(console.error);
-               setEnabled(false);
-               return
-          }
-          // Only report protection as on when the backend actually started it. Protection is on by default,
-          // so a failed start (e.g. during login) is retried instead of leaving the PC unprotected.
+          const behavior = settings.behavior || "balanced";
+          // The backend starts protection itself at launch (a login launch never builds this window),
+          // so it reads these preferences from the store.
+          store.set("realTime", settings.realTime).catch(() => {});
+          store.set("behavior", behavior).catch(() => {});
           let cancelled = false;
           let retry: ReturnType<typeof setTimeout> | undefined;
+          // Only report protection as on when the backend actually started it. Protection is on by default,
+          // so a failed start (e.g. during login) is retried instead of leaving the PC unprotected.
           const attempt = (notify: boolean) => {
                start().then(() => { if (!cancelled) setEnabled(true) }).catch(e => {
                     if (cancelled) return;
@@ -48,7 +48,28 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
                     retry = setTimeout(() => attempt(false), 30_000);
                });
           };
-          attempt(true);
+          (async () => {
+               if (firstRun) {
+                    // The window is rebuilt every time it opens: adopt the running session instead of restarting it.
+                    const status = await invoke<{running: boolean, behavior: string | null}>("get_real_time_status").catch(() => null);
+                    if (cancelled) return;
+                    if (settings.realTime && status?.running && status.behavior === behavior) {
+                         setEnabled(true);
+                         return;
+                    }
+                    if (!settings.realTime) {
+                         // Nothing to stop unless the backend started it; stopping would only log a bogus entry.
+                         if (status?.running) stop().catch(console.error);
+                         setEnabled(false);
+                         return;
+                    }
+               } else if (!settings.realTime) {
+                    stop().catch(console.error);
+                    setEnabled(false);
+                    return;
+               }
+               attempt(true);
+          })();
           return () => { cancelled = true; clearTimeout(retry); };
      }, [settings.realTime, settings.behavior]);
      const values: RealtimeContextValue = useMemo(()=>({

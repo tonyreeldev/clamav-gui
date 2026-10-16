@@ -95,11 +95,6 @@ fn parse_reply(reply: &str) -> Result<Option<String>, String> {
     Err(reply.to_string())
 }
 
-/// Picks up new signatures after freshclam; a no-op when clamd isn't running.
-pub fn reload() {
-    let _ = request("RELOAD", Duration::from_secs(5));
-}
-
 /// Frees the ~1 GB clamd holds; a no-op when it isn't running.
 pub fn shutdown() {
     let _ = request("SHUTDOWN", Duration::from_secs(5));

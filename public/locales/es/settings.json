@@ -212,6 +212,12 @@
                     "title": "Actualizar las definiciones automáticamente",
                     "desc": "Actualiza las definiciones de virus poco después del inicio y luego cada 4 horas"
                }
+          },
+          "low-memory": {
+               "title": "Modo de bajo consumo de memoria",
+               "desc": "La protección en tiempo real libera las firmas de virus (~1 GB de RAM) tras 15 minutos sin archivos nuevos y las vuelve a cargar cuando llega uno. El primer archivo después de una pausa tarda unos segundos más en revisarse.",
+               "auto": "Ajustado automáticamente para este equipo ({{ram}} GB de RAM).",
+               "manual": "Este equipo tiene {{ram}} GB de RAM."
           }
      }
 }

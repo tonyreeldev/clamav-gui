@@ -30,6 +30,28 @@ pub fn flatten_json(
      }
 }
 
+/// The tray is built before any window exists, so its language comes from the setting the UI saved,
+/// else the system language, else English; only languages that ship a translation file qualify.
+pub fn boot_language(app: &tauri::AppHandle) -> String {
+     use tauri_plugin_store::StoreExt;
+     let stored = app
+          .store("settings.json")
+          .ok()
+          .and_then(|s| s.get("language"))
+          .and_then(|v| v.as_str().map(str::to_string));
+     let system = tauri_plugin_os::locale();
+     let prefix = system.as_deref().and_then(|l| l.split('-').next()).map(str::to_string);
+     [stored, system, prefix]
+          .into_iter()
+          .flatten()
+          .find(|lang| {
+               app.path()
+                    .resolve(format!("i18n/{}.json", lang), tauri::path::BaseDirectory::Resource)
+                    .is_ok_and(|p| p.is_file())
+          })
+          .unwrap_or_else(|| "en".into())
+}
+
 pub fn load_translations(app: &tauri::AppHandle, lang: &str) -> HashMap<String, String> {
      let path = app
           .path()

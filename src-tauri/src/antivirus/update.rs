@@ -79,10 +79,14 @@ pub fn update_definitions(app: tauri::AppHandle) -> Result<(), String> {
                     use crate::helpers::{clamd, real_time::REALTIME_ENABLED};
                     // On a fresh install real-time starts before the first signatures exist and clamd can't load;
                     // start it as soon as they arrive instead of waiting for the next new file.
+                    // No RELOAD when clamd is up: freshclam exits 0 even when nothing changed, and a reload
+                    // doubles clamd's memory (~2 GB) for a while. clamd's own SelfCheck (every 10 min)
+                    // reloads only when the database files actually changed.
                     std::thread::spawn(|| {
-                        if clamd::is_alive() {
-                            clamd::reload();
-                        } else if REALTIME_ENABLED.load(Ordering::SeqCst) {
+                        if !clamd::is_alive()
+                            && REALTIME_ENABLED.load(Ordering::SeqCst)
+                            && !crate::helpers::real_time::LOW_MEMORY.load(Ordering::SeqCst)
+                        {
                             if let Err(e) = clamd::ensure_running() {
                                 eprintln!("clamd still unavailable after the update: {}", e);
                             }

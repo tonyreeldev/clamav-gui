@@ -1,3 +1,50 @@
+# v1.0.11: menos consumo de recursos
+
+**Medición de partida** (1.0.10 en reposo, en la bandeja, en el equipo de desarrollo): `clamd` 962 MB, WebView2 437 MB (6 procesos), app 39 MB, CPU 0,2 % de un núcleo. La CPU ya estaba bien; el problema era la RAM (~1,4 GB).
+
+## Ventana solo mientras está abierta (`helpers/window.rs`)
+
+- `tauri.conf.json` tiene `"create": false`: la ventana no se crea al arrancar. `show_main_window` la construye cuando hace falta (al abrir desde la bandeja, con un segundo lanzamiento o al arrancar sin `--minimized`).
+- Cerrarla a la bandeja la **destruye**, y con ella WebView2. `run()` evita que la app se cierre al quedarse sin ventanas (`ExitRequested` con `code: None`), salvo que el usuario elija salir. Si hay un escaneo en curso, la ventana solo se oculta, para no perder el progreso.
+- Lo que antes dependía de la interfaz ahora lo hace el backend:
+  - **Tiempo real:** lo arranca `start_from_settings` al iniciar la app, con reintentos cada 30 s. Sus preferencias (`realTime`, `behavior`) se copian de la interfaz al almacén de ajustes. Al abrir la ventana, la interfaz adopta la sesión en marcha (`get_real_time_status`) en lugar de reiniciarla.
+  - **Idioma de la bandeja:** `boot_language` usa el idioma guardado por `set_language`; si no hay, el del sistema, y si no, inglés.
+  - **Rutas pedidas sin ventana** (menú de la bandeja, `--scan=`): esperan en `take_pending_route` hasta que la página carga.
+
+## Sin recarga forzada de firmas
+
+- Antes se enviaba `RELOAD` a `clamd` tras cada actualización. Pero freshclam devuelve 0 también cuando no hay nada nuevo, así que la recarga ocurría cada 4 horas y duplicaba la memoria (~2 GB) durante unos segundos.
+- `clamd` ya revisa la carpeta de firmas cada 10 minutos (`SelfCheck`) y solo recarga si cambió. Se eliminó `clamd::reload`.
+
+## Panel de Seguridad de Windows
+
+- El resultado se reutiliza durante 5 minutos. Al volver a la ventana solo se consulta de nuevo si el usuario pulsó "Abrir" o si el dato es viejo.
+
+## Modo de bajo consumo de memoria
+
+- `LOW_MEMORY` en `real_time.rs`. Cuando está activo:
+  - `clamd` no se carga al arrancar el tiempo real.
+  - Se carga con el primer archivo nuevo, en unos 5 s.
+  - Se descarga tras 15 minutos sin archivos nuevos.
+- La opción está en Configuración → Avanzado. Por defecto se activa en equipos con ≤ 8 GB de RAM (`lowMemoryMode` en el almacén; si no existe, decide la RAM instalada).
+
+## Verificado en el equipo de desarrollo (sin tocar el escritorio: solo se abrió y cerró la propia app)
+
+El usuario probó el menú de la bandeja con la ventana destruida (Abrir, Acerca de, Configuración): la ventana se reconstruye y abre en la sección pedida, con el menú en español.
+
+| Situación | WebView2 | clamd | Tiempo real |
+|---|---|---|---|
+| Arranque minimizado (inicio de sesión) | **0 procesos, 0 MB** | 959 MB | Activo |
+| Ventana abierta | 6 procesos, ~380 MB | 959 MB | Adoptado, sin reinicio (0 entradas nuevas) |
+| Ventana cerrada a la bandeja (dos ciclos) | **0 MB** | 959 MB | Activo |
+| Modo de bajo consumo, al arrancar | 0 MB | **no cargado** | Activo |
+| Modo de bajo consumo, llega un archivo | 0 MB | cargado en 5 s | Activo |
+| Modo de bajo consumo, sin archivos nuevos | 0 MB | **descargado** (probado con 60 s en una compilación de desarrollo: `CLAMAVGUI_IDLE_UNLOAD_SECS`, que solo existe en esas compilaciones) | Activo |
+
+**Comportamiento real.** En la prueba de 15 minutos con el equipo en uso, `clamd` no llegó a descargarse: Firefox guarda `prefs.js` con un nombre temporal y luego lo renombra, y eso cuenta como un `.js` nuevo, así que reinicia el contador. Las firmas se liberan cuando el equipo está de verdad en reposo (mientras el usuario no está, de noche, al dejarlo en reposo), no a cada rato mientras se usa. Para que se vea qué las mantiene cargadas, el registro del tiempo real anota qué archivo provocó cada carga en este modo.
+
+---
+
 # v1.0.10: interruptores de seguridad, tiempo real más fiable y ventana adaptada a laptops
 
 ## Interruptores en "Seguridad de Windows"

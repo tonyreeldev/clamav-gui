@@ -83,6 +83,8 @@ Toda detección queda en el **Historial**, también en los modos que solo avisan
 
 Mientras está activa, la protección mantiene las firmas cargadas en memoria con `clamd`, el servicio de ClamAV. Así cada archivo se revisa en milisegundos, a cambio de cerca de 1 GB de RAM. Al desactivarla, esa memoria se libera.
 
+En equipos con 8 GB de RAM o menos se activa el **modo de bajo consumo** (Configuración → Avanzado): las firmas se liberan tras 15 minutos sin archivos nuevos y se cargan de nuevo en unos segundos cuando llega uno. La interfaz tampoco ocupa memoria mientras la app está solo en la bandeja.
+
 ## Preguntas frecuentes
 
 **¿Envía mis archivos o datos a algún sitio?**

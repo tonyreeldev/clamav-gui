@@ -46,20 +46,26 @@ const SWITCHABLE: SecurityCheck[] = ["firewall", "network-protection", "ransomwa
 // What "Turn on recommended" enables. Ransomware protection is left out: it can block legitimate apps.
 const RECOMMENDED: SecurityCheck[] = ["firewall", "network-protection"];
 
+// Each query runs PowerShell for ~4 s of CPU: reuse the last result while it is recent
+// (navigating back to Resumen); "Check again" and the switches always re-query.
+const CACHE_MS = 5 * 60_000;
+let cache: {items: SecurityItem[], at: number} | null = null;
+
 const canSwitch = (item: SecurityItem) =>
      SWITCHABLE.includes(item.check) && !["third-party", "not-applicable", "unknown"].includes(item.state);
 
 // Windows protections ClamAV doesn't provide. Switches change them through one UAC prompt each.
 export default function WindowsSecurity(){
      const {t} = useTranslation("overview", {keyPrefix: "windows-security"});
-     const [items, setItems] = useState<SecurityItem[] | null>(null);
+     const [items, setItems] = useState<SecurityItem[] | null>(cache?.items ?? null);
      const [error, setError] = useState(false);
-     const [isLoading, setIsLoading] = useState(true);
+     const [isLoading, setIsLoading] = useState(!cache);
      const [busy, setBusy] = useState<SecurityCheck[]>([]);
      const [confirm, setConfirm] = useState<PendingChange | null>(null);
 
-     // The query runs PowerShell for a few seconds: never two at once, and focus changes re-check at most every 15 s.
+     // The query runs PowerShell for a few seconds: never two at once.
      const inFlight = useRef(false);
+     const openedSettings = useRef(false);
      const lastRun = useRef(0);
      const refresh = useCallback(async (): Promise<SecurityItem[] | null> => {
           if (inFlight.current) return null;
@@ -68,6 +74,7 @@ export default function WindowsSecurity(){
           setIsLoading(true);
           try {
                const result = await invoke<SecurityItem[]>("get_security_status");
+               cache = {items: result, at: Date.now()};
                setItems(result);
                setError(false);
                return result;
@@ -80,9 +87,15 @@ export default function WindowsSecurity(){
           }
      }, []);
      useEffect(() => {
-          refresh();
-          // The user usually comes back from Windows Security after changing something.
-          const onFocus = () => { if (Date.now() - lastRun.current > 15_000) refresh(); };
+          if (!cache || Date.now() - cache.at > CACHE_MS) refresh();
+          else lastRun.current = cache.at;
+          // Coming back from Windows Security (opened from here) usually means something changed.
+          const onFocus = () => {
+               if (openedSettings.current || Date.now() - lastRun.current > CACHE_MS) {
+                    openedSettings.current = false;
+                    refresh();
+               }
+          };
           window.addEventListener("focus", onFocus);
           return () => window.removeEventListener("focus", onFocus);
      }, [refresh]);
@@ -113,6 +126,7 @@ export default function WindowsSecurity(){
      const openSettings = async (check: SecurityCheck) => {
           try {
                await invoke("open_security_settings", {check});
+               openedSettings.current = true;
           } catch (err) {
                toast.error(t("error"), {description: getErrorMessage(err)});
           }
