@@ -1,20 +1,20 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: "feature request: "
+name: Proponer una mejora
+about: Una idea para mejorar la app
+title: "mejora: "
 labels: 'new feature request'
 assignees: ''
 
 ---
 
-## Is your feature request related to a problem?
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Qué problema resuelve
+Por ejemplo: "Cada vez que ... tengo que ...".
 
-## Proposed solution
-A clear and concise description of what you want to happen.
+## Qué propones
+Cómo te gustaría que funcionara.
 
-## Alternative solutions
-A clear and concise description of any alternative solutions or features you've considered.
+## Alternativas
+Otras soluciones que hayas considerado.
 
-## Additional context
-Add any other context or screenshots about the feature request here.
+## Algo más
+Capturas, ejemplos de otras apps, etc.

@@ -1,37 +1,32 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: "bug: "
+name: Reportar un error
+about: Algo no funciona como debería
+title: "error: "
 labels: 'bug'
 assignees: ''
 
 ---
 
-## Describe the bug
-A clear and concise description of what the bug is.
+## Qué pasa
+Describe el error en una o dos frases.
 
-## Steps To Reproduce
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## Cómo reproducirlo
+1. Ve a '...'
+2. Pulsa '...'
+3. Aparece el error
 
-## Expected results
-A clear and concise description of what you expected to happen.
+## Qué esperabas que pasara
 
-## Screenshots / Video
-If applicable, add screenshots or video to help explain your problem.
+## Capturas o video
+Si ayudan a entender el problema.
 
-## Desktop (please complete the following information)
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## Tu equipo
+- Versión de ClamAV GUI (sección Acerca de): [p. ej. 1.0.8]
+- Versión de ClamAV (Configuración → Actualizaciones): [p. ej. 1.5.4]
+- Windows: [p. ej. Windows 11 24H2]
+- Idioma de Windows: [p. ej. español]
 
-## Smartphone (please complete the following information)
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## Registro
+Si el error ocurrió durante un escaneo, una actualización o la cuarentena, abre su entrada en **Historial** y copia aquí el registro.
 
-## Additional context
-Add any other context about the problem here.
+## Algo más

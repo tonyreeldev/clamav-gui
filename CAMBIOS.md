@@ -1,6 +1,6 @@
-# Cambios del 16 de octubre de 2026
+# Cambios del 16 de octubre de 2026 (v1.0.8)
 
-Este documento resume qué se cambió en ClamAV GUI, por qué y cómo se comprobó. Sirve como registro para quien revise el código en GitHub. El resumen corto para usuarios está en [CHANGELOG.md](CHANGELOG.md).
+Publicado como [v1.0.8](https://github.com/tonyreeldev/clamav-gui/releases/tag/v1.0.8). Este documento resume qué se cambió en ClamAV GUI, por qué y cómo se comprobó. Sirve como registro para quien revise el código en GitHub. El resumen corto para usuarios está en [CHANGELOG.md](CHANGELOG.md).
 
 ## Resumen
 
@@ -125,7 +125,7 @@ Este documento resume qué se cambió en ClamAV GUI, por qué y cómo se comprob
 
 ## Pendiente o fuera de alcance
 
-- **Prueba de la interfaz en uso real.** No se hizo con la app abierta, porque la versión anterior estaba abierta en la bandeja y la app solo permite una instancia. Hay que instalar el nuevo instalador y probar:
+- **Prueba de la interfaz en uso real.** No se hizo con la app abierta antes de publicar la v1.0.8, porque la versión anterior estaba abierta en la bandeja y la app solo permite una instancia. Hay que instalar el nuevo instalador y probar:
   - un escaneo cambiando de sección
   - el tiempo real (debe aparecer `clamd.exe` en el Administrador de tareas)
   - la cuarentena desde los resultados
@@ -134,6 +134,14 @@ Este documento resume qué se cambió en ClamAV GUI, por qué y cómo se comprob
 - **`remove_file` y `delete_all` aceptan cualquier ruta**, porque así borran el archivo infectado desde los resultados. Se mantienen por diseño.
 - **Traducciones.** Al francés, polaco, armenio, ruso y chino les faltan algunas claves, que se muestran en inglés. El español está completo.
 - **Puerto 3311.** Si otro programa lo ocupa, el tiempo real usará `clamscan`, que es más lento.
+
+## Publicación
+
+- La versión pasó de 1.0.7-2 a 1.0.8 en `package.json`, `package-lock.json`, `Cargo.toml` y `tauri.conf.json`.
+- Se compiló el instalador y se subieron el commit y la etiqueta `v1.0.8`.
+- Se publicó el lanzamiento con `ClamAV-GUI_1.0.8_x64-setup.exe`, comprobando que el tamaño coincide con el compilado local.
+- Python en Windows convirtió a CRLF los archivos que editó. Se devolvieron a LF antes del commit para que el diff mostrara solo los cambios reales.
+- El procedimiento completo está en el README, en "Publicar una versión".
 
 ## Cómo compilar y probar
 

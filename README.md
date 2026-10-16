@@ -59,7 +59,7 @@
 
 ## Instalación
 
-1. Descarga `ClamAV GUI_x.x.x_x64-setup.exe` desde [Releases](../../releases/latest).
+1. Descarga `ClamAV-GUI_x.x.x_x64-setup.exe` desde [Releases](../../releases/latest).
 2. Ejecútalo y sigue el asistente.
 3. Abre la app. Si ClamAV no está instalado, la app lo instalará (acepta la ventana de permisos de Windows). Después descargará las firmas de virus; la primera vez son unos 110 MB.
 
@@ -112,13 +112,48 @@ npm run tauri build   # generar el instalador
 
 El instalador queda en `src-tauri/target/release/bundle/nsis/`.
 
+Pruebas:
+
+```bash
+cd src-tauri && cargo test --lib   # backend
+npx tsc --noEmit                   # tipos del frontend (desde la raíz)
+```
+
+### Publicar una versión
+
+Los instaladores se compilan en local y se publican a mano. El workflow de GitHub solo comprueba que compila, y solo en los pull requests.
+
+1. **Subir la versión** (por ejemplo `1.0.9`) en `package.json`, `package-lock.json` (las dos primeras apariciones), `src-tauri/Cargo.toml` y `src-tauri/tauri.conf.json`.
+2. **CHANGELOG:** en `CHANGELOG.md`, renombrar `## Sin publicar` a `## 1.0.9 — AAAA-MM-DD`.
+3. **Comprobar y compilar:**
+   - `cargo test --lib`
+   - `npx tsc --noEmit`
+   - `npm run tauri build`
+4. **Probar el instalador.** Primero cierra la app desde la bandeja (solo permite una instancia), instala el `.exe` nuevo y prueba:
+   - un escaneo
+   - el tiempo real
+   - la cuarentena
+5. **Commit y etiqueta:**
+   ```bash
+   git commit -am "Versión 1.0.9"
+   git tag v1.0.9
+   git push origin main v1.0.9
+   ```
+6. **Lanzamiento** con el instalador renombrado a `ClamAV-GUI_1.0.9_x64-setup.exe` (sin espacios):
+   ```bash
+   gh release create v1.0.9 ClamAV-GUI_1.0.9_x64-setup.exe --title "ClamAV GUI v1.0.9" --notes-file notas.md --latest
+   ```
+   Las notas siguen el formato de los lanzamientos anteriores: descarga, requisitos, novedades, aviso de SmartScreen y créditos.
+
+Cada cambio va en una versión nueva: no se reemplaza el instalador de un lanzamiento ya publicado.
+
 ### Cómo está hecho
 
 | Parte | Tecnología |
 |---|---|
 | Aplicación de escritorio | [Tauri 2](https://tauri.app/) (Rust) |
 | Interfaz | React 19, TypeScript, Tailwind CSS 4, componentes Radix/shadcn |
-| Motor antivirus | `clamscan` y `freshclam` de ClamAV |
+| Motor antivirus | `clamscan` (escaneos manuales), `clamd` (tiempo real) y `freshclam` (firmas) de ClamAV |
 | Tiempo real | Vigilancia de archivos con `notify` (Rust) |
 
 ```
