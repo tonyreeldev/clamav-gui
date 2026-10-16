@@ -3,7 +3,7 @@ use tauri::command;
 
 use crate::{
     helpers::history::{
-        clear_by_days, clear_by_status, history_dir, parse_date_from_path
+        clear_by_days, clear_by_status, history_dir, lock_history, parse_date_from_path, write_history_file
     },
     types::{
         enums::{ClearHistoryMode, HistoryStatus},
@@ -33,13 +33,14 @@ pub fn load_history(app: tauri::AppHandle, days: u32) -> Result<Vec<HistoryItem>
             continue;
         }
 
-        let content = std::fs::read_to_string(&path)
-            .map_err(|e| format!("Failed to read history file {:?}: {}", path, e))?;
-            
-        let mut items: Vec<HistoryItem> = serde_json::from_str(&content)
-            .map_err(|e| format!("Failed to parse history file {:?}: {}", path, e))?;
-
-        all.append(&mut items);
+        // One unreadable day must not hide the whole history (and the stats built from it).
+        let parsed = std::fs::read_to_string(&path)
+            .map_err(|e| e.to_string())
+            .and_then(|content| serde_json::from_str::<Vec<HistoryItem>>(&content).map_err(|e| e.to_string()));
+        match parsed {
+            Ok(mut items) => all.append(&mut items),
+            Err(e) => eprintln!("Skipping history file {:?}: {}", path, e),
+        }
     }
     all.sort_unstable_by(|a, b| b.timestamp.cmp(&a.timestamp));
     Ok(all)
@@ -57,7 +58,11 @@ pub fn mark_as_acknowledged(app: tauri::AppHandle, id: String, date: String) -> 
 
     let dir = history_dir(&app);
     let file_path = dir.join(format!("{}.json", date));
-    
+    if chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d").is_err() {
+        return Err("Invalid history date".into());
+    }
+    let _guard = lock_history();
+
     if !file_path.try_exists().unwrap_or(false) {
         return Err("History date file not found".into());
     }
@@ -78,12 +83,7 @@ pub fn mark_as_acknowledged(app: tauri::AppHandle, id: String, date: String) -> 
     if !found {
         return Err("History item not found".into());
     }
-    std::fs::write(
-        &file_path,
-        serde_json::to_string_pretty(&items).map_err(|e| e.to_string())?,
-    )
-    .map_err(|e| e.to_string())?;
-    Ok(())
+    write_history_file(&file_path, &items)
 }
 
 #[command]

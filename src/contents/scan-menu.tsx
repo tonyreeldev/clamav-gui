@@ -7,7 +7,8 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { CheckCircle, FilePlus, FolderPlus, Search } from "lucide-react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { normalizePaths } from "@/lib/helpers";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import { useScan } from "@/context/antivirus/scan";
 import { useTranslation } from "react-i18next";
 import ScanMenuCard from "@/components/cards/scan-menu";
 
@@ -22,6 +23,7 @@ export default function ScanMenuContent(){
           scanType: ScanType.None
      });
      const {t} = useTranslation("scan");
+     const {hasSession, activeRoute} = useScan();
      const hasPath = path.paths.every(p=>p!== "") && path.scanType===currScanType;
      const isFile = currScanType === "file";
      const isCustom = currScanType === "custom";
@@ -50,6 +52,8 @@ export default function ScanMenuContent(){
                params.append("path",path);
           navigate(`${type}?${params.toString()}`)
      }
+     // Going back to "Scan" while a scan runs shows that scan instead of offering a new one.
+     if (hasSession) return <Navigate to={activeRoute} replace/>;
      return (
           <>
                <h1 className="text-2xl md:text-3xl font-medium border-b pb-2 w-fit">{t("title")}</h1>

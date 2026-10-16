@@ -13,6 +13,7 @@
      "scan-status-error": "No se pudo obtener el estado del escaneo",
      "scan-stop-error": "No se pudo detener el escaneo",
      "scan-start-error": "No se pudo iniciar el escaneo",
+     "realtime-start-error": "No se pudo activar la protección en tiempo real",
      "log-reveal-error": "No se pudo mostrar el archivo de registro",
      "acknowledge-history": {
           "success": "¡Entrada marcada como revisada!",

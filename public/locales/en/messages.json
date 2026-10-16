@@ -13,6 +13,7 @@
      "scan-status-error": "Failed to get the scan status",
      "scan-stop-error": "Failed to stop the scan",
      "scan-start-error": "Failed to start the scan",
+     "realtime-start-error": "Real-time protection could not start",
      "log-reveal-error": "Failed to reveal log file",
      "acknowledge-history": {
           "success": "Entry acknowledged!",

@@ -43,7 +43,8 @@
         "installMode": "both",
         "sidebarImage": "assets/sidebar-image.bmp",
         "headerImage": "assets/header-image.bmp",
-        "installerIcon": "assets/installer.ico"
+        "installerIcon": "assets/installer.ico",
+        "installerHooks": "./windows/hooks.nsh"
       }
     }
   }

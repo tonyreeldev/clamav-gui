@@ -1,37 +1,34 @@
-use notify::{RecursiveMode, Watcher};
+use notify::{event::ModifyKind, EventKind, RecursiveMode, Watcher};
 use once_cell::sync::Lazy;
 use std::{
-    collections::HashSet,
+    collections::{HashMap, HashSet},
     path::{Path, PathBuf},
     sync::{
-        atomic::{AtomicBool, Ordering},
+        atomic::{AtomicBool, AtomicU64, Ordering},
         Arc, Mutex,
     },
     thread,
-    time::Duration,
+    time::{Duration, Instant},
 };
 
 static NOTIFIED: Lazy<Mutex<HashSet<PathBuf>>> = Lazy::new(|| Mutex::new(HashSet::new()));
 pub static REALTIME_ENABLED: AtomicBool = AtomicBool::new(false);
-static SCAN_QUEUE: Lazy<Arc<Mutex<HashSet<PathBuf>>>> =
-    Lazy::new(|| Arc::new(Mutex::new(HashSet::new())));
+/// Files waiting to be scanned, with the time of their latest event.
+static PENDING: Lazy<Mutex<HashMap<PathBuf, Instant>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 static BEHAVIOR: Lazy<Arc<Mutex<BehaviorConfig>>> =
     Lazy::new(|| Arc::new(Mutex::new(behavior_config(BehaviorMode::Balanced))));
 
 use crate::{
     antivirus::{quarantine::quarantine_file},
     helpers::{
-        settings::{
-            get_settings_as_array,
-            get_settings_as_bool
-        },
-        matcher::{EXCLUSIONS, ExclusionMatcher},
+        clamd,
+        matcher::{user_exclusions, EXCLUSIONS, ExclusionMatcher},
         path::{clamscan_command, path_to_regex},
         notifier::{notify, NotifyKind},
         i18n::t,
     },
     types::{
-        enums::{BehaviorMode, SettingKeyArray, SettingKeyBool},
+        enums::BehaviorMode,
         structs::BehaviorConfig
     },
 };
@@ -61,57 +58,63 @@ fn behavior_config(mode: BehaviorMode) -> BehaviorConfig {
     }
 }
 
-fn start_watcher(paths: Vec<String>) -> Result<(), String> {
+/// Bumped on every start/stop; threads from an older session see the change and exit.
+static GENERATION: AtomicU64 = AtomicU64::new(0);
+/// A file is scanned once it has had no events for this long, so half-written downloads aren't scanned.
+const QUIET_PERIOD: Duration = Duration::from_secs(2);
+
+fn is_current(generation: u64) -> bool {
+    GENERATION.load(Ordering::SeqCst) == generation
+}
+
+fn start_watcher(paths: Vec<String>, generation: u64) -> Result<(), String> {
     if paths.is_empty() {
         return Err("No paths provided for monitoring".into());
     }
-    let queue = SCAN_QUEUE.clone();
-    let behavior = BEHAVIOR.clone();
+    let (tx, rx) = std::sync::mpsc::channel();
+    let mut watcher = notify::recommended_watcher(tx).map_err(|e| e.to_string())?;
+    let mut failed_paths = Vec::new();
+    for path in &paths {
+        if let Err(e) = watcher.watch(path.as_ref(), RecursiveMode::Recursive) {
+            eprintln!("Failed to watch path {}: {}", path, e);
+            failed_paths.push(path.clone());
+        }
+    }
+    if failed_paths.len() == paths.len() {
+        return Err(format!("Could not watch any path: {}", failed_paths.join(", ")));
+    }
 
     thread::spawn(move || {
-        let (tx, rx) = std::sync::mpsc::channel();
-        let mut watcher = match notify::recommended_watcher(tx) {
-            Ok(w) => w,
-            Err(e) => {
-                eprintln!("Failed to create file watcher: {}", e);
-                return;
-            }
-        };
-        let mut failed_paths = Vec::new();
-        for path in &paths {
-            if let Err(e) = watcher.watch(path.as_ref(), RecursiveMode::Recursive) {
-                eprintln!("Failed to watch path {}: {}", path, e);
-                failed_paths.push(path.clone());
-            }
-        }
-        if failed_paths.len() == paths.len() {
-            eprintln!("All paths failed to watch, stopping watcher");
-            REALTIME_ENABLED.store(false, Ordering::Relaxed);
-            return;
-        }
-
-        while REALTIME_ENABLED.load(Ordering::Relaxed) {
-            match rx.recv_timeout(Duration::from_secs(1)) {
-                Ok(Ok(event)) => {
-                    let behavior = behavior.lock().unwrap();
-                    let mut q = queue.lock().unwrap();
-                    let exclusions = EXCLUSIONS.lock().unwrap();
-
-                    for path in event.paths {
-                        if let Some(ref matcher) = *exclusions {
-                            if matcher.is_excluded(&path) {
-                                continue;
-                            }
-                        }
-                        if should_scan(&path, &behavior) {
-                            q.insert(path);
-                        }
-                    }
-                }
+        let _watcher = watcher; // dropping it stops the OS notifications
+        while is_current(generation) {
+            let event = match rx.recv_timeout(Duration::from_millis(500)) {
+                Ok(Ok(event)) => event,
                 Ok(Err(e)) => {
                     eprintln!("File watcher error: {}", e);
+                    continue;
                 }
-                Err(_) => {}
+                Err(_) => continue,
+            };
+            // Renames count as new files: browsers download to a temp name and rename at the end.
+            let is_new = matches!(event.kind, EventKind::Create(_) | EventKind::Modify(ModifyKind::Name(_)));
+            if !is_new && !matches!(event.kind, EventKind::Modify(_)) {
+                continue;
+            }
+            let behavior = BEHAVIOR.lock().unwrap().clone();
+            for path in event.paths {
+                let excluded = EXCLUSIONS
+                    .lock()
+                    .unwrap()
+                    .as_ref()
+                    .is_some_and(|m| m.is_excluded(&path));
+                if excluded || !should_scan(&path, &behavior) {
+                    continue;
+                }
+                let mut pending = PENDING.lock().unwrap();
+                // A new file still being written stays pending; other edits only count in rescan modes.
+                if is_new || behavior.rescan_on_modify || pending.contains_key(&path) {
+                    pending.insert(path, Instant::now());
+                }
             }
         }
     });
@@ -119,24 +122,48 @@ fn start_watcher(paths: Vec<String>) -> Result<(), String> {
     Ok(())
 }
 
-fn start_scan_worker(app: tauri::AppHandle, log_id: String) {
-    let queue = SCAN_QUEUE.clone();
-    let behavior = BEHAVIOR.clone();
+fn take_settled() -> Vec<PathBuf> {
+    let mut pending = PENDING.lock().unwrap();
+    let ready: Vec<PathBuf> = pending
+        .iter()
+        .filter(|(_, last)| last.elapsed() >= QUIET_PERIOD)
+        .map(|(path, _)| path.clone())
+        .collect();
+    for path in &ready {
+        pending.remove(path);
+    }
+    ready
+}
 
+fn start_scan_worker(app: tauri::AppHandle, log_id: String, generation: u64) {
     thread::spawn(move || {
-        while REALTIME_ENABLED.load(Ordering::Relaxed) {
-            thread::sleep(Duration::from_secs(3));
-            let batch: Vec<PathBuf> = {
-                let mut q = queue.lock().unwrap();
-                q.drain().collect()
-            };
+        // Load the signatures now rather than on the first file.
+        if let Err(e) = clamd::ensure_running() {
+            eprintln!("clamd unavailable, falling back to clamscan: {}", e);
+        }
+        while is_current(generation) {
+            thread::sleep(Duration::from_secs(1));
+            let batch = take_settled();
             if batch.is_empty() {
                 continue;
             }
-            let behavior = behavior.lock().unwrap();
+            let behavior = BEHAVIOR.lock().unwrap().clone();
 
             for path in batch {
-                match scan_file(&path) {
+                if !is_current(generation) {
+                    break;
+                }
+                if !path.is_file() {
+                    continue; // deleted or renamed again before it settled
+                }
+                let result = match clamd::ensure_running() {
+                    Ok(()) => clamd::scan(&path),
+                    Err(e) => {
+                        eprintln!("clamd unavailable, falling back to clamscan: {}", e);
+                        scan_file(&path)
+                    }
+                };
+                match result {
                     Ok(Some(threat_name)) => {
                         let mut notified = NOTIFIED.lock().unwrap();
                         if notified.contains(&path) {
@@ -162,6 +189,9 @@ fn start_scan_worker(app: tauri::AppHandle, log_id: String) {
                                 Some(log_id.clone()),
                             ) {
                                 eprintln!("Failed to quarantine {}: {}", path.display(), e);
+                            } else {
+                                // The path is free again; a new copy dropped there must be caught too.
+                                NOTIFIED.lock().unwrap().remove(&path);
                             }
                         }
                     }
@@ -194,16 +224,8 @@ fn should_scan(path: &Path, behavior: &BehaviorConfig) -> bool {
     }
 }
 
+/// Fallback when clamd can't run: loads the whole database for one file, so it is slow.
 fn scan_file(path: &Path) -> Result<Option<String>, String> {
-    let exclusions = EXCLUSIONS.lock().unwrap();
-    if let Some(ref matcher) = *exclusions {
-        if matcher.is_excluded(path) {
-            return Ok(None);
-        }
-    }
-    if !path.exists() {
-        return Err("File no longer exists".into());
-    }
     let mut scanner = clamscan_command()?;
     let output = scanner
         .arg("--no-summary")
@@ -238,11 +260,13 @@ pub fn start_realtime_scan(
     log_id: String,
 ) -> Result<(), String> {
     {
-        let mut exclusions = get_settings_as_array(&app, SettingKeyArray::Exclusions)?;
+        #[allow(unused_mut)]
+        let mut exclusions = user_exclusions(&app)?;
 
         #[cfg(target_os = "macos")]
         {
-            use crate::helpers::matcher::DEFAULT_MACOS_EXCLUDED_DIRS;
+            use crate::helpers::{matcher::DEFAULT_MACOS_EXCLUDED_DIRS, settings::get_settings_as_bool};
+            use crate::types::enums::SettingKeyBool;
             let include_mac_exclusions =
                 get_settings_as_bool(&app, SettingKeyBool::IncludeMacSystemExclusions)
                     .unwrap_or(false);
@@ -279,29 +303,28 @@ pub fn start_realtime_scan(
             invalid_paths.join(", ")
         ));
     }
-    {
-        let mut behavior = BEHAVIOR.lock().unwrap();
-        *behavior = behavior_config(mode);
-    }
-    if REALTIME_ENABLED.swap(true, Ordering::Relaxed) {
-        REALTIME_ENABLED.store(false, Ordering::Relaxed);
-        thread::sleep(Duration::from_millis(200));
-
-        SCAN_QUEUE.lock().unwrap().clear();
-        NOTIFIED.lock().unwrap().clear();
-
-        REALTIME_ENABLED.store(true, Ordering::Relaxed);
-    }
-    start_watcher(paths)?;
-    start_scan_worker(app, log_id);
+    let generation = GENERATION.fetch_add(1, Ordering::SeqCst) + 1;
+    PENDING.lock().unwrap().clear();
+    NOTIFIED.lock().unwrap().clear();
+    *BEHAVIOR.lock().unwrap() = behavior_config(mode);
+    // The bump above already ended any previous session, so a failure leaves protection off.
+    start_watcher(paths, generation).inspect_err(|_| REALTIME_ENABLED.store(false, Ordering::SeqCst))?;
+    REALTIME_ENABLED.store(true, Ordering::SeqCst);
+    start_scan_worker(app, log_id, generation);
 
     Ok(())
 }
 
 pub fn stop_realtime_scan() {
-    REALTIME_ENABLED.store(false, Ordering::Relaxed);
+    GENERATION.fetch_add(1, Ordering::SeqCst);
+    REALTIME_ENABLED.store(false, Ordering::SeqCst);
     *EXCLUSIONS.lock().unwrap() = None;
-    thread::sleep(Duration::from_millis(100));
-    SCAN_QUEUE.lock().unwrap().clear();
+    PENDING.lock().unwrap().clear();
     NOTIFIED.lock().unwrap().clear();
+    // Off the command thread: clamd may take a moment to answer.
+    thread::spawn(|| {
+        if !REALTIME_ENABLED.load(Ordering::SeqCst) {
+            clamd::shutdown();
+        }
+    });
 }

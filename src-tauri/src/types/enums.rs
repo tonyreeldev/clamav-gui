@@ -8,7 +8,8 @@ pub enum ScanResult {
     ThreatsFound,
     Partial,
     Failed,
-    ClamavError
+    ClamavError,
+    Cancelled
 }
 
 #[derive(Serialize, Deserialize, Type, Debug, PartialEq, Eq, Hash, Copy, Clone)]

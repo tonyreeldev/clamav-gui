@@ -85,6 +85,7 @@
                "state_other": "Scan completed successfully, {{count}} threats found",
                "partial": "Scan completed with errors; some files may not have been scanned",
                "clamav-error": "Scan failed due to a ClamAV error",
+               "cancelled": "Scan stopped by the user",
                "error": "Scan failed (exit code {{code}})"
           },
           "def-update-start": "ClamAV database update has started",

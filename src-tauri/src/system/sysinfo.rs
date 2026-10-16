@@ -1,13 +1,17 @@
 use specta::specta;
+use std::sync::Mutex;
 use sysinfo::{ProcessesToUpdate, System};
 use tauri::command;
 
 use crate::types::structs::{SysInfo, SysStats};
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn get_sys_stats() -> Result<SysStats, String> {
-    let mut system = System::new_all();
+    // Usage is the delta since the previous refresh, so a fresh System each call always read ~0.
+    static SYSTEM: Mutex<Option<System>> = Mutex::new(None);
+    let mut guard = SYSTEM.lock().unwrap_or_else(|e| e.into_inner());
+    let system = guard.get_or_insert_with(System::new_all);
 
     system.refresh_cpu_all();
     system.refresh_memory();

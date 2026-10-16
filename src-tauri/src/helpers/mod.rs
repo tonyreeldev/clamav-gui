@@ -13,6 +13,7 @@ pub mod i18n;
 pub mod settings;
 pub mod startup;
 pub mod notifier;
+pub mod clamd;
 
 use std::{
     path::PathBuf,

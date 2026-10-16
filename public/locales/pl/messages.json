@@ -11,6 +11,7 @@
      },
      "scan-stop-error": "Nie udało się zatrzymać skanowania",
      "scan-start-error": "Nie udało się uruchomić skanowania",
+     "realtime-start-error": "Nie udało się włączyć ochrony w czasie rzeczywistym",
      "log-reveal-error": "Nie udało się otworzyć pliku logów",
      "acknowledge-history": {
           "success": "Wpis oznaczony jako potwierdzony!",

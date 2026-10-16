@@ -11,8 +11,9 @@ pub fn read_log(
     category: LogCategory,
     id: String,
 ) -> Result<String, String> {
-    if id.trim().is_empty() {
-        return Err("Log ID cannot be empty".into());
+    // Ids come from the webview: a path here would read or open any .log file on disk.
+    if uuid::Uuid::parse_str(&id).is_err() {
+        return Err("Invalid log ID".into());
     }
 
     let mut path = app.path().app_data_dir().map_err(|e| e.to_string())?;
@@ -31,8 +32,9 @@ pub fn read_log(
 #[command]
 #[specta(result)]
 pub fn reveal_log(app: tauri::AppHandle, category: LogCategory, id: String) -> Result<(), String> {
-    if id.trim().is_empty() {
-        return Err("Log ID cannot be empty".into());
+    // Ids come from the webview: a path here would read or open any .log file on disk.
+    if uuid::Uuid::parse_str(&id).is_err() {
+        return Err("Invalid log ID".into());
     }
 
     let mut path = app.path().app_data_dir().map_err(|e| e.to_string())?;

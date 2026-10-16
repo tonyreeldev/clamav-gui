@@ -33,6 +33,17 @@ pub fn build_tray_menu(app: &tauri::AppHandle) -> Result<Menu<Wry>, tauri::Error
         .build()
 }
 
+/// Percent-encodes a query value: `&`, `#`, `%` or `?` in a path would otherwise cut it short.
+fn encode_query(value: &str) -> String {
+    value
+        .bytes()
+        .map(|b| match b {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => (b as char).to_string(),
+            _ => format!("%{:02X}", b),
+        })
+        .collect()
+}
+
 pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::Error> {
     let menu = build_tray_menu(app).map_err(|e|tauri::Error::from(e))?;
 
@@ -63,26 +74,26 @@ pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::E
             "full-scan" => {
                 app_handle.emit("systray:move", "/scan/full").ok();
             }
+            // Non-blocking pickers: the menu handler runs on the UI thread.
             "custom-scan" => {
-                if let Some(folders) = app_handle.dialog().file().blocking_pick_folders() {
-                    let paths: Vec<String> = folders
-                        .iter()
-                        .map(|val| format!("path={}", val.to_string()))
-                        .collect();
-                    app_handle
-                        .emit("systray:move", format!("/scan/custom?{}", paths.join("&")))
-                        .ok();
-                }
+                let app = app_handle.clone();
+                app_handle.dialog().file().pick_folders(move |folders| {
+                    if let Some(folders) = folders {
+                        let paths: Vec<String> = folders
+                            .iter()
+                            .map(|val| format!("path={}", encode_query(&val.to_string())))
+                            .collect();
+                        app.emit("systray:move", format!("/scan/custom?{}", paths.join("&"))).ok();
+                    }
+                });
             }
             "file-scan" => {
-                if let Some(path) = app_handle.dialog().file().blocking_pick_file() {
-                    app_handle
-                        .emit(
-                            "systray:move",
-                            format!("/scan/file?path={}", path.to_string()),
-                        )
-                        .ok();
-                }
+                let app = app_handle.clone();
+                app_handle.dialog().file().pick_file(move |path| {
+                    if let Some(path) = path {
+                        app.emit("systray:move", format!("/scan/file?path={}", encode_query(&path.to_string()))).ok();
+                    }
+                });
             }
             "update" => {
                 app_handle.emit("systray:move", "/settings?tab=update").ok();
@@ -102,4 +113,13 @@ pub fn generate_system_tray(app: &tauri::AppHandle) -> Result<TrayIcon, tauri::E
             }
         })
         .build(app)
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn encodes_paths_for_query_strings() {
+        assert_eq!(super::encode_query(r"C:\R&D #1\a b"), "C%3A%5CR%26D%20%231%5Ca%20b");
+        assert_eq!(super::encode_query("ñ"), "%C3%B1");
+    }
 }

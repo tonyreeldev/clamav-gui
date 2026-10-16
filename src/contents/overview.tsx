@@ -1,6 +1,6 @@
 import { QUICK_ACCESS_LINKS } from "@/lib/constants/links";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { useSettings } from "@/context/settings";
+import { useRealtimeScan } from "@/context/antivirus/real-time";
 import { DefinitionStatus, Indicator } from "@/lib/types/enums";
 import { checkDefinitionStatus } from "@/data/app";
 import { SafetyIndicatorLoader } from "@/loaders/overview";
@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 const SafetyIndicator = lazy(()=>import("@/components/antivirus/indicator"));
 
 export default function OverviewContent(){
-     const {settings} = useSettings();
+     const {enabled: realTimeOn} = useRealtimeScan();
      const {t} = useTranslation("overview");
      const [definitionStatus, setDefinitionStatus] = useState<DefinitionStatus>(DefinitionStatus.Loading)
      const fetchDefinitionStatus = async()=>{
@@ -29,7 +29,7 @@ export default function OverviewContent(){
                <Suspense fallback={<SafetyIndicatorLoader/>}>
                     <SafetyIndicator
                          definitionStatus={definitionStatus}
-                         type={settings.realTime ? Indicator.Safe : Indicator.Alert}
+                         type={realTimeOn ? Indicator.Safe : Indicator.Alert}
                     />
                </Suspense>
                <h2 className="px-2 pb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("quick-actions")}</h2>

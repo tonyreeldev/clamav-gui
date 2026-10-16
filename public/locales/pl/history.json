@@ -69,6 +69,7 @@
                "state_other": "Skanowanie zakończone pomyślnie, znaleziono {{count}} zagrożeń",
                "partial": "Skanowanie zakończone z błędami; niektóre pliki mogły nie zostać przeskanowane",
                "clamav-error": "Skanowanie nie powiodło się z powodu błędu ClamAV",
+               "cancelled": "Skanowanie zatrzymane przez użytkownika",
                "error": "Skanowanie nie powiodło się (kod wyjścia {{code}})"
           },
           "def-update-start": "Rozpoczęto aktualizację bazy ClamAV",

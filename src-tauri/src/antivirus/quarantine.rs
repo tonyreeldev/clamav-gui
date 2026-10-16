@@ -15,7 +15,7 @@ use crate::{
     },
 };
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn quarantine_file(
     app: tauri::AppHandle,
@@ -46,7 +46,21 @@ pub fn quarantine_file(
         log_err(&log_file, "File already quarantined");
         return Err("File already quarantined".into());
     }
+    // Metadata first: a quarantined file without it could never be listed or restored.
+    let meta = QuarantinedItem {
+        id,
+        file_path: file_path.clone(),
+        threat_name: threat_name.clone(),
+        quarantined_at: chrono::Utc::now().to_rfc3339(),
+        size: src.metadata().map(|m| m.len()).unwrap_or(0),
+    };
+    let meta_path = quarantine.join(format!("{}.json", meta.id));
+    if let Err(e) = std::fs::write(&meta_path, serde_json::to_string(&meta).map_err(|e| e.to_string())?) {
+        log_err(&log_file, &format!("Failed to write metadata: {}", e));
+        return Err(format!("Failed to write metadata: {}", e));
+    }
     if let Err(e) = move_file_cross_device(&src, &dest) {
+        let _ = std::fs::remove_file(&meta_path);
         log_err(&log_file, &e.to_string());
         return Err(e.to_string());
     }
@@ -72,18 +86,6 @@ pub fn quarantine_file(
         },
     ) {
         log_err(&log_file, &format!("Failed to append history: {}", e));
-    }
-    let size = dest.metadata().map(|m| m.len()).unwrap_or(0);
-    let meta = QuarantinedItem {
-        id,
-        file_path,
-        threat_name,
-        quarantined_at: chrono::Utc::now().to_rfc3339(),
-        size,
-    };
-    let meta_path = quarantine.join(format!("{}.json", meta.id));
-    if let Err(e) = std::fs::write(&meta_path, serde_json::to_string(&meta).unwrap()) {
-        log_err(&log_file, &format!("Failed to write metadata: {}", e));
     }
     Ok(())
 }
@@ -113,15 +115,15 @@ pub fn list_quarantine(app: tauri::AppHandle) -> Result<Vec<QuarantinedItem>, St
     Ok(items)
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn restore_quarantine(
     app: tauri::AppHandle,
     id: String,
     log_id: Option<String>,
 ) -> Result<(), String> {
-    if id.trim().is_empty() {
-        return Err("ID cannot be empty".into());
+    if uuid::Uuid::parse_str(&id).is_err() {
+        return Err("Invalid quarantine ID".into());
     }
 
     let log_id = log_id.unwrap_or_else(new_id);
@@ -188,15 +190,15 @@ pub fn restore_quarantine(
     Ok(())
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn delete_quarantine(
     app: tauri::AppHandle,
     id: String,
     log_id: Option<String>,
 ) -> Result<(), String> {
-    if id.trim().is_empty() {
-        return Err("ID cannot be empty".into());
+    if uuid::Uuid::parse_str(&id).is_err() {
+        return Err("Invalid quarantine ID".into());
     }
 
     let log_id = log_id.unwrap_or_else(new_id);
@@ -239,7 +241,7 @@ pub fn delete_quarantine(
             id: new_id(),
             timestamp: chrono::Utc::now().to_rfc3339(),
             action: Some(HistoryType::DeleteThreat),
-            details: Some(HistoryDetails::RestoreThreat { threat: meta.threat_name.clone() }),
+            details: Some(HistoryDetails::DeleteThreat { threat: meta.threat_name.clone() }),
             status: HistoryStatus::Success,
             category: Some(LogCategory::Quarantine),
             log_id: Some(log_id.clone()),

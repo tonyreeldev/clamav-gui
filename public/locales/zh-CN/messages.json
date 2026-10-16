@@ -13,6 +13,7 @@
      "scan-status-error": "获取扫描状态失败",
      "scan-stop-error": "停止扫描失败",
      "scan-start-error": "启动扫描失败",
+     "realtime-start-error": "无法启动实时保护",
      "log-reveal-error": "显示日志文件失败",
      "acknowledge-history": {
           "success": "条目已确认！",

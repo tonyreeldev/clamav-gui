@@ -4,8 +4,8 @@ use tauri::{command, Emitter, Manager};
 
 use crate::{
     helpers::{
-        history::append_scan_history, log::{initialize_log_with_id, log_err}, matcher::apply_exclusions, new_id, path::clamscan_command, resolve_command, scan::{
-            SCAN_PROCESS, estimate_total_files, fetch_custom_scan_args, get_main_paths, get_root_path, run_scan
+        history::append_scan_history, log::{initialize_log_with_id, log_err}, matcher::{apply_exclusions, settings_matcher}, new_id, path::clamscan_command, resolve_command, scan::{
+            SCAN_PROCESS, SCAN_STOPPED, claim_scan, estimate_total_files, fetch_custom_scan_args, get_main_paths, get_root_path, is_scan_busy, run_scan
         }, silent_command
     },
     types::{
@@ -27,6 +27,7 @@ pub fn start_main_scan(app: tauri::AppHandle, args: Option<Vec<String>>) -> Resu
         println!("Running Main Scan");
         println!("-----------------")
     }
+    let slot = claim_scan()?;
     let log_id = new_id();
     let log =
         initialize_log_with_id(&app, LogCategory::Scan, &log_id).map_err(|e| e.to_string())?;
@@ -67,6 +68,7 @@ pub fn start_main_scan(app: tauri::AppHandle, args: Option<Vec<String>>) -> Resu
         println!("Main scan argument: {}", arg);
     }
     std::thread::spawn(move || {
+        let _slot = slot;
         let scanner = match clamscan_command() {
             Ok(cmd) => cmd,
             Err(e) => {
@@ -77,9 +79,7 @@ pub fn start_main_scan(app: tauri::AppHandle, args: Option<Vec<String>>) -> Resu
         };
         let mut cmd = scanner;
         cmd.args(&scan_args);
-        let total_files = estimate_total_files(&paths);
-        let _ = app.emit("clamscan:total", total_files)
-            .map_err(|e| e.to_string());
+        emit_total_in_background(&app, paths.clone());
         for path in paths {
             cmd.arg(path);
         }
@@ -100,6 +100,7 @@ pub fn start_full_scan(app: tauri::AppHandle) -> Result<(), String> {
         println!("Running Full Scan");
         println!("-----------------")
     }
+    let slot = claim_scan()?;
     let log_id = new_id();
     let log =
         initialize_log_with_id(&app, LogCategory::Scan, &log_id).map_err(|e| e.to_string())?;
@@ -129,6 +130,7 @@ pub fn start_full_scan(app: tauri::AppHandle) -> Result<(), String> {
     ];
     apply_exclusions(&app, &mut args)?;
     std::thread::spawn(move || {
+        let _slot = slot;
         let root = get_root_path();
         let scanner = match clamscan_command() {
             Ok(cmd) => cmd,
@@ -164,6 +166,7 @@ pub fn start_custom_scan(
     if paths.is_empty() {
         return Err("No scan targets provided".into());
     }
+    let slot = claim_scan()?;
     let log_id = new_id();
     let log =
         initialize_log_with_id(&app, LogCategory::Scan, &log_id).map_err(|e| e.to_string())?;
@@ -211,6 +214,7 @@ pub fn start_custom_scan(
         &log_file,
     );
     std::thread::spawn(move || {
+        let _slot = slot;
         let scanner = match clamscan_command() {
             Ok(cmd) => cmd,
             Err(e) => {
@@ -227,8 +231,7 @@ pub fn start_custom_scan(
         for path in &resolved_paths {
             cmd.arg(path);
         }
-        let total_files = estimate_total_files(&resolved_paths);
-        let _ = app_clone.emit("clamscan:total", total_files).map_err(|e| e.to_string());
+        emit_total_in_background(&app_clone, resolved_paths.clone());
         if let Err(e) = run_scan(app_clone.clone(), log_id.clone(), cmd, scan_type) {
             let _ = app_clone.emit("clamscan:error", &e.to_string()).map_err(|e| e.to_string());
             log_err(&log_file, &e.to_string());
@@ -245,6 +248,7 @@ pub fn stop_scan() -> Result<(), String> {
         guard.take()
     };
     if let Some(pid) = pid {
+        SCAN_STOPPED.store(true, std::sync::atomic::Ordering::SeqCst);
         #[cfg(windows)]
         {
             let cmd = resolve_command("taskkill")?;
@@ -271,6 +275,14 @@ pub fn stop_scan() -> Result<(), String> {
 #[command]
 #[specta]
 pub fn get_scan_status() -> bool {
-    let guard = SCAN_PROCESS.lock().unwrap();
-    guard.is_some()
+    is_scan_busy()
+}
+
+/// Counting files can take minutes on a big profile, so it must not delay the scan itself.
+fn emit_total_in_background(app: &tauri::AppHandle, paths: Vec<PathBuf>) {
+    let app = app.clone();
+    std::thread::spawn(move || {
+        let total_files = estimate_total_files(&paths, settings_matcher(&app));
+        let _ = app.emit("clamscan:total", total_files);
+    });
 }

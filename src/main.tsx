@@ -8,6 +8,7 @@ import "@/i18n"
 import { RealtimeProvider } from "./context/antivirus/real-time";
 import { SettingsProvider } from "./context/settings";
 import { QuarantineCountProvider } from "./context/antivirus/quarantine-count";
+import ScanProvider from "./context/antivirus/scan";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
      <React.StrictMode>
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                <QuarantineCountProvider>
                     <RealtimeProvider>
                          <StartupScanProvider>
-                              <RouterProvider router={router}/>
+                              <ScanProvider>
+                                   <RouterProvider router={router}/>
+                              </ScanProvider>
                          </StartupScanProvider>
                     </RealtimeProvider>
                </QuarantineCountProvider>

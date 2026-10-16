@@ -53,7 +53,8 @@ export function AppLayout({children, className}: Props){
                await invoke("rebuild_tray")
           })()
           const listeners: Promise<UnlistenFn>[] = [
-               listen<string>("systray:move",e=>navigate(encodeURI(e.payload)))
+               // The backend percent-encodes query values itself; encodeURI here would double-encode them.
+               listen<string>("systray:move",e=>navigate(e.payload))
           ]
           return () => {
                Promise.all(listeners).then(fns=>fns.forEach(fn=>fn()))

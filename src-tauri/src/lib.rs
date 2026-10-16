@@ -141,7 +141,13 @@ pub fn run() {
                     }
                 });
             }
-            generate_system_tray(app_handle)?;
+            // At early login explorer may not be ready; without a tray, show the window so the app stays reachable.
+            if let Err(e) = generate_system_tray(app_handle) {
+                eprintln!("Failed to create the tray icon: {}", e);
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                }
+            }
             if let Err(e) = crate::helpers::startup::sync_autostart(app_handle) {
                 eprintln!("Failed to sync autostart: {}", e);
             }
@@ -158,6 +164,12 @@ pub fn run() {
         .manage(AppLanguage(Mutex::new("en".into())))
         .manage(scan_flag.clone())
         .invoke_handler(specta_builder.invoke_handler())
-        .run(tauri::generate_context!())
-        .expect("error while building tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while building tauri application")
+        .run(|_, event| {
+            // clamd is a separate process holding ~1 GB; it would outlive the app otherwise.
+            if let tauri::RunEvent::Exit = event {
+                crate::helpers::clamd::shutdown();
+            }
+        });
 }

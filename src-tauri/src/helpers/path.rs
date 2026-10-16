@@ -74,27 +74,12 @@ pub fn clamscan_command() -> Result<Command, String> {
     Ok(cmd)
 }
 
-#[cfg(windows)]
-fn normalize_path(path: &str) -> String {
-    path.replace('\\', r"\\")
-}
-
-#[cfg(not(windows))]
-fn normalize_path(path: &str) -> String {
-    path.to_string()
-}
-
 /// Convert a filesystem path into a safe, anchored regex
 /// usable by ClamAV and the realtime exclusion matcher.
+/// regex::escape already turns each `\` into `\\`, which both engines read as one literal backslash;
+/// doubling it again (as before) made Windows exclusions never match.
 pub fn path_to_regex(path: &str) -> String {
-    // Escape regex metacharacters
-    let escaped = regex::escape(path);
-
-    // Platform-specific normalization
-    let normalized = normalize_path(&escaped);
-
-    // Anchor to start
-    format!("^{}", normalized)
+    format!("^{}", regex::escape(path))
 }
 
 // Convenience helper when you already have a Path
@@ -143,4 +128,13 @@ pub fn get_clamav_path() -> Result<PathBuf,String>{
         }
     }
     Err("ClamAV not found. Please install ClamAV and ensure clamscan is available in PATH, or report the bug if something went wrong.".into(),)
+}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn exclusion_regex_matches_windows_paths() {
+        let re = regex::Regex::new(&super::path_to_regex(r"C:\Users\Tony Reel\Downloads")).unwrap();
+        assert!(re.is_match(r"C:\Users\Tony Reel\Downloads\a.exe"));
+        assert!(!re.is_match(r"C:\Users\Tony Reel\Documents\a.exe"));
+    }
 }

@@ -22,7 +22,11 @@ pub fn move_file_cross_device(src: &Path, dest: &Path) -> io::Result<()> {
         Ok(_) => Ok(()),
         Err(e) if e.kind() == io::ErrorKind::CrossesDevices => {
             std::fs::copy(src, dest)?;
-            std::fs::remove_file(src)?;
+            // A locked source (e.g. running malware) would leave two copies; undo the copy instead.
+            if let Err(e) = std::fs::remove_file(src) {
+                let _ = std::fs::remove_file(dest);
+                return Err(e);
+            }
             Ok(())
         }
         Err(e) => Err(e),

@@ -85,6 +85,7 @@
                "state_other": "扫描成功完成，发现{{count}}个威胁",
                "partial": "扫描完成但出现错误；部分文件可能未被扫描",
                "clamav-error": "由于 ClamAV 错误，扫描失败",
+               "cancelled": "扫描已被用户停止",
                "error": "扫描失败（退出代码 {{code}}）"
           },
           "def-update-start": "ClamAV 数据库更新已开始",

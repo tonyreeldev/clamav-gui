@@ -21,7 +21,7 @@ use crate::{
     },
 };
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn remove_file(
     app: tauri::AppHandle,

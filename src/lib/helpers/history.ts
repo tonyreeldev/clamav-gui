@@ -22,6 +22,7 @@ export function translateDetails(d: HistoryDetails, t: TFunction<"history">) {
                const { result, exit_code, found_threats } = d.details;
                if (result === ScanResult.Partial) return t("details.scan-finish.partial");
                if (result === ScanResult.ClamavError) return t("details.scan-finish.clamav-error");
+               if (result === ScanResult.Cancelled) return t("details.scan-finish.cancelled");
                if (result === ScanResult.Failed) return t("details.scan-finish.error", { code: exit_code });
                return t("details.scan-finish.state", { count: found_threats });
           }

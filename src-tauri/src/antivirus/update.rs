@@ -75,6 +75,9 @@ pub fn update_definitions(app: tauri::AppHandle) -> Result<(), String> {
                     0 | 1 => HistoryStatus::Success,
                     _ => HistoryStatus::Error,
                 };
+                if exit_code == 0 {
+                    crate::helpers::clamd::reload();
+                }
                 append_update_history(
                     &app,
                     HistoryItem {

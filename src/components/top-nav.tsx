@@ -5,6 +5,7 @@ import { SIDEBAR_FOOTER_LINKS, SIDEBAR_LINKS } from "@/lib/constants/links";
 import { SidebarLink } from "@/lib/types/enums";
 import { useSettings } from "@/context/settings";
 import { useQuarantineCount } from "@/context/antivirus/quarantine-count";
+import { useRealtimeScan } from "@/context/antivirus/real-time";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
 
@@ -16,7 +17,8 @@ export default function TopNav(){
      const {t} = useTranslation();
      const links = useMemo(()=>!settings.enableSchedulerUI ? SIDEBAR_LINKS.filter(val=>val.href!=="/scheduler") : SIDEBAR_LINKS,[settings.enableSchedulerUI]);
      const isActive = (href: string) => href==="/" ? pathname==="/" : pathname.startsWith(href);
-     const isProtected = settings.realTime;
+     // What the backend actually runs, not just the saved preference (start can fail).
+     const {enabled: isProtected} = useRealtimeScan();
      return (
           <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
                <div className="mx-auto max-w-6xl flex items-center gap-4 px-4 h-14">

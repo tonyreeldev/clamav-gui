@@ -3,7 +3,7 @@ use tauri::command;
 
 use crate::{delete_quarantine, helpers::new_id, quarantine_file, remove_file, restore_quarantine};
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn quarantine_all(
     app: tauri::AppHandle,
@@ -30,7 +30,7 @@ pub fn quarantine_all(
     Ok(())
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn delete_all(app: tauri::AppHandle, files: Vec<String>) -> Result<(), String> {
     if files.is_empty() {
@@ -54,7 +54,7 @@ pub fn delete_all(app: tauri::AppHandle, files: Vec<String>) -> Result<(), Strin
     Ok(())
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn restore_all(app: tauri::AppHandle, ids: Vec<String>) -> Result<(), String> {
     if ids.is_empty() {
@@ -78,7 +78,7 @@ pub fn restore_all(app: tauri::AppHandle, ids: Vec<String>) -> Result<(), String
     Ok(())
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn clear_quarantine(app: tauri::AppHandle, ids: Vec<String>) -> Result<(), String> {
     if ids.is_empty() {

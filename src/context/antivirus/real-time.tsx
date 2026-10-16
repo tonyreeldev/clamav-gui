@@ -1,6 +1,9 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useSettings } from "@/context/settings";
 import { invoke } from "@tauri-apps/api/core";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { getErrorMessage } from "@/lib/helpers";
 
 type RealtimeContextValue = {
      enabled: boolean;
@@ -12,6 +15,7 @@ const RealtimeContext = createContext<RealtimeContextValue | null>(null);
 
 export function RealtimeProvider({ children }: { children: React.ReactNode }) {
      const { settings } = useSettings();
+     const {t: messageTxt} = useTranslation("messages");
      const [enabled, setEnabled] = useState(settings.realTime);
      const start = useCallback(async () => {
           await invoke("start_real_time_scan", { behavior: settings.behavior || "balanced" });
@@ -21,14 +25,22 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
           await invoke("stop_real_time_scan");
           await invoke("update_tray_icon",{state: "disabled"})
      },[]);
+     const isFirstRun = useRef(true);
      useEffect(() => {
+          const firstRun = isFirstRun.current;
+          isFirstRun.current = false;
           if(!settings.realTime){
-               stop();
+               // Nothing to stop at launch; stopping would only log a bogus "stopped" entry.
+               if (!firstRun) stop().catch(console.error);
                setEnabled(false);
                return
           }
-          start();
-          setEnabled(true);
+          // Only report protection as on when the backend actually started it (e.g. a watched folder may be gone).
+          start().then(() => setEnabled(true)).catch(e => {
+               setEnabled(false);
+               invoke("update_tray_icon",{state: "disabled"}).catch(()=>{});
+               toast.error(messageTxt("realtime-start-error"), { description: getErrorMessage(e) });
+          });
      }, [settings.realTime, settings.behavior]);
      const values: RealtimeContextValue = useMemo(()=>({
           enabled,

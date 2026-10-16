@@ -13,7 +13,7 @@ use crate::{
     },
 };
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn schedule_task(
     app: tauri::AppHandle,
@@ -40,7 +40,8 @@ pub fn schedule_task(
 
     let task_name = format!("ClamAV GUI - {} - {:?}", scan_name, interval);
 
-    let gui_command = resolve_command("clamav-gui")?;
+    // The install folder isn't on PATH, so `where clamav-gui` only worked by accident.
+    let gui_command = std::env::current_exe().map_err(|e| e.to_string())?;
 
     let scan_args = match scan_type {
         ScanType::Main => "--scan=main",
@@ -74,7 +75,7 @@ pub fn schedule_task(
     }
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn remove_scheduled_task(app: tauri::AppHandle, task_name: String) -> Result<(), String> {
     if task_name.trim().is_empty() {
@@ -92,7 +93,7 @@ pub fn remove_scheduled_task(app: tauri::AppHandle, task_name: String) -> Result
     }
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn list_scheduler(app: tauri::AppHandle) -> Result<Vec<SchedulerEvent>, String> {
     // TODO: Limit helpers::scheduler::windows::get_last_run_time only for Windows Users
@@ -128,7 +129,7 @@ pub fn list_scheduler(app: tauri::AppHandle) -> Result<Vec<SchedulerEvent>, Stri
     Ok(items)
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn run_job_now(app: tauri::AppHandle, task_name: String) -> Result<(), String> {
     if task_name.trim().is_empty() {
@@ -145,7 +146,7 @@ pub fn run_job_now(app: tauri::AppHandle, task_name: String) -> Result<(), Strin
     }
 }
 
-#[command]
+#[command(async)]
 #[specta(result)]
 pub fn clear_scheduled_jobs(app: tauri::AppHandle) -> Result<(), String> {
     let config_dir = app.path().app_config_dir().map_err(|e| e.to_string())?;

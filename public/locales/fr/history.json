@@ -69,6 +69,7 @@
                "state_other": "Analyse terminée avec succès, {{count}} menaces trouvées",
                "partial": "Analyse terminée avec des erreurs ; certains fichiers n'ont peut-être pas été analysés",
                "clamav-error": "Échec de l'analyse en raison d'une erreur ClamAV",
+               "cancelled": "Analyse arrêtée par l'utilisateur",
                "error": "Échec de l'analyse (code de sortie {{code}})"
           },
           "def-update-start": "Mise à jour de la base de données ClamAV démarrée",

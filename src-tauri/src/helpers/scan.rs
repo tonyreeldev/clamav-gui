@@ -1,9 +1,9 @@
 use std::{
-    io::{BufRead as _, BufReader},
+    io::{BufRead as _, BufReader, Read},
     path::PathBuf,
     process::{Command, Stdio},
     sync::{
-        atomic::{AtomicUsize, Ordering},
+        atomic::{AtomicBool, AtomicUsize, Ordering},
         Arc, Mutex,
     },
 };
@@ -12,7 +12,7 @@ use walkdir::WalkDir;
 
 use crate::{
     helpers::{
-        history::append_scan_history, log::{log_err, log_info, log_path}, matcher::EXCLUSIONS, new_id, path::clamscan_command
+        history::append_scan_history, log::{log_err, log_info, log_path}, matcher::{exclusions_from_disk, ExclusionMatcher}, new_id, path::{clamscan_command, path_to_regex}
     },
     types::{
         enums::{HistoryDetails, HistoryStatus, HistoryType, LogCategory, ScanResult, ScanType},
@@ -20,8 +20,7 @@ use crate::{
     },
 };
 
-pub fn estimate_total_files(paths: &[PathBuf]) -> u64 {
-    let exclusions = EXCLUSIONS.lock().unwrap();
+pub fn estimate_total_files(paths: &[PathBuf], exclusions: Option<ExclusionMatcher>) -> u64 {
     paths
         .iter()
         .flat_map(|p| WalkDir::new(p).max_depth(10).into_iter())
@@ -38,6 +37,39 @@ pub fn estimate_total_files(paths: &[PathBuf]) -> u64 {
 
 pub static SCAN_PROCESS: once_cell::sync::Lazy<Mutex<Option<u32>>> =
     once_cell::sync::Lazy::new(|| Mutex::new(None));
+
+/// Set from the moment a scan command is accepted until its thread ends,
+/// so a second request is refused before it writes any history.
+static SCAN_BUSY: AtomicBool = AtomicBool::new(false);
+
+pub struct ScanSlot;
+impl Drop for ScanSlot {
+    fn drop(&mut self) {
+        SCAN_BUSY.store(false, Ordering::SeqCst);
+    }
+}
+
+pub fn claim_scan() -> Result<ScanSlot, String> {
+    if SCAN_BUSY.swap(true, Ordering::SeqCst) {
+        return Err("SCAN_ALREADY_RUNNING".into());
+    }
+    Ok(ScanSlot)
+}
+
+pub fn is_scan_busy() -> bool {
+    SCAN_BUSY.load(Ordering::SeqCst)
+}
+
+/// Set by stop_scan: a killed clamscan exits with 1, which would otherwise read as "threats found".
+pub static SCAN_STOPPED: AtomicBool = AtomicBool::new(false);
+
+/// Lines decoded lossily: `lines()` would silently drop any line that isn't valid UTF-8 (e.g. a detection in an oddly named file).
+fn lossy_lines(reader: impl Read) -> impl Iterator<Item = String> {
+    BufReader::new(reader)
+        .split(b'\n')
+        .map_while(Result::ok)
+        .map(|bytes| String::from_utf8_lossy(&bytes).trim_end_matches('\r').to_string())
+}
 
 pub fn run_scan(
     app: tauri::AppHandle,
@@ -63,6 +95,7 @@ pub fn run_scan(
             .map_err(|e| e.to_string())?,
     ));
 
+    SCAN_STOPPED.store(false, Ordering::SeqCst);
     let mut child = cmd
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -82,8 +115,8 @@ pub fn run_scan(
         let threats_clone = threats_count.clone();
 
         Some(std::thread::spawn(move || {
-            for line in BufReader::new(out).lines().flatten() {
-                if line.contains("FOUND") {
+            for line in lossy_lines(out) {
+                if line.ends_with(" FOUND") {
                     threats_clone.fetch_add(1, Ordering::Relaxed);
                 }
                 let _ = app_clone.emit("clamscan:log", &line)
@@ -100,7 +133,7 @@ pub fn run_scan(
         let log_clone = log_file.clone();
 
         Some(std::thread::spawn(move || {
-            for line in BufReader::new(err).lines().flatten() {
+            for line in lossy_lines(err) {
                 let _ = app_clone.emit("clamscan:log", &line)
                     .map_err(|e| e.to_string());
                 log_err(&log_clone, &line);
@@ -127,6 +160,10 @@ pub fn run_scan(
     let found = threats_count.load(Ordering::Relaxed);
 
     let (status, scan_result) = match exit_code {
+        _ if SCAN_STOPPED.swap(false, Ordering::SeqCst) => (
+            HistoryStatus::Warning,
+            ScanResult::Cancelled,
+        ),
         0 => (
             HistoryStatus::Success,
             ScanResult::Clean,
@@ -204,7 +241,14 @@ pub fn get_main_paths(resolver: &PathResolver<Wry>) -> Vec<PathBuf> {
 
     paths.retain(|p| p.exists());
     paths.sort();
-    paths.dedup();
+    // The scan is recursive, so a folder inside another listed one (e.g. Desktop inside home) would be scanned twice.
+    let mut roots: Vec<PathBuf> = Vec::new();
+    for p in paths {
+        if !roots.iter().any(|r| p.starts_with(r)) {
+            roots.push(p);
+        }
+    }
+    let paths = roots;
 
     #[cfg(debug_assertions)]
     for p in &paths {
@@ -234,13 +278,10 @@ pub fn run_headless_scan(startup: StartupScan) -> Result<(), String> {
         paths.push(PathBuf::from("/usr"));
         paths.push(PathBuf::from("/home"));
     }
-    let exclusions = EXCLUSIONS.lock().unwrap();
-    paths.retain(|p| {
-        exclusions
-            .as_ref()
-            .map(|m| !m.is_excluded(p))
-            .unwrap_or(true)
-    });
+    // Runs before Tauri starts, so the store is read from disk.
+    for item in exclusions_from_disk() {
+        cmd.arg(format!("--exclude-dir={}", path_to_regex(&item)));
+    }
     match scan_type {
         ScanType::Main => {
             cmd.args([

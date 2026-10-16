@@ -93,7 +93,7 @@ export default function ScanFinishedTable({isStartup, handlePrimaryAction}: Prop
           })
      }
      const {exitCode, threats, duration} = scanState;
-     const isResolved = useMemo(() =>threats.some(t =>["quarantined", "deleted"].includes(t.status)),[threats]);
+     const isResolved = useMemo(() => !threats.some(t => t.status === "detected"),[threats]);
      const {popupState} = finishScanState;
      const {t} = useTranslation("scan");
      const exitCodes = t("exit-code",{returnObjects: true})

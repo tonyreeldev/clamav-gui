@@ -18,13 +18,18 @@ import { getClamAvVersion } from "@/data/app";
 
 export default function UpdateSettings(){
      const [updateState, setUpdateState] = useState<IDefsUpdaterState>(INITIAL_DEF_UPDATE_STATE);
+     const [isChecked, setIsChecked] = useState(false);
      const [clamAvVersion, setClamavVersion] = useState<IClamAvVersion|null>(()=>JSON.parse(localStorage.getItem("clamav-version") as string) || null);
      const {t} = useTranslation("update");
      const {dateFns} = useLocale();
      const setState = useCallback((overrides: Partial<IDefsUpdaterState>) => setUpdateState(prev=>({ ...prev, ...overrides })),[])
      const handleUpdateDefs = useCallback(async()=>{
           if (updateState.isUpdatingDefs) return;
-          await invoke("update_definitions")
+          try {
+               await invoke("update_definitions")
+          } catch (err) {
+               toast.error(messageTxt("def-update-error"),{ description: getErrorMessage(err) })
+          }
      },[updateState.isUpdatingDefs])
      const updateVersions = (parsed: Awaited<ReturnType<typeof getClamAvVersion>>) => {
           if(!parsed) return;
@@ -53,6 +58,9 @@ export default function UpdateSettings(){
                     setState({
                          isRequired: true,
                     });
+               } finally {
+                    // Without a version (fresh install, no database) the tab must say "outdated", not spin forever.
+                    setIsChecked(true);
                }
           })()
      },[])
@@ -101,7 +109,7 @@ export default function UpdateSettings(){
           }
      },[])
      const {isRequired, exitMsg, lastUpdated, isUpdatingDefs} = updateState
-     const isInitializing = !lastUpdated && !isUpdatingDefs
+     const isInitializing = !isChecked && !isUpdatingDefs
      const Icon = (isUpdatingDefs || isInitializing) ? Spinner : !isRequired ? CheckCircle : AlertCircle;
      const exitCodes = t("definitions.exit-codes",{returnObjects: true});
      const definitionsText = useMemo(()=>isUpdatingDefs ? "updating" : isInitializing ? "checking" : isRequired ? "outdated" : "updated",[isUpdatingDefs,isInitializing,isRequired])

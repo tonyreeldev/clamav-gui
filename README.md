@@ -78,6 +78,8 @@ Se cambian en **Configuración → Avanzado → Comportamiento**:
 | **Estricto** | Lo anterior y archivos de texto; reescanea al modificarse | Lo pone en cuarentena y avisa |
 | **Experto** | Todos los archivos | Solo avisa |
 
+Mientras está activa, la protección mantiene las firmas cargadas en memoria con `clamd`, el servicio de ClamAV. Así cada archivo se revisa en milisegundos, a cambio de cerca de 1 GB de RAM. Al desactivarla, esa memoria se libera.
+
 ## Preguntas frecuentes
 
 **¿Envía mis archivos o datos a algún sitio?**

@@ -118,5 +118,6 @@ export enum ScanResult {
     ThreatsFound = "threats-found",
     Partial = "partial",
     Failed = "failed",
-    ClamavError = "clamav-error"
+    ClamavError = "clamav-error",
+    Cancelled = "cancelled"
 }

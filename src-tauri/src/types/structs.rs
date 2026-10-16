@@ -123,7 +123,7 @@ pub struct SchedulerEntry {
     pub log_id: Option<String>,
 }
 
-#[derive(Debug, Serialize, Type)]
+#[derive(Debug, Clone, Serialize, Type)]
 pub struct BehaviorConfig {
     pub scan_extensions: Vec<&'static str>,
     pub auto_quarantine: bool,

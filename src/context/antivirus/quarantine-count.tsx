@@ -12,16 +12,17 @@ export function QuarantineCountProvider({ children }: { children: React.ReactNod
      const [count, setCount] = useState(()=>parseInt(localStorage.getItem("quarantine-count") as string) || 0)
      const values: QuarantineCountContextValue = useMemo(()=>({
           quarantineCount: count,
-          increaseBy: (newCount = 0) => {
-               const newValue = count+newCount;
+          // Functional updates: two quarantines finishing together must both count.
+          increaseBy: (newCount = 0) => setCount(prev => {
+               const newValue = prev+newCount;
                localStorage.setItem("quarantine-count",String(newValue));
-               setCount(newValue)
-          },
-          decreaseBy: (newCount = 0) => {
-               const newValue = count-newCount;
+               return newValue
+          }),
+          decreaseBy: (newCount = 0) => setCount(prev => {
+               const newValue = Math.max(0, prev-newCount);
                localStorage.setItem("quarantine-count",String(newValue));
-               setCount(newValue)
-          },
+               return newValue
+          }),
           setCount: (newCount = 0) => {
                localStorage.setItem("quarantine-count",String(newCount));
                setCount(newCount)

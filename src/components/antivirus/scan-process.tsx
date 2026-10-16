@@ -9,7 +9,7 @@ import { ScanType } from "@/lib/types/enums";
 import { invoke } from "@tauri-apps/api/core";
 import { exit } from "@tauri-apps/plugin-process";
 import { Bug, Clock, Dot, Folder, SearchCheck, ShieldAlert, ShieldCheck, Square } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -24,11 +24,10 @@ interface Props{
 export default function ScanProcess({handleReset, isStartup}: Props){
      const navigate = useNavigate();
      const {settings} = useSettings();
-     const {scanState} = useScan()
+     const {scanState, startedAt} = useScan()
      const {scanType, threats, currLocation, totalFiles, scannedFiles, paths} = scanState
      const [isOpen, setIsOpen] = useState(false);
      const {formatDate} = useSettings()
-     const dateRef = useRef<Date>(new Date(Date.now()));
      const {t: messageTxt} = useTranslation("messages")
      const handleStopScan = async () => {
           if(settings.confirmStopScan) setIsOpen(false);
@@ -129,7 +128,7 @@ export default function ScanProcess({handleReset, isStartup}: Props){
                               <Clock className="text-primary"/>
                               {t("items.start-time")}
                          </h2>
-                         <code className="min-h-6">{formatDate(dateRef.current.toISOString())}</code>
+                         <code className="min-h-6">{formatDate(new Date(startedAt ?? Date.now()).toISOString())}</code>
                     </div>
                     <Button className="flex-1" onClick={()=>settings.confirmStopScan ? setIsOpen(true) : handleStopScan()}><Square/> {t("stop-scan")}</Button>
                </div>

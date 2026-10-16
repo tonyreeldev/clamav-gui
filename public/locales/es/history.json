@@ -85,6 +85,7 @@
                "state_other": "Escaneo completado correctamente, se encontraron {{count}} amenazas",
                "partial": "Escaneo completado con errores; es posible que algunos archivos no se hayan escaneado",
                "clamav-error": "El escaneo falló debido a un error de ClamAV",
+               "cancelled": "Escaneo detenido por el usuario",
                "error": "El escaneo falló (código de salida {{code}})"
           },
           "def-update-start": "Se inició la actualización de la base de datos de ClamAV",

@@ -11,6 +11,7 @@
      },
      "scan-stop-error": "Échec de l'arrêt de l'analyse",
      "scan-start-error": "Échec du démarrage de l'analyse",
+     "realtime-start-error": "Impossible de démarrer la protection en temps réel",
      "log-reveal-error": "Échec de l'affichage du fichier journal",
      "acknowledge-history": {
           "success": "Entrée accusée de réception !",

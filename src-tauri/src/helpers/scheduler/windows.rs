@@ -37,6 +37,16 @@ pub fn schedule_scan(
     let log_id = log.id.clone();
     let log_file = log.file.clone();
 
+    let config_dir = app.path().app_config_dir().map_err(|e| e.to_string())?;
+    std::fs::create_dir_all(&config_dir).map_err(|e| e.to_string())?;
+    let file_path = config_dir.join("scheduler.json");
+    let mut scheduler_file = load_scheduler_file(&file_path)?;
+    // Checked before schtasks: /f would otherwise silently replace the existing task first.
+    if scheduler_file.schedulers.iter().any(|e| e.id == task_name) {
+        log_err(&log_file, "Scheduled job already exists");
+        return Err("Scheduled job already exists".into());
+    }
+
     let schtasks = resolve_command("schtasks")?;
     let mut cmd = silent_command(&schtasks);
     cmd.args([
@@ -68,17 +78,13 @@ pub fn schedule_scan(
         log_err(&log_file, "Failed to create scheduled task");
         return Err("Failed to create scheduled task".into());
     }
-
-    let config_dir = app.path().app_config_dir().map_err(|e| e.to_string())?;
-
-    std::fs::create_dir_all(&config_dir).map_err(|e| e.to_string())?;
-    let file_path = config_dir.join("scheduler.json");
-
-    let mut scheduler_file = load_scheduler_file(&file_path)?;
-
-    if scheduler_file.schedulers.iter().any(|e| e.id == task_name) {
-        log_err(&log_file, "Scheduled job already exists");
-        return Err("Scheduled job already exists".into());
+    // schtasks can't set these; Windows' defaults skip the scan on battery or if the PC was off at that time.
+    if let Err(e) = powershell(&format!(
+        "$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable; \
+         Set-ScheduledTask -TaskName '{}' -Settings $s -ErrorAction Stop | Out-Null",
+        task_name
+    )) {
+        log_err(&log_file, &format!("Could not relax power settings of the task: {}", e));
     }
 
     let last_run = get_last_run_time(&task_name).unwrap_or(None);
@@ -154,7 +160,15 @@ pub fn remove_job(app: &tauri::AppHandle, task_name: String) -> Result<(), Strin
     cmd.args(["/delete", "/tn", &task_name, "/f"]);
 
     let status = cmd.status().map_err(|e| e.to_string())?;
-    if !status.success() {
+    // A task already deleted outside the app must still leave the list.
+    let still_exists = || {
+        silent_command(&schtasks)
+            .args(["/query", "/tn", &task_name])
+            .status()
+            .map(|s| s.success())
+            .unwrap_or(true)
+    };
+    if !status.success() && still_exists() {
         log_err(&log_file, "Failed to delete scheduled task");
         return Err("Failed to delete scheduled task".into());
     }
@@ -272,44 +286,27 @@ pub fn run_job_now(app: &tauri::AppHandle, task_name: String) -> Result<(), Stri
     }
 }
 
+fn powershell(script: &str) -> Result<String, String> {
+    let output = silent_command("powershell")
+        .args(["-NoProfile", "-NonInteractive", "-Command", script])
+        .output()
+        .map_err(|e| e.to_string())?;
+    if !output.status.success() {
+        return Err(String::from_utf8_lossy(&output.stderr).trim().to_string());
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+}
+
+/// ISO 8601 so the frontend's `new Date()` can read it; schtasks' CSV used the system language and date format.
 pub fn get_last_run_time(task_name: &str) -> Result<Option<String>, String> {
     if task_name.trim().is_empty() {
         return Err("Task name cannot be empty".into());
     }
-
-    let full_name = format!(r"\{}", task_name);
-    let schtasks = resolve_command("schtasks")?;
-    let mut cmd = silent_command(&schtasks);
-
-    let output = cmd
-        .args(["/query", "/tn", &full_name, "/fo", "CSV", "/v"])
-        .output()
-        .map_err(|e| e.to_string())?;
-
-    if !output.status.success() {
-        let err = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("schtasks query failed: {}", err));
-    }
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let mut lines = stdout.lines();
-
-    let header = lines.next().ok_or("Missing CSV header")?;
-    let row = lines.next().ok_or("Missing CSV row")?;
-
-    let headers: Vec<&str> = header.split(',').map(|s| s.trim_matches('"')).collect();
-    let values: Vec<&str> = row.split(',').map(|s| s.trim_matches('"')).collect();
-
-    let idx = headers
-        .iter()
-        .position(|h| *h == "Last Run Time")
-        .ok_or("Last Run Time column not found")?;
-
-    let last_run = values.get(idx).map(|v| v.to_string());
-
-    Ok(match last_run.as_deref() {
-        Some("N/A") | Some("30/11/1999 00:00:00") | Some("01/01/1970 00:00:00") | None => None,
-        Some(v) if v.trim().is_empty() => None,
-        Some(v) => Some(v.trim().to_string()),
-    })
+    // Task names are built by the app ("ClamAV GUI - Main - Weekly"), never with quotes.
+    let out = powershell(&format!(
+        "$i = Get-ScheduledTaskInfo -TaskName '{}' -ErrorAction Stop; \
+         if ($i.LastRunTime -and $i.LastRunTime.Year -gt 2000) {{ $i.LastRunTime.ToUniversalTime().ToString('o') }}",
+        task_name.replace('\'', "")
+    ))?;
+    Ok(if out.is_empty() { None } else { Some(out) })
 }
